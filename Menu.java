@@ -1,4 +1,8 @@
+package edu.arscompile.utilidades;
+
 import java.util.Scanner;
+import java.util.Arrays;
+import edu.arscompile.lexer.Lexer;
 
 public class Menu {
 
@@ -64,6 +68,9 @@ public class Menu {
     }
 
     public void target(String[] stage) {
+        if(stage[1].equals("scan")) {
+            Lexer.getInstancia().cargarPrograma(stage[2]);
+        }
 
     }
 

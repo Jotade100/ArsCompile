@@ -1,0 +1,15 @@
+class PrimeByArithmetic {
+	private static void printPrime(int i, int p) {
+
+		IO.putString("Prime[");
+
+		IO.putInt(i);
+
+		IO.putString("] = ");
+
+		IO.putInt(p);
+
+		IO.putString("\n");
+
+	}
+}
