@@ -40,171 +40,240 @@ public class Lexer {
     public void recorrerCadena(String cadena) {
         int largo = cadena.length();
         int inicio = 0;
+        // Excepciones de lectura
+        boolean esString = false;
+        boolean esChar = false;
+        //Proceso de identificación de caracteres
         for(int i = 0; i < largo; i++){
             switch (cadena.charAt(i)) {
+                case '"':
+                    if(esString) { // Si era String así que está por terminarlo
+                        esString = false;
+                        agregarALaLista(cadena.substring(inicio, i+1).trim()); //Agrega desde el inicio hasta el último "
+                        inicio = i+1; //incluido el actual "
+
+                    } else { // NO es string, se tiene que comenzar
+                        esString = true;
+                        agregarALaLista(cadena.substring(inicio, i).trim()); //Corta lo anterior
+                        inicio = i; //Para que incluya el actual "
+                    }
+                    break;
+                case 39:
+                    if(esChar) { // Si era String así que está por terminarlo
+                        esChar = false;
+                        agregarALaLista(cadena.substring(inicio, i+1).trim()); //Agrega desde el inicio hasta el último "
+                        inicio = i+1; //incluido el actual '
+
+                    } else { // NO es string, se tiene que comenzar
+                        esChar = true;
+                        agregarALaLista(cadena.substring(inicio, i).trim()); //Corta lo anterior
+                        inicio = i; //Para que incluya el actual '
+                    }
+                    break;
                 case ' ':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        inicio = i+1;
+                    }
                     break;
                 case '(':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     break;
                 case ')':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
-                    
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     break;
                 case '[':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;   
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    } 
                     
                     break;
                 case ']':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
-                    
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     break;
                 case '{':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case '}':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case ';':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case ',':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case '.':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case '%':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case '*':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 case '/':
-                    agregarALaLista(cadena.substring(inicio, i).trim());
-                    agregarALaLista(cadena.substring(i, i+1));
-                    inicio = i+1;
+                    if(!esString || esChar){
+                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(i, i+1));
+                        inicio = i+1;
+                    }
                     
                     break;
                 // Casos + - < > = ! (Ya que todos estos pueden tener un igual al lado)
                 case '+':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
+                    
                     break;
                 case '-':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 case '<':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 case '>':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 case '=':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 case '!':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '=') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '=') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 // Casos de && y ||
                 case '&':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '&') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '&') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
                 case '|':
-                    agregarALaLista(cadena.substring(inicio, i));
-                    if(cadena.charAt(i+1) == '|') {  
-                        agregarALaLista(cadena.substring(i, i+2));
-                        inicio = i+2;
-                        i= i+2;
-                    } else {
-                        agregarALaLista(cadena.substring(i, i+1));
-                        inicio = i+1;
+                    if(!esString || esChar) {
+                        agregarALaLista(cadena.substring(inicio, i));
+                        if(cadena.charAt(i+1) == '|') {  
+                            agregarALaLista(cadena.substring(i, i+2));
+                            inicio = i+2;
+                            i= i+2;
+                        } else {
+                            agregarALaLista(cadena.substring(i, i+1));
+                            inicio = i+1;
+                        }
                     }
                     break;
             
