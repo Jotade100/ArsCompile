@@ -23,9 +23,12 @@ public class Lexer {
 
     List<String> preTokens = new ArrayList<>(); //Contiene cada palabra o símbolo a ser tokenizado
 
+    //List<Tokens> tokens; // Contiene los tokens depende del tamaño de preTokens
+
     public void cargarPrograma(String nombreDelArchivo){
         String programa = LectorDeArchivo.getInstancia().leerArchivo(nombreDelArchivo); // Guarda el programa en una cadena
         recorrerCadena(programa);
+        System.out.println(programa);
         System.out.print(preTokens);
 
     }
@@ -36,6 +39,12 @@ public class Lexer {
         }
         
     }
+
+    // public void crearArrayTokens(){
+    //     this.tokens = new ArrayList<>(this.preTokens.size());
+    // }
+
+    //public void 
 
     public void recorrerCadena(String cadena) {
         int largo = cadena.length();
