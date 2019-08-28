@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.arscompile.utilidades.LectorDeArchivo;
+import edu.arscompile.modelos.Token;
 
 public class Lexer {
 
@@ -21,21 +22,23 @@ public class Lexer {
         return instancia;
     }
 
-    List<String> preTokens = new ArrayList<>(); //Contiene cada palabra o símbolo a ser tokenizado
+    List<Token> tokens = new ArrayList<>(); //Contiene cada palabra o símbolo a ser tokenizado
 
-    //List<Tokens> tokens; // Contiene los tokens depende del tamaño de preTokens
 
     public void cargarPrograma(String nombreDelArchivo){
-        String programa = LectorDeArchivo.getInstancia().leerArchivo(nombreDelArchivo); // Guarda el programa en una cadena
-        recorrerCadena(programa);
+        List<String> programa = LectorDeArchivo.getInstancia().leerArchivo(nombreDelArchivo); // Guarda el programa en una cadena
+        for(int i = 0; i < programa.size(); i++){
+            recorrerCadena(programa.get(i), i);
+        }
+        
         System.out.println(programa);
-        System.out.print(preTokens);
+        tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
 
     }
 
-    public void agregarALaLista(String entrada) {
+    public void agregarALaLista(String entrada, int linea) {
         if(!entrada.trim().isEmpty()){
-            this.preTokens.add(entrada.trim());
+            this.tokens.add(new Token(entrada.trim(), linea));
         }
         
     }
@@ -46,7 +49,7 @@ public class Lexer {
 
     //public void 
 
-    public void recorrerCadena(String cadena) {
+    public void recorrerCadena(String cadena, int linea) {
         int largo = cadena.length();
         int inicio = 0;
         // Excepciones de lectura
@@ -59,122 +62,122 @@ public class Lexer {
                 case '"':
                     if(esString) { // Si era String así que está por terminarlo
                         esString = false;
-                        agregarALaLista(cadena.substring(inicio, i+1).trim()); //Agrega desde el inicio hasta el último "
+                        agregarALaLista(cadena.substring(inicio, i+1).trim(), linea); //Agrega desde el inicio hasta el último "
                         inicio = i+1; //incluido el actual "
 
                     } else if(!esString && !esChar) { // NO es string, se tiene que comenzar
                         esString = true;
-                        agregarALaLista(cadena.substring(inicio, i).trim()); //Corta lo anterior
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea); //Corta lo anterior
                         inicio = i; //Para que incluya el actual "
                     }
                     break;
                 case 39:
                     if(esChar) { // Si era Char así que está por terminarlo
                         esChar = false;
-                        agregarALaLista(cadena.substring(inicio, i+1).trim()); //Agrega desde el inicio hasta el último "
+                        agregarALaLista(cadena.substring(inicio, i+1).trim(), linea); //Agrega desde el inicio hasta el último "
                         inicio = i+1; //incluido el actual '
 
                     } else if(!esChar && !esString) { // NO es char, se tiene que comenzar
                         esChar = true;
-                        agregarALaLista(cadena.substring(inicio, i).trim()); //Corta lo anterior
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea); //Corta lo anterior
                         inicio = i; //Para que incluya el actual '
                     }
                     break;
                 case ' ':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i).trim());
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
                         inicio = i+1;
                     }
                     break;
                 case '(':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     break;
                 case ')':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     break;
                 case '[':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     } 
                     
                     break;
                 case ']':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     break;
                 case '{':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case '}':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case ';':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case ',':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case '.':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case '%':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case '*':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
                     break;
                 case '/':
                     if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim());
-                        agregarALaLista(cadena.substring(i, i+1));
+                        agregarALaLista(cadena.substring(inicio, i).trim(), linea);
+                        agregarALaLista(cadena.substring(i, i+1), linea);
                         inicio = i+1;
                     }
                     
@@ -182,13 +185,13 @@ public class Lexer {
                 // Casos + - < > = ! (Ya que todos estos pueden tener un igual al lado)
                 case '+':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
@@ -196,65 +199,65 @@ public class Lexer {
                     break;
                 case '-':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
                     break;
                 case '<':
                     if(!esString || !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
                     break;
                 case '>':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
                     break;
                 case '=':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
                     break;
                 case '!':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '=') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
@@ -262,26 +265,26 @@ public class Lexer {
                 // Casos de && y ||
                 case '&':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '&') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }
                     break;
                 case '|':
                     if(!esString && !esChar) {
-                        agregarALaLista(cadena.substring(inicio, i));
+                        agregarALaLista(cadena.substring(inicio, i), linea);
                         if(cadena.charAt(i+1) == '|') {  
-                            agregarALaLista(cadena.substring(i, i+2));
+                            agregarALaLista(cadena.substring(i, i+2), linea);
                             inicio = i+2;
                             i= i+2;
                         } else {
-                            agregarALaLista(cadena.substring(i, i+1));
+                            agregarALaLista(cadena.substring(i, i+1), linea);
                             inicio = i+1;
                         }
                     }

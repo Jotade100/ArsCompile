@@ -15,6 +15,11 @@ public class Token {
         this.value = value;
     }
 
+    public Token(Object value, int left){
+        this.value = value;
+        this.left = left;
+    }
+
     public Token(int type, Object value, int left, int right){
         this.type = type;
         this.value = value;
@@ -43,7 +48,7 @@ public class Token {
     }
 
     public void imprimirTokenBonitoLargo(){
-        System.out.print("<Type: "+ type + ", Value: "+ value+ ", Left: "+ left+", Right: "+ right+ ">");
+        System.out.print("<Type: "+ type + ", Value: "+ value+ ", L\u00ednea: "+ left+", Right: "+ right+ ">");
     }
 
 }
