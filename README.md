@@ -5,7 +5,7 @@
 ### Requerimientos
 * JDK
 
-### Implementación
+### Instalación
 Para instalar el archivo usar *javac -d . *.java*
 
 ### Implementación
