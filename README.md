@@ -15,11 +15,21 @@ Para correr el archivo usar *java edu.arscompile.ArsCompile [option] <filename>*
 ### Librerías externas
 * Automaton (Evaluador de expresiones regulares)
 
-### Lexer
-* Lexer de análisis básico de Decaf
+### Scanner
+* Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
 
 
 ## Observaciones
+### Avance del proyecto
+- [x] Scanner
+- [ ] Parser
+- [ ] AST
+- [ ] Semántica
+- [ ] IRT
+- [ ] Optimizador
+- [ ] Generación de código
+
+### Comentarios
 * No posee tolerancia a comentarios
 
 # Autor

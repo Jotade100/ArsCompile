@@ -31,7 +31,7 @@ public class LectorDeArchivo {
                 contadorDeLineas++;
             }
         } catch (IOException e) {
-            System.err.format("Descripción del error: %s%n", e);
+            System.err.format("Descripci\u00f3n del error: %s%n", e);
         }
         return sb;
     }

@@ -33,8 +33,8 @@ public class Lexer {
     public void cargarPrograma(String nombreDelArchivo){
         // Encabezado y proceso
         System.out.println("Leyendo el archivo "+nombreDelArchivo);
-        System.out.println("Etapa: LeXeR");
-        barraDeProceso();
+        System.out.println("Etapa: ScAnNeR");
+        
 
         
 
@@ -51,7 +51,10 @@ public class Lexer {
         tokens.forEach((action) -> Comparador.getInstancia().categorizar(action)); //Determina el tipo de Token
         
         //tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
-        EscritorDeArchivo.getInstancia().escribir("resultados.txt", tokens);
+        EscritorDeArchivo.getInstancia().escribir("resultadosScanner.txt", tokens);
+
+        if(!tokens.isEmpty()){ barraDeProceso();}
+        
         Comparador.getInstancia().imprimirErrores();
 
     }
