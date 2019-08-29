@@ -12,10 +12,16 @@ Se escogió **Java** como el lenguaje para realizarlo debido a su capacidad mult
 * JDK
 
 ### Instalación
-Para instalar el archivo usar *javac -d . *.java*
+Para instalar el archivo usar 
+```
+javac -d . *.java
+```
 
 ### Implementación
-Para correr el archivo usar *java edu.arscompile.ArsCompile [option] <filename>*
+Para correr el archivo usar 
+```
+java edu.arscompile.ArsCompile [option] <filename>
+```
 
 ## Contenido
 ### Librerías externas
