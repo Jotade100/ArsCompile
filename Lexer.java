@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
+import edu.arscompile.lexer.Comparador;
 import edu.arscompile.modelos.Token;
 
 public class Lexer {
+    // Constructor
 
     public Lexer(){
 
@@ -22,17 +25,34 @@ public class Lexer {
         return instancia;
     }
 
+    //Atributos aparte
+
     List<Token> tokens = new ArrayList<>(); //Contiene cada palabra o símbolo a ser tokenizado
 
 
     public void cargarPrograma(String nombreDelArchivo){
+        // Encabezado y proceso
+        System.out.println("Leyendo el archivo "+nombreDelArchivo);
+        System.out.println("Etapa: LeXeR");
+        barraDeProceso();
+
+        
+
+        // Lectura de archivo
         List<String> programa = LectorDeArchivo.getInstancia().leerArchivo(nombreDelArchivo); // Guarda el programa en una cadena
         for(int i = 0; i < programa.size(); i++){
             recorrerCadena(programa.get(i), i);
         }
         
-        System.out.println(programa);
-        tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+        //System.out.println(programa); //Imprimir el programa
+
+
+        /*---------------------------------------LECTURA DE TOKENS------------------------------------------------ */
+        tokens.forEach((action) -> Comparador.getInstancia().categorizar(action)); //Determina el tipo de Token
+        
+        //tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+        EscritorDeArchivo.getInstancia().escribir("resultados.txt", tokens);
+        Comparador.getInstancia().imprimirErrores();
 
     }
 
@@ -43,11 +63,18 @@ public class Lexer {
         
     }
 
-    // public void crearArrayTokens(){
-    //     this.tokens = new ArrayList<>(this.preTokens.size());
-    // }
+    public void barraDeProceso(){
+        char[] animationChars = new char[]{'|', '/', '-', '\\'};
+        for (int i = 0; i <= 100; i++) {
+            System.out.print("Procesando: " + i + "% " + animationChars[i % 4] + "\r");
 
-    //public void 
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void recorrerCadena(String cadena, int linea) {
         int largo = cadena.length();
@@ -150,14 +177,15 @@ public class Lexer {
                     }
                     
                     break;
-                case '.':
-                    if(!esString && !esChar){
-                        agregarALaLista(cadena.substring(inicio, i).trim(), linea, inicio);
-                        agregarALaLista(cadena.substring(i, i+1), linea, i);
-                        inicio = i+1;
-                    }
+                // El punto no sirve para nada    
+                // case '.':
+                //     if(!esString && !esChar){
+                //         agregarALaLista(cadena.substring(inicio, i).trim(), linea, inicio);
+                //         agregarALaLista(cadena.substring(i, i+1), linea, i);
+                //         inicio = i+1;
+                //     }
                     
-                    break;
+                    // break;
                 case '%':
                     if(!esString && !esChar){
                         agregarALaLista(cadena.substring(inicio, i).trim(), linea, inicio);

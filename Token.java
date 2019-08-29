@@ -46,12 +46,29 @@ public class Token {
         return value;
     }
 
+    public int getLeft(){
+        return left;
+    }
+
+    public int getRight(){
+        return right;
+    }
+
+
     public void imprimirTokenBonitoCorto(){
         System.out.print("<Type: "+ type + ", Value: "+ value+">");
     }
 
     public void imprimirTokenBonitoLargo(){
         System.out.print("<Type: "+ type + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">");
+    }
+
+    public String retornarTokenBonitoCorto(){
+        return "<Type: "+ type + ", Value: "+ value+">";
+    }
+
+    public String retornarTokenBonitoLargo(){
+        return "<Type: "+ type + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">";
     }
 
 }
