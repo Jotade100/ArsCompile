@@ -30,7 +30,7 @@ public class Lexer {
     List<Token> tokens = new ArrayList<>(); //Contiene cada palabra o símbolo a ser tokenizado
 
 
-    public void cargarPrograma(String nombreDelArchivo){
+    public void cargarPrograma(String nombreDelArchivo, boolean debug){
         // Encabezado y proceso
         System.out.println("Leyendo el archivo "+nombreDelArchivo);
         System.out.println("Etapa: ScAnNeR");
@@ -49,11 +49,13 @@ public class Lexer {
 
         /*---------------------------------------LECTURA DE TOKENS------------------------------------------------ */
         tokens.forEach((action) -> Comparador.getInstancia().categorizar(action)); //Determina el tipo de Token
-        
-        //tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+        if(debug) {
+            tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+        }
+        //
         EscritorDeArchivo.getInstancia().escribir("resultadosScanner.txt", tokens);
 
-        if(!tokens.isEmpty()){ barraDeProceso();}
+        if(!tokens.isEmpty() && !debug){ barraDeProceso();}
 
         Comparador.getInstancia().imprimirErrores();
 

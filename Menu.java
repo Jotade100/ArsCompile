@@ -31,7 +31,7 @@ public class Menu {
                 case "-opt":
                     opt(argumentos);
                     break;
-                case "debug":
+                case "-debug":
                     debug(argumentos);
                     break;
                 case "-h":
@@ -69,7 +69,7 @@ public class Menu {
 
     public void target(String[] stage) {
         if(stage[1].equals("scan")) {
-            Lexer.getInstancia().cargarPrograma(stage[2]);
+            Lexer.getInstancia().cargarPrograma(stage[2], false);
         }
 
     }
@@ -79,6 +79,10 @@ public class Menu {
     }
 
     public void debug(String[] stage) {
+        if(stage[1].equals("scan")) {
+            Lexer.getInstancia().cargarPrograma(stage[2], true);
+        }
+
 
     }
 
@@ -90,7 +94,9 @@ public class Menu {
         System.out.println("-o <outname> \t\tEscribir el output a <outname> \n"
         + "-target <stage> \t<stage> es uno de los siguientes"
         + " elementos: scan, parse, ast,"
-        + " semantic, irt, codegen\n\n\n");
+        + " semantic, irt, codegen");
+        System.out.println("-debug <stage> \t\tImprime informaci\u00f3n de debugging \n"
+        + "\n\n\n");
 
         System.out.print("Mi computadora> java ArsCompile "); //Crea línea para simular cmd
         Scanner leer = new Scanner(System.in);
