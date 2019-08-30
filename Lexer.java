@@ -1,4 +1,4 @@
-package edu.arscompile.lexer;
+package edu.arscompile.scanner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
-import edu.arscompile.lexer.Comparador;
+import edu.arscompile.scanner.Comparador;
 import edu.arscompile.modelos.Token;
 
 public class Lexer {
@@ -54,7 +54,7 @@ public class Lexer {
         EscritorDeArchivo.getInstancia().escribir("resultadosScanner.txt", tokens);
 
         if(!tokens.isEmpty()){ barraDeProceso();}
-        
+
         Comparador.getInstancia().imprimirErrores();
 
     }

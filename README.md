@@ -24,11 +24,15 @@ java edu.arscompile.ArsCompile [option] <filename>
 ```
 
 ## Contenido
+### Documentación
+* Documentación breve del proyecto, disponible en un archivo .pdf
+* Documentación sobre las clases y elemntos de código que lo componen.
+
 ### Librerías externas
 * Automaton (Evaluador de expresiones regulares)
 
 ### Scanner
-* Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
+Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
 
 
 ## Observaciones

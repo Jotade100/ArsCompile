@@ -2,7 +2,7 @@ package edu.arscompile.utilidades;
 
 import java.util.Scanner;
 import java.util.Arrays;
-import edu.arscompile.lexer.Lexer;
+import edu.arscompile.scanner.Lexer;
 
 public class Menu {
 
