@@ -34,36 +34,39 @@ public class Comparador {
     List<Token> invalidos = new ArrayList<>();
 
     public void inicializarLista() {
-        tokens.add(new Symbol(tokens.size(), "Token no v\u00e1lido", ""));
-        tokens.add(new Symbol(tokens.size(), "class", "class"));
-        tokens.add(new Symbol(tokens.size(), "Program", "Program"));
-        tokens.add(new Symbol(tokens.size(), "{", "{"));
-        tokens.add(new Symbol(tokens.size(), "}", "}"));
-        tokens.add(new Symbol(tokens.size(), ",", ","));
-        tokens.add(new Symbol(tokens.size(), "[", "["));
-        tokens.add(new Symbol(tokens.size(), "]", "]"));
-        tokens.add(new Symbol(tokens.size(), ";", ";"));
-        tokens.add(new Symbol(tokens.size(), "type", "(boolean)|(int)"));
-        tokens.add(new Symbol(tokens.size(), "void", "void"));
-        tokens.add(new Symbol(tokens.size(), "if", "if"));
-        tokens.add(new Symbol(tokens.size(), "(", "[(]"));
-        tokens.add(new Symbol(tokens.size(), ")", "[)]"));
-        tokens.add(new Symbol(tokens.size(), "else", "else"));
-        tokens.add(new Symbol(tokens.size(), "for", "for"));
-        tokens.add(new Symbol(tokens.size(), "return", "return"));
-        tokens.add(new Symbol(tokens.size(), "break", "break"));
-        tokens.add(new Symbol(tokens.size(), "continue", "continue"));
-        tokens.add(new Symbol(tokens.size(), "asign_op", "(=)|(+=)|(-=)"));
-        tokens.add(new Symbol(tokens.size(), "callout", "callout"));
-        tokens.add(new Symbol(tokens.size(), "arit_op", "(-)|(+)|(*)|(/)|(%)"));
-        tokens.add(new Symbol(tokens.size(), "rel_op", "(<)|(>)|(>=)|(<=)"));
-        tokens.add(new Symbol(tokens.size(), "eq_op", "(==)|(!=)"));
-        tokens.add(new Symbol(tokens.size(), "cond_op", "[\\|]{2}|[\\&]{2}"));
-        tokens.add(new Symbol(tokens.size(), "bool_literal", "(true)|(false)"));
-        tokens.add(new Symbol(tokens.size(), "char_literal", "'.'"));
-        tokens.add(new Symbol(tokens.size(), "string_literal", ""));
-        tokens.add(new Symbol(tokens.size(), "int_literal", ""));
-        tokens.add(new Symbol(tokens.size(), "id", ""));
+        tokens.add(new Symbol(0, "Token no v\u00e1lido", ""));
+        tokens.add(new Symbol(1, "class", "class"));
+        tokens.add(new Symbol(2, "Program", "Program"));
+        tokens.add(new Symbol(3, "{", "{"));
+        tokens.add(new Symbol(4, "}", "}"));
+        tokens.add(new Symbol(5, ",", ","));
+        tokens.add(new Symbol(6, "[", "["));
+        tokens.add(new Symbol(7, "]", "]"));
+        tokens.add(new Symbol(8, ";", ";"));
+        tokens.add(new Symbol(9, "type", "(boolean)|(int)"));
+        tokens.add(new Symbol(10, "void", "void"));
+        tokens.add(new Symbol(11, "if", "if"));
+        tokens.add(new Symbol(12, "(", "[(]"));
+        tokens.add(new Symbol(13, ")", "[)]"));
+        tokens.add(new Symbol(14, "else", "else"));
+        tokens.add(new Symbol(15, "for", "for"));
+        tokens.add(new Symbol(16, "return", "return"));
+        tokens.add(new Symbol(17, "break", "break"));
+        tokens.add(new Symbol(18, "continue", "continue"));
+        tokens.add(new Symbol(19, "asign_op", "(+=)|(-=)"));
+        tokens.add(new Symbol(20, "callout", "callout"));
+        tokens.add(new Symbol(21, "arit_op", "(+)|(*)|(/)|(%)"));
+        tokens.add(new Symbol(22, "rel_op", "(<)|(>)|(>=)|(<=)"));
+        tokens.add(new Symbol(23, "eq_op", "(==)|(!=)"));
+        tokens.add(new Symbol(24, "cond_op", "[\\|]{2}|[\\&]{2}"));
+        tokens.add(new Symbol(25, "bool_literal", "(true)|(false)"));
+        tokens.add(new Symbol(26, "char_literal", "'.'"));
+        tokens.add(new Symbol(27, "string_literal", ""));
+        tokens.add(new Symbol(28, "int_literal", ""));
+        tokens.add(new Symbol(29, "id", ""));
+        tokens.add(new Symbol(30, "minus_op", "-"));
+        tokens.add(new Symbol(31, "exclamation_op", "!"));
+        tokens.add(new Symbol(32, "equal_op", "="));
     }
 
 
@@ -91,134 +94,137 @@ public class Comparador {
     public void categorizar(Token token){
         switch(token.getValue().toString()){
             case "class":
-                token.setType(1);
+                token.setType(tokens.get(1));
                 break;
             case "Program":
-                token.setType(2);
+                token.setType(tokens.get(2));
                 break;
             case "{":
-                token.setType(3);
+                token.setType(tokens.get(3));
                 break;
             case "}":
-                token.setType(4);
+                token.setType(tokens.get(4));
                 break;
             case ",":
-                token.setType(5);
+                token.setType(tokens.get(5));
                 break;
             case "[":
-                token.setType(6);
+                token.setType(tokens.get(6));
                 break;
             case "]":
-                token.setType(7);
+                token.setType(tokens.get(7));
                 break;
             case ";":
-                token.setType(8);
+                token.setType(tokens.get(8));
                 break;
             case "boolean":
-                token.setType(9);
+                token.setType(tokens.get(9));
                 break;
             case "int":
-                token.setType(9);
+                token.setType(tokens.get(9));
                 break;
             case "void":
-                token.setType(10);
+                token.setType(tokens.get(10));
                 break;
             case "if":
-                token.setType(11);
+                token.setType(tokens.get(11));
                 break;
             case "(":
-                token.setType(12);
+                token.setType(tokens.get(12));
                 break;
             case ")":
-                token.setType(13);
+                token.setType(tokens.get(13));
                 break;
             case "else":
-                token.setType(14);
+                token.setType(tokens.get(14));
                 break;
             case "for":
-                token.setType(15);
+                token.setType(tokens.get(15));
                 break;
             case "return":
-                token.setType(16);
+                token.setType(tokens.get(16));
                 break;
             case "continue":
-                token.setType(17);
+                token.setType(tokens.get(17));
                 break;
             case "=":
-                token.setType(18);
+                token.setType(tokens.get(32));
                 break;
             case "+=":
-                token.setType(18);
+                token.setType(tokens.get(18));
                 break;
             case "-=":
-                token.setType(18);
+                token.setType(tokens.get(18));
                 break;
             case "callout":
-                token.setType(19);
+                token.setType(tokens.get(19));
                 break;
             case "+":
-                token.setType(20);
+                token.setType(tokens.get(20));
                 break;
             case "-":
-                token.setType(20);
+                token.setType(tokens.get(30));
+                break;
+            case "!":
+                token.setType(tokens.get(31));
                 break;
             case "*":
-                token.setType(20);
+                token.setType(tokens.get(20));
                 break;
             case "/":
-                token.setType(20);
+                token.setType(tokens.get(20));
                 break;
             case "%":
-                token.setType(20);
+                token.setType(tokens.get(20));
                 break;
             case ">":
-                token.setType(21);
+                token.setType(tokens.get(21));
                 break;
             case "<":
-                token.setType(21);
+                token.setType(tokens.get(21));
                 break;
             case "<=":
-                token.setType(21);
+                token.setType(tokens.get(21));
                 break;
             case "=<":
-                token.setType(21);
+                token.setType(tokens.get(21));
                 break;
             case "==":
-                token.setType(22);
+                token.setType(tokens.get(22));
                 break;
             case "!=":
-                token.setType(22);
+                token.setType(tokens.get(22));
                 break;
             case "&&":
-                token.setType(23);
+                token.setType(tokens.get(23));
                 break;
             case "||":
-                token.setType(24);
+                token.setType(tokens.get(24));
                 break;
             case "true":
-                token.setType(25);
+                token.setType(tokens.get(25));
                 break;
             case "false":
-                token.setType(25);
+                token.setType(tokens.get(25));
                 break;
             default:
 
                 if((token.getValue().toString().length() > 1) && token.getValue().toString().substring(0, 1).equals("\"") && token.getValue().toString().substring(token.getValue().toString().length()-1).equals("\"")){
-                    token.setType(27);
+                    token.setType(tokens.get(27));
                 } else if((token.getValue().toString().length() > 1) && token.getValue().toString().substring(0, 1).equals("'") && token.getValue().toString().substring(token.getValue().toString().length()-1).equals("'")){
-                    token.setType(26);
+                    token.setType(tokens.get(26));
                 } else if((token.getValue().toString().length() > 1) && token.getValue().toString().substring(0, 2).equals("0x")) {
                     try {
                         token.setValue(Integer.parseInt(token.getValue().toString().substring(2), 16));
-                        token.setType(26);
+                        token.setType(tokens.get(26));
                     } catch(NumberFormatException e) {
                     }
                 } else if(isNumeric(token.getValue().toString())){
-                    token.setType(28);
+                    token.setType(tokens.get(28));
                 } else if(Character.isLetter(token.getValue().toString().charAt(0))  && isAlphaNumeric(token.getValue().toString())) {
-                    token.setType(29);
+                    token.setType(tokens.get(29));
                 } 
-                if(token.getType() <1){
+                if(token.getType().getType() <1){
                     invalidos.add(token);
                 }
                 

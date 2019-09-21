@@ -118,7 +118,7 @@ public class Lexer {
                 case ' ':
                     if(!esString && !esChar) {
                         agregarALaLista(cadena.substring(inicio, i).trim(), linea, inicio);
-                        inicio = i+1;
+                        inicio = i;
                     }
                     break;
                 case '(':
@@ -210,8 +210,14 @@ public class Lexer {
                 case '/':
                     if(!esString && !esChar){
                         agregarALaLista(cadena.substring(inicio, i).trim(), linea, inicio);
-                        agregarALaLista(cadena.substring(i, i+1), linea, i);
-                        inicio = i+1;
+
+                        if(cadena.charAt(i+1) == '/') {
+                            i = largo;
+                        } else{
+                            agregarALaLista(cadena.substring(i, i+1), linea, i);
+                            inicio = i+1;
+                        }
+                        
                     }
                     
                     break;
@@ -325,6 +331,11 @@ public class Lexer {
             
                 default:
                     break;
+            }
+            if((i == (largo-1)) && (inicio != i)){
+                agregarALaLista(cadena.substring(inicio, largo), linea, inicio);
+                inicio = i+1;
+
             }
             
         }

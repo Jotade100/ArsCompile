@@ -3,7 +3,7 @@ class PrimeByArithmetic {
 
 		IO.putString("Prime[");
 
-		IO.putInt(i);
+		IO.putInt(i); //inválido
 
 		IO.putString("] = ");
 

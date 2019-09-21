@@ -1,16 +1,17 @@
 package edu.arscompile.modelos;
 
+import edu.arscompile.modelos.Symbol; // agregado para evitar confusión
 
 public class Token {
 
-    int type;
+    Symbol type = new Symbol(0, "Token no v\u00e1lido", "");
     int left;
     int right;
     Object value;
 
     public Token(){}
 
-    public Token(int type, Object value){
+    public Token(Symbol type, Object value){
         this.type = type;
         this.value = value;
     }
@@ -23,14 +24,14 @@ public class Token {
 
     
 
-    public Token(int type, Object value, int left, int right){
+    public Token(Symbol type, Object value, int left, int right){
         this.type = type;
         this.value = value;
         this.left = left;
         this.right = right;
     }
 
-    public void setType(int type) {
+    public void setType(Symbol type) {
         this.type = type;
     }
 
@@ -38,7 +39,7 @@ public class Token {
         this.value = value;
     }
 
-    public int getType(){
+    public Symbol getType(){
         return type;
     }
 
@@ -56,19 +57,19 @@ public class Token {
 
 
     public void imprimirTokenBonitoCorto(){
-        System.out.print("<Type: "+ type + ", Value: "+ value+">");
+        System.out.print("<Type: "+ type.getNombre() + ", Value: "+ value+">");
     }
 
     public void imprimirTokenBonitoLargo(){
-        System.out.print("<Type: "+ type + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">");
+        System.out.print("<Type: "+ type.getNombre() + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">");
     }
 
     public String retornarTokenBonitoCorto(){
-        return "<Type: "+ type + ", Value: "+ value+">";
+        return "<Type: "+ type.getNombre() + ", Value: "+ value+">";
     }
 
     public String retornarTokenBonitoLargo(){
-        return "<Type: "+ type + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">";
+        return "<Type: "+ type.getNombre() + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">";
     }
 
 }

@@ -1,0 +1,15 @@
+class Program
+{
+
+    void main()
+    {
+        for i = 0, i < 25 //línea con error
+                {
+            if(true){
+                break;
+            }
+        }
+        callout("\tThis is my program!\n");
+       
+    }
+}
