@@ -1,6 +1,6 @@
 class Program {
                 void main() {
-                    int !x; int y;
+                    int x; int y;
                     x = read();
                     y = read();
                     print(gcd(x, y));

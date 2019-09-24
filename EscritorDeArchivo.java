@@ -29,9 +29,9 @@ public class EscritorDeArchivo {
         try{
             FileWriter fileWriter = new FileWriter(nombreDeArchivo);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            tokens.forEach((action) ->  printWriter.print(action.retornarTokenBonitoLargo()));
+            tokens.forEach((action) ->  printWriter.print(action.retornarTokenBonitoLargo() + "\n"));
             printWriter.println();
-            printWriter.println("El servicio fue traído a ustedes por Juan Diego");
+            printWriter.println("THE END");
             printWriter.close();
         } catch (IOException e) {
             System.out.println("Hubo un error leyendo el archivo");

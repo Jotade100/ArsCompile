@@ -7,6 +7,7 @@ import java.util.Scanner;
 import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
 import edu.arscompile.scanner.Comparador;
+import edu.arscompile.parser.Parser;
 import edu.arscompile.modelos.Token;
 
 public class Lexer {
@@ -58,6 +59,11 @@ public class Lexer {
         if(!tokens.isEmpty() && !debug){ barraDeProceso();}
 
         Comparador.getInstancia().imprimirErrores();
+
+        System.out.println("\nEtapa: PaRsEr");
+
+        Parser.getInstancia().asignarTokens(tokens);
+        Parser.getInstancia().analizarTokens();
 
     }
 
