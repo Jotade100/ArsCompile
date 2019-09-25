@@ -61,12 +61,12 @@ public class Lexer {
 
         Comparador.getInstancia().imprimirErrores();
 
-        System.out.println("\nEtapa: PaRsEr");
+        
 
-        tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
+        // tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
 
-        Parser.getInstancia().asignarTokens(tokens);
-        Parser.getInstancia().analizarTokens();
+        // Parser.getInstancia().asignarTokens(tokens);
+        // Parser.getInstancia().analizarTokens();
 
     }
 

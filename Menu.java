@@ -2,7 +2,11 @@ package edu.arscompile.utilidades;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import edu.arscompile.scanner.Lexer;
+import edu.arscompile.modelos.Token; // para evitar confusiones
+import edu.arscompile.parser.Parser;
 
 public class Menu {
 
@@ -70,6 +74,8 @@ public class Menu {
     public void target(String[] stage) {
         if(stage[1].equals("scan")) {
             Lexer.getInstancia().cargarPrograma(stage[2], false);
+        } else if (stage[1].equals("parse")){
+            Parser.getInstancia().asignarTokens();            
         }
 
     }
@@ -81,6 +87,8 @@ public class Menu {
     public void debug(String[] stage) {
         if(stage[1].equals("scan")) {
             Lexer.getInstancia().cargarPrograma(stage[2], true);
+        } else if (stage[1].equals("parse")){
+            Parser.getInstancia().asignarTokens();            
         }
 
 

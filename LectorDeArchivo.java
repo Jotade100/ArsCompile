@@ -52,15 +52,12 @@ public class LectorDeArchivo {
             FileInputStream fi = new FileInputStream(new File(nombreArchivo + ".obj"));
             ObjectInputStream oi = new ObjectInputStream(fi);
             boolean seguir = true;
-            do {
-                Token pr1 = (Token) oi.readObject();
-                if(pr1 != null){
-                    sb.add(pr1);
-                    pr1.imprimirTokenBonitoLargo();
-                } else {
-                    seguir = false;
-                }
-            } while(seguir);
+            
+            sb = (List<Token>) oi.readObject();
+            for (Token var : sb) {
+                var.imprimirTokenBonitoLargo(); 
+            }
+            System.out.println();
 
             oi.close();
 			fi.close();

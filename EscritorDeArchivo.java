@@ -33,10 +33,12 @@ public class EscritorDeArchivo {
         try{
             FileOutputStream f = new FileOutputStream(new File(nombreDeArchivo+ ".obj"));
             ObjectOutputStream o = new ObjectOutputStream(f);
-            for (Token var : tokens) {
-                o.writeObject(var);
-            }    
-            
+            // for (Token var : tokens) {
+            //     o.writeObject(var);
+            // }
+
+            o.writeObject(tokens);
+                
 
             o.close();
 			f.close();

@@ -5,6 +5,8 @@ import java.util.List;
 
 import edu.arscompile.modelos.Token;
 import edu.arscompile.modelos.CeldaParser;
+import edu.arscompile.utilidades.EscritorDeArchivo;
+import edu.arscompile.utilidades.LectorDeArchivo;
 
 public class Parser {
 
@@ -63,8 +65,10 @@ public class Parser {
         // }
     // }
 // 
-    public void asignarTokens(List<Token> tokens) {
-        getInstancia().tokens = tokens;
+    public void asignarTokens() {
+        System.out.println("\nEtapa: PaRsEr");
+        getInstancia().tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
+        Parser.getInstancia().analizarTokens();
     }
 
     public void analizarTokens() {
