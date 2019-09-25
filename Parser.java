@@ -22,44 +22,46 @@ public class Parser {
 
     List<Token> tokens = new ArrayList<>();
 
-    List<Token> stack = new ArrayList<>();
+    int contador = 0;
+
+    //List<Token> stack = new ArrayList<>();
 
     //List<List<CeldaParser>> tabla = new ArrayList<>();
 
-    CeldaParser[][] tablita = new CeldaParser[10][10];
+    //CeldaParser[][] tablita = new CeldaParser[10][10];
 
     // new CeldaParser("reduce", 2)
 
 
-    public void push(Token element) {
-        stack.add(element);
-    }
-
-    public void pop(int numero) {
-        while(numero!=0){
-            stack.remove((stack.size()- 1));
-            numero--;
-        }
-        
-    }
-
-    public void shift(Token element){
-        push(element);
-    }
-
-    public void reduce(int numero){
-        pop(numero);
-    }
-
-    public void accept(){
-        pop(1);
-        if(stack.isEmpty()){
-           System.out.println("Terminado exitosamente"); 
-        } else {
-            System.out.println("Completado con errores"); 
-        }
-    }
-
+    // public void push(Token element) {
+        // stack.add(element);
+    // }
+// 
+    // public void pop(int numero) {
+        // while(numero!=0){
+            // stack.remove((stack.size()- 1));
+            // numero--;
+        // }
+        // 
+    // }
+// 
+    // public void shift(Token element){
+        // push(element);
+    // }
+// 
+    // public void reduce(int numero){
+        // pop(numero);
+    // }
+// 
+    // public void accept(){
+        // pop(1);
+        // if(stack.isEmpty()){
+        //    System.out.println("Terminado exitosamente"); 
+        // } else {
+            // System.out.println("Completado con errores"); 
+        // }
+    // }
+// 
     public void asignarTokens(List<Token> tokens) {
         getInstancia().tokens = tokens;
     }
@@ -76,6 +78,10 @@ public class Parser {
 
     public void error(Token elemento) {
         System.out.println("Error en la l\u00ednea " + elemento.getLeft() + " y caracter " + elemento.getRight() + ", palabra " + elemento.getType() +"no hace sentido");
+    }
+
+    public void classToken(){
+
     }
 
 
