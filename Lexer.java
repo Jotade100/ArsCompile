@@ -54,13 +54,16 @@ public class Lexer {
             tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
         }
         //
-        EscritorDeArchivo.getInstancia().escribir("resultadosScanner.txt", tokens);
+        EscritorDeArchivo.getInstancia().escribir("resultadosScanner", tokens);
+        EscritorDeArchivo.getInstancia().escribirObjeto("resultadosScanner", tokens);
 
         if(!tokens.isEmpty() && !debug){ barraDeProceso();}
 
         Comparador.getInstancia().imprimirErrores();
 
         System.out.println("\nEtapa: PaRsEr");
+
+        tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
 
         Parser.getInstancia().asignarTokens(tokens);
         Parser.getInstancia().analizarTokens();

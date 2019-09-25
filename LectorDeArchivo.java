@@ -6,7 +6,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.arscompile.modelos.Token; // para evitar confusiones
+
 import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+
+
 public class LectorDeArchivo {
 
     // Constructor    
@@ -32,6 +41,33 @@ public class LectorDeArchivo {
             }
         } catch (IOException e) {
             System.err.format("Descripci\u00f3n del error: %s%n", e);
+        }
+        return sb;
+    }
+
+    public List<Token> leerTokens(String nombreArchivo){
+        List<Token> sb = new ArrayList<>();
+        try {
+
+            FileInputStream fi = new FileInputStream(new File(nombreArchivo + ".obj"));
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            boolean seguir = true;
+            do {
+                Token pr1 = (Token) oi.readObject();
+                if(pr1 != null){
+                    sb.add(pr1);
+                    pr1.imprimirTokenBonitoLargo();
+                } else {
+                    seguir = false;
+                }
+            } while(seguir);
+
+            oi.close();
+			fi.close();
+        
+        } catch (Exception e) {
+            System.err.format("Descripci\u00f3n del error: %s%n", e);
+            e.printStackTrace();
         }
         return sb;
     }

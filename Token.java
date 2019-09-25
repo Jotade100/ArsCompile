@@ -2,7 +2,9 @@ package edu.arscompile.modelos;
 
 import edu.arscompile.modelos.Symbol; // agregado para evitar confusión
 
-public class Token {
+import java.io.Serializable;
+
+public class Token implements Serializable {
 
     Symbol type = new Symbol(0, "Token no v\u00e1lido", "");
     int left;

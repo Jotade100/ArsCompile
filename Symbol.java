@@ -1,6 +1,8 @@
 package edu.arscompile.modelos;
 
-public class Symbol {
+import java.io.Serializable;
+
+public class Symbol implements Serializable {
     int type;
     String nombre;
     String regEx;
