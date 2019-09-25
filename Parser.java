@@ -23,6 +23,8 @@ public class Parser {
 
     int contador = 0;
 
+    boolean detener = false;
+
     //List<Token> stack = new ArrayList<>();
 
     //List<List<CeldaParser>> tabla = new ArrayList<>();
@@ -74,7 +76,8 @@ public class Parser {
     }
 
     public void error(Token elemento) {
-        System.out.println("Error en la l\u00ednea " + elemento.getLeft() + " y caracter " + elemento.getRight() + ", palabra " + elemento.getType() +"no hace sentido");
+        System.out.println("Error en la l\u00ednea " + elemento.getLeft() + " y caracter " + elemento.getRight() + ", palabra " + elemento.getValue() + " del tipo " + elemento.getType().getNombre() +" no hace sentido, se esperaba un elemento diferente");
+        System.exit(1);
     }
 
     public void classToken(){
@@ -125,13 +128,16 @@ public class Parser {
                                     break;
                                 case 6:
                                     contador++;
-                                    if(tokens.get(contador).getType().getType()==28){contador++;} else {error(tokens.get(contador));}
-                                    if(tokens.get(contador).getType().getType()==7){contador++;} else {error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==28){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==7){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                                     if(tokens.get(contador).getType().getType()==5){ // coma
                                         goTo2 = true;
                                     } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
                                         goTo2 = false;
-                                    } else {error(tokens.get(contador));}
+                                    } else {
+                                        goTo2 = false;
+                                        goTo = false;
+                                        error(tokens.get(contador));}
 
                                     break; // nada vaya a goTo
                                 case 12:
@@ -141,12 +147,20 @@ public class Parser {
 
 
                             }
-                        } else {error(tokens.get(contador));}
+                        } else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                     } while(goTo2);
                     break;
                 case 10:
                     goTo = false;
                     break;
+                case 4:
+                    goTo = false;
+                    break;
+                default:
+                    goTo = false;
+                    error(tokens.get(contador));
+                    break;
+                    
                 
                     
             }
