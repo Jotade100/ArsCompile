@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.arscompile.modelos.Token;
 import edu.arscompile.modelos.CeldaParser;
-import jdk.nashorn.internal.ir.BreakableNode;
 
 public class Parser {
 
@@ -71,9 +70,7 @@ public class Parser {
             System.out.println("Error en la nomenclatura class Program, a partir de la l\u00ednea " + tokens.get(0).getLeft() );
             return;
         }
-        for(int i = 0; i<tokens.size(); i++) {
-            push(tokens.get(i));
-        }
+        classToken();
     }
 
     public void error(Token elemento) {
@@ -81,9 +78,95 @@ public class Parser {
     }
 
     public void classToken(){
+        if(tokens.get(contador).getType().getType()==1){
+            contador++;
+            programa();
+        } else {error(tokens.get(contador));}
 
     }
 
+    public void programa(){
+        if(tokens.get(contador).getType().getType()==2){
+            contador++;
+            llaveAPrograma();
+        } else {error(tokens.get(contador));}
+    }
+
+    public void llaveAPrograma(){
+        if(tokens.get(contador).getType().getType()==3){
+            contador++;
+            fieldDecl();
+            methodDec();
+            llaveCPrograma();
+        } else {error(tokens.get(contador));}
+    }
+
+    public void fieldDecl(){
+        // estructura do-while que equivale a un go-to
+        boolean goTo = true;
+        do {
+            switch(tokens.get(contador).getType().getType()){
+                case 9:
+                    contador++;
+                    boolean goTo2 = true;
+                    do {
+                        if(tokens.get(contador).getType().getType()==29){
+                            contador++;
+                        
+                            switch(tokens.get(contador).getType().getType()){
+                                case 8:
+                                    contador++;
+                                    //nada vaya a goTo
+                                    goTo2 = false; // se ha acabado
+                                    break;
+                                case 5:
+                                    contador++;
+                                    //nada vaya a goTo
+                                    break;
+                                case 6:
+                                    contador++;
+                                    if(tokens.get(contador).getType().getType()==28){contador++;} else {error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==7){contador++;} else {error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==5){ // coma
+                                        goTo2 = true;
+                                    } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
+                                        goTo2 = false;
+                                    } else {error(tokens.get(contador));}
+
+                                    break; // nada vaya a goTo
+                                case 12:
+                                    contador = contador -2;
+                                    goTo = false;
+                                    goTo2 = false;
+
+
+                            }
+                        } else {error(tokens.get(contador));}
+                    } while(goTo2);
+                    break;
+                case 10:
+                    goTo = false;
+                    break;
+                
+                    
+            }
+        } while(goTo);
+        
+    }
+
+    public void methodDec(){
+
+    }
+
+    public void llaveCPrograma(){
+        if(tokens.get(contador).getType().getType()==3){
+            System.out.println("qwertyuiop");
+        } else {
+            error(tokens.get(contador));
+        }
+
+
+    }
 
     
 

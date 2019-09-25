@@ -1,7 +1,6 @@
 package edu.arscompile.scanner;
 
 // paquetes precompilados (https://www.brics.dk/automaton/)
-import dk.brics.automaton.*;
 import java.util.regex.*;
 
 // librerías
@@ -26,8 +25,6 @@ public class Comparador {
         }
         return instancia;
     }
-
-    Automaton a = new RegExp("\""+"[.]*"+"\"").toAutomaton();
 
     List<Symbol> tokens = new ArrayList<>();
 
