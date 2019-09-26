@@ -76,6 +76,11 @@ public class Menu {
             Lexer.getInstancia().cargarPrograma(stage[2], false);
         } else if (stage[1].equals("parse")){
             Parser.getInstancia().asignarTokens();            
+        } else if(stage[1].equals("all")){
+            Lexer.getInstancia().cargarPrograma(stage[2], false);
+            Parser.getInstancia().asignarTokens();
+        } else {
+            System.out.println("COMANDO INCORRECTO");
         }
 
     }
@@ -89,6 +94,11 @@ public class Menu {
             Lexer.getInstancia().cargarPrograma(stage[2], true);
         } else if (stage[1].equals("parse")){
             Parser.getInstancia().asignarTokens();            
+        } else if(stage[1].equals("all")){
+            Lexer.getInstancia().cargarPrograma(stage[2], true);
+            Parser.getInstancia().asignarTokens();
+        } else {
+            System.out.println("COMANDO INCORRECTO");
         }
 
 

@@ -7,15 +7,16 @@
 <Type: type, Value: int, Línea: 1, Posición: 7>
 <Type: id, Value: y, Línea: 1, Posición: 11>
 <Type: ;, Value: ;, Línea: 1, Posición: 13>
-<Type: id, Value: array, Línea: 2, Posición: 0>
-<Type: [, Value: [, Línea: 2, Posición: 6>
-<Type: char_literal, Value: 10, Línea: 2, Posición: 7>
-<Type: ], Value: ], Línea: 2, Posición: 10>
-<Type: continue, Value: +=, Línea: 2, Posición: 12>
-<Type: id, Value: IF, Línea: 2, Posición: 14>
-<Type: (, Value: (, Línea: 2, Posición: 17>
-<Type: ), Value: ), Línea: 2, Posición: 18>
-<Type: ;, Value: ;, Línea: 2, Posición: 19>
+<Type: type, Value: int, Línea: 2, Posición: 0>
+<Type: id, Value: array, Línea: 2, Posición: 4>
+<Type: [, Value: [, Línea: 2, Posición: 10>
+<Type: int_literal, Value: 10, Línea: 2, Posición: 11>
+<Type: ], Value: ], Línea: 2, Posición: 14>
+<Type: ;, Value: ;, Línea: 2, Posición: 15>
+<Type: id, Value: IF, Línea: 2, Posición: 16>
+<Type: (, Value: (, Línea: 2, Posición: 19>
+<Type: ), Value: ), Línea: 2, Posición: 20>
+<Type: ;, Value: ;, Línea: 2, Posición: 21>
 <Type: }, Value: }, Línea: 3, Posición: 0>
 
 THE END

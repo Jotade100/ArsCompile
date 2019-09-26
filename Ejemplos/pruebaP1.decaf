@@ -1,4 +1,4 @@
 class Program {
 	int x; int y;
-	array[0xa] += IF();
+	int array[0xa]; IF();
 }

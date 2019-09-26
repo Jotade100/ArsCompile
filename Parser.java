@@ -134,9 +134,11 @@ public class Parser {
                                     contador++;
                                     if(tokens.get(contador).getType().getType()==28){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                                     if(tokens.get(contador).getType().getType()==7){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
-                                    if(tokens.get(contador).getType().getType()==5){ // coma
+                                    if(tokens.get(contador).getType().getType()==5){
+                                        contador++; // coma
                                         goTo2 = true;
                                     } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
+                                        contador++;
                                         goTo2 = false;
                                     } else {
                                         goTo2 = false;

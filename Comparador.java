@@ -148,16 +148,16 @@ public class Comparador {
                 token.setType(tokens.get(32));
                 break;
             case "+=":
-                token.setType(tokens.get(18));
-                break;
-            case "-=":
-                token.setType(tokens.get(18));
-                break;
-            case "callout":
                 token.setType(tokens.get(19));
                 break;
-            case "+":
+            case "-=":
+                token.setType(tokens.get(19));
+                break;
+            case "callout":
                 token.setType(tokens.get(20));
+                break;
+            case "+":
+                token.setType(tokens.get(21));
                 break;
             case "-":
                 token.setType(tokens.get(30));
@@ -166,34 +166,34 @@ public class Comparador {
                 token.setType(tokens.get(31));
                 break;
             case "*":
-                token.setType(tokens.get(20));
+                token.setType(tokens.get(21));
                 break;
             case "/":
-                token.setType(tokens.get(20));
+                token.setType(tokens.get(21));
                 break;
             case "%":
-                token.setType(tokens.get(20));
+                token.setType(tokens.get(21));
                 break;
             case ">":
-                token.setType(tokens.get(21));
+                token.setType(tokens.get(22));
                 break;
             case "<":
-                token.setType(tokens.get(21));
+                token.setType(tokens.get(22));
                 break;
             case "<=":
-                token.setType(tokens.get(21));
+                token.setType(tokens.get(22));
                 break;
             case "=<":
-                token.setType(tokens.get(21));
+                token.setType(tokens.get(22));
                 break;
             case "==":
-                token.setType(tokens.get(22));
+                token.setType(tokens.get(23));
                 break;
             case "!=":
-                token.setType(tokens.get(22));
+                token.setType(tokens.get(23));
                 break;
             case "&&":
-                token.setType(tokens.get(23));
+                token.setType(tokens.get(24));
                 break;
             case "||":
                 token.setType(tokens.get(24));
@@ -213,7 +213,7 @@ public class Comparador {
                 } else if((token.getValue().toString().length() > 1) && token.getValue().toString().substring(0, 2).equals("0x")) {
                     try {
                         token.setValue(Integer.parseInt(token.getValue().toString().substring(2), 16));
-                        token.setType(tokens.get(26));
+                        token.setType(tokens.get(28));
                     } catch(NumberFormatException e) {
                     }
                 } else if(isNumeric(token.getValue().toString())){
