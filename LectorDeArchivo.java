@@ -54,9 +54,9 @@ public class LectorDeArchivo {
             boolean seguir = true;
             
             sb = (List<Token>) oi.readObject();
-            for (Token var : sb) {
-                var.imprimirTokenBonitoLargo(); 
-            }
+            // for (Token var : sb) {
+            //     var.imprimirTokenBonitoLargo(); 
+            // }
             System.out.println();
 
             oi.close();

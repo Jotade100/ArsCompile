@@ -5,7 +5,7 @@ class Program
     {
         for i = 0, i < 25 //línea con error
                 {
-            if(true){
+            if(true == true){
                 break;
             }
         }

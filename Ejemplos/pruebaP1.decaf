@@ -1,4 +1,28 @@
 class Program {
 	int x; int y;
-	int array[0xa]; IF();
+	int array[0xa]; void IF(){
+		int i, j, k;
+		boolean o, p,q;
+		int m;
+		break;
+		continue;
+		callout("");
+		if(){} else {
+			int i, j, k;
+			boolean o, p,q;
+			int m;
+			if(){}
+		
+	}
+	int ex(int qwe, int r) {
+		i += ;
+		i(,);
+		i[] =;
+		callout("hola", ,,);
+		break;
+		continue;
+		return;
+
+	}
+
 }

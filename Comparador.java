@@ -142,6 +142,9 @@ public class Comparador {
                 token.setType(tokens.get(16));
                 break;
             case "continue":
+                token.setType(tokens.get(18));
+                break;
+            case "break":
                 token.setType(tokens.get(17));
                 break;
             case "=":
