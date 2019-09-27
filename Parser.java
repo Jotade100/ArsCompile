@@ -249,7 +249,7 @@ public class Parser {
                             break;
                 /* --------------declaración de variables -------------------------------- *///
                         case 9: //type --entra a var declaration
-                                System.out.println("VAR DECLARATION");
+                                //ystem.out.println("VAR DECLARATION");
                                 if(tokens.get(contador).getType().getType()==9) { //type
                                     contador++;
                                     if((tokens.get(contador).getType().getType()==29)){ //id
@@ -342,7 +342,7 @@ public class Parser {
         while(recursivo){
             recursivo = false;
             /// hay que volverlo recursivo
-            System.out.println("STATEMENT");
+            //System.out.println("STATEMENT");
             switch (tokens.get(contador).getType().getType()) {
                 case 15: //for
                     contador++;
@@ -465,10 +465,10 @@ public class Parser {
                                     } else {System.out.println("ESPERADO: ;");error(tokens.get(contador));}
                                     break;
                                 }
-                                System.out.println("qwertyuiop");
+                                //System.out.println("qwertyuiop");
                                 expresion();
                                 if(tokens.get(contador).getType().getType()==5){ //coma
-                                    System.out.println("COMA"); 
+                                    //System.out.println("COMA"); 
                                     contador++;
                                     //busca más expresiones
 
@@ -579,7 +579,7 @@ public class Parser {
 
 
     public void expresion(){
-        System.out.println("EXPRESIÓN" + tokens.get(contador).getValue());
+        //System.out.println("EXPRESIÓN" + tokens.get(contador).getValue());
         switch (tokens.get(contador).getType().getType()) {
             case 29: //id corresponderá a location y method_call1
                 contador++;
@@ -594,7 +594,7 @@ public class Parser {
                     }
                 } else if(tokens.get(contador).getType().getType() ==12){ // ( caso id(expr*)
                     contador++;
-                    System.out.println("caso id(expr*)");
+                    //System.out.println("caso id(expr*)");
                     if (tokens.get(contador).getType().getType() == 13) { //cierre de una vez
                         contador++;
                         break;
@@ -603,7 +603,7 @@ public class Parser {
                     while(bandera) {
                         expresion();
                         if (tokens.get(contador).getType().getType() == 5) { // coma
-                            System.out.println("COMA " + bandera);
+                            //System.out.println("COMA " + bandera);
                             contador++;
                         }  else if(tokens.get(contador).getType().getType() == 13){ //cierre )
                             contador++;
@@ -612,13 +612,13 @@ public class Parser {
                         } else {
                             System.out.println("ESPERADO: , o )");error(tokens.get(contador));
                         }
-                        System.out.println(bandera);
+                        //System.out.println(bandera);
                     }
                     
                     
                     
                 }
-                System.out.println("VARIABLE COMÚN" + tokens.get(contador).getValue());
+                //System.out.println("VARIABLE COMÚN" + tokens.get(contador).getValue());
                 if(esBinOp()) {
                     binOp();
                     expresion();
@@ -783,7 +783,16 @@ public class Parser {
 
     public void llaveCPrograma(){
         if(tokens.get(contador).getType().getType()==4){
-            System.out.println("qwertyuiop");
+            System.out.println("FIN DEL PROGRAMA");
+            contador++;
+            try {
+                Token extra = tokens.get(contador);
+                System.out.println("YA TERMIN\u00d3 EL PROGRAMA");
+                error(tokens.get(contador));
+            } catch (Exception e) {
+                //TODO: handle exception
+            }
+
         } else {
             System.out.println("ESPERADO: }");
             error(tokens.get(contador));

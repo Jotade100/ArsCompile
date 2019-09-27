@@ -35,10 +35,13 @@ java edu.arscompile.ArsCompile [option] <filename>
 Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
 
 
+### Parser
+Parser de análisis gramático de Decaf. Despliega la lista de errores. 
+
 ## Observaciones
 ### Avance del proyecto
 - [x] Scanner
-- [ ] Parser
+- [x] Parser
 - [ ] AST
 - [ ] Semántica
 - [ ] IRT
