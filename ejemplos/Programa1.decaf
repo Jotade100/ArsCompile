@@ -1,7 +1,7 @@
 class Program
 {
 
-    int IF(int val int val2)
+    int IF(int val)
     {
         return (val+1); //wertyuioplmnbvc
     }

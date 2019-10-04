@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.arscompile.modelos.Token;
+import edu.arscompile.modelos.Tipo;
+import edu.arscompile.modelos.Objeto;
 import edu.arscompile.modelos.CeldaParser;
 import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
@@ -22,6 +24,11 @@ public class Parser {
     }
 
     List<Token> tokens = new ArrayList<>();
+
+    List<Tipo> tipos = new ArrayList<>();
+
+    Objeto cabeza = new Objeto();
+
 
     int contador = 0;
 
@@ -65,8 +72,39 @@ public class Parser {
         // }
     // }
 // 
-    public void asignarTokens() {
+    
+public void crearTipos(){
+    tipos.add(new Tipo("Programa"));
+    tipos.add(new Tipo("FieldDec"));
+    tipos.add(new Tipo("MethodDec"));
+    tipos.add(new Tipo("Block"));
+    tipos.add(new Tipo("Variable"));
+    tipos.add(new Tipo("Statement"));
+    tipos.add(new Tipo("Location"));
+    tipos.add(new Tipo("Expresion"));
+    tipos.add(new Tipo("MethodCall"));
+    tipos.add(new Tipo("CalloutArg"));
+    tipos.add(new Tipo("If"));
+    tipos.add(new Tipo("For"));
+    tipos.add(new Tipo("AsignOp"));
+    tipos.add(new Tipo("BinOp"));
+
+}
+
+public Tipo buscarTipo(String nombre) {
+    for (Tipo var : tipos) {
+        if(var.getNombre().equalsIgnoreCase(nombre)) {
+            return var;
+        }
+    }
+    return new Tipo("Error");
+}
+
+
+
+public void asignarTokens() {
         System.out.println("\nEtapa: PaRsEr");
+        crearTipos();
         getInstancia().tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
         Parser.getInstancia().analizarTokens();
     }
@@ -86,6 +124,8 @@ public class Parser {
 
     public void classToken(){
         if(tokens.get(contador).getType().getType()==1){
+            cabeza.setType(buscarTipo("Programa"));
+            cabeza.setToken(tokens.get(contador));
             contador++;
             programa();
         } else {error(tokens.get(contador));}
@@ -94,6 +134,7 @@ public class Parser {
 
     public void programa(){
         if(tokens.get(contador).getType().getType()==2){
+            cabeza.setToken(tokens.get(contador));
             contador++;
             llaveAPrograma();
         } else {error(tokens.get(contador));}
@@ -101,6 +142,7 @@ public class Parser {
 
     public void llaveAPrograma(){
         if(tokens.get(contador).getType().getType()==3){
+            cabeza.setToken(tokens.get(contador));
             contador++;
             fieldDecl();
             methodDec();
@@ -109,28 +151,50 @@ public class Parser {
     }
 
     public void fieldDecl(){
+        System.out.println("INICIO <DECLARACIÓN DE CAMPOS>");
         // estructura do-while que equivale a un go-to
+        Objeto actual = new Objeto();
         boolean goTo = true;
         do {
             switch(tokens.get(contador).getType().getType()){
                 case 9:
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     boolean goTo2 = true;
                     do {
                         if(tokens.get(contador).getType().getType()==29){
+                            Objeto nuevo = clonar(actual);
+                            nuevo.setToken(tokens.get(contador));
+                            // if(actual.getTokens().size()==1){
+                            //     Objeto nuevo = clonar(actual);
+                            //     nuevo.setToken(tokens.get(contador));
+                            //     nuevo.setType(buscarTipo("FieldDec"));
+                            //     cabeza.setObjeto(nuevo);
+                            // } else {
+                            //     Objeto nuevo = clonar(actual);
+                            //     nuevo.getTokens().add(1, tokens.get(contador));
+                            //     nuevo.setType(buscarTipo("FieldDec"));
+                            //     cabeza.setObjeto(nuevo);
+                            // }
+                            
                             contador++;
                         
                             switch(tokens.get(contador).getType().getType()){
-                                case 8:
+                                case 8: //punto y coma
+                                    nuevo.setToken(tokens.get(contador));
+                                    nuevo.setType(buscarTipo("FieldDec"));
+                                    cabeza.setObjeto(nuevo);
                                     contador++;
                                     //nada vaya a goTo
                                     goTo2 = false; // se ha acabado
                                     break;
-                                case 5:
+                                case 5: // coma
+                                    nuevo.setType(buscarTipo("FieldDec"));
+                                    cabeza.setObjeto(nuevo);
                                     contador++;
                                     //nada vaya a goTo
                                     break;
-                                case 6:
+                                case 6: // corchete
                                     contador++;
                                     if(tokens.get(contador).getType().getType()==28){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                                     if(tokens.get(contador).getType().getType()==7){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
@@ -146,7 +210,7 @@ public class Parser {
                                         error(tokens.get(contador));}
 
                                     break; // nada vaya a goTo
-                                case 12:
+                                case 12: //método
                                     contador = contador -2;
                                     goTo = false;
                                     goTo2 = false;
@@ -171,6 +235,7 @@ public class Parser {
                     
             }
         } while(goTo);
+        System.out.println("FIN <DECLARACIÓN DE CAMPOS>");
         
     }
 
@@ -783,6 +848,7 @@ public class Parser {
 
     public void llaveCPrograma(){
         if(tokens.get(contador).getType().getType()==4){
+            cabeza.setToken(tokens.get(contador));
             System.out.println("FIN DEL PROGRAMA");
             contador++;
             try {
@@ -792,12 +858,35 @@ public class Parser {
             } catch (Exception e) {
                 //TODO: handle exception
             }
+            recorrerArbolParseo(cabeza, 0);
+            
 
         } else {
             System.out.println("ESPERADO: }");
             error(tokens.get(contador));
         }
 
+
+    }
+
+    public Objeto clonar(Objeto objeto) {
+        Objeto nuevo = new Objeto();
+        nuevo.setType(objeto.getType());
+        nuevo.setValue(objeto.getValue());
+        nuevo.setTokens(objeto.getTokens());
+        nuevo.setObjetos(objeto.getHijos());
+        return nuevo;
+    }
+
+    public void recorrerArbolParseo(Objeto objeto, int tab){
+        for (int i = 0; i < tab; i++) {
+            System.out.print("\t");
+        }
+        objeto.imprimirTokenBonitoLargo();
+        System.out.println();
+        for (Objeto var : objeto.getHijos()) {
+            recorrerArbolParseo(var, tab+1);
+        }
 
     }
 
