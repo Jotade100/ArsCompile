@@ -77,6 +77,7 @@ public void crearTipos(){
     tipos.add(new Tipo("Programa"));
     tipos.add(new Tipo("FieldDec"));
     tipos.add(new Tipo("MethodDec"));
+    tipos.add(new Tipo("ParamDec"));
     tipos.add(new Tipo("Block"));
     tipos.add(new Tipo("Variable"));
     tipos.add(new Tipo("Statement"));
@@ -85,7 +86,7 @@ public void crearTipos(){
     tipos.add(new Tipo("MethodCall"));
     tipos.add(new Tipo("CalloutArg"));
     tipos.add(new Tipo("If"));
-    tipos.add(new Tipo("For"));
+    tipos.add(new Tipo("ForStatement"));
     tipos.add(new Tipo("AsignOp"));
     tipos.add(new Tipo("BinOp"));
 
@@ -153,15 +154,17 @@ public void asignarTokens() {
     public void fieldDecl(){
         System.out.println("INICIO <DECLARACIÓN DE CAMPOS>");
         // estructura do-while que equivale a un go-to
-        Objeto actual = new Objeto();
+        
         boolean goTo = true;
         do {
+            Objeto actual = new Objeto();
             switch(tokens.get(contador).getType().getType()){
                 case 9:
                     actual.setToken(tokens.get(contador));
                     contador++;
                     boolean goTo2 = true;
                     do {
+                        
                         if(tokens.get(contador).getType().getType()==29){
                             Objeto nuevo = clonar(actual);
                             nuevo.setToken(tokens.get(contador));
@@ -181,7 +184,7 @@ public void asignarTokens() {
                         
                             switch(tokens.get(contador).getType().getType()){
                                 case 8: //punto y coma
-                                    nuevo.setToken(tokens.get(contador));
+                                    //nuevo.setToken(tokens.get(contador)); //no considero necesario agregar el ;
                                     nuevo.setType(buscarTipo("FieldDec"));
                                     cabeza.setObjeto(nuevo);
                                     contador++;
@@ -195,13 +198,24 @@ public void asignarTokens() {
                                     //nada vaya a goTo
                                     break;
                                 case 6: // corchete
+                                    nuevo.setToken(tokens.get(contador));
                                     contador++;
-                                    if(tokens.get(contador).getType().getType()==28){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
-                                    if(tokens.get(contador).getType().getType()==7){contador++;} else {goTo = false; goTo2 = false; error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==28){
+                                        nuevo.setToken(tokens.get(contador));
+                                        contador++;
+                                    } else {goTo = false; goTo2 = false; error(tokens.get(contador));}
+                                    if(tokens.get(contador).getType().getType()==7){
+                                        nuevo.setToken(tokens.get(contador));
+                                        contador++;
+                                    } else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                                     if(tokens.get(contador).getType().getType()==5){
+                                        nuevo.setType(buscarTipo("FieldDec"));
+                                        cabeza.setObjeto(nuevo);
                                         contador++; // coma
                                         goTo2 = true;
                                     } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
+                                        nuevo.setType(buscarTipo("FieldDec"));
+                                        cabeza.setObjeto(nuevo);
                                         contador++;
                                         goTo2 = false;
                                     } else {
@@ -242,23 +256,35 @@ public void asignarTokens() {
     public void methodDec(){
         boolean terminarPeticionMetodos = true;
         while(terminarPeticionMetodos){
-            if((tokens.get(contador).getType().getType()==9) || (tokens.get(contador).getType().getType()==10)){
+            
+            if((tokens.get(contador).getType().getType()==9) || (tokens.get(contador).getType().getType()==10)){ //integer, boolean o void
+                Objeto actual = new Objeto();
+                actual.setToken(tokens.get(contador));
                 contador++;
-                if((tokens.get(contador).getType().getType()==29)){
+                if((tokens.get(contador).getType().getType()==29)){ // id
+                    actual.setToken(tokens.get(contador));
                     contador++;
-                    if((tokens.get(contador).getType().getType()==12)){
+                    if((tokens.get(contador).getType().getType()==12)){ //paréntesis de apertura
+                        actual.setToken(tokens.get(contador));
                         contador++;
                         switch(tokens.get(contador).getType().getType()){
                             case 13: // paréntesis de cierre
+                                actual.setToken(tokens.get(contador));
+                                actual.setType(buscarTipo("MethodDec"));
+                                //cabeza.setObjeto(actual);
                                 contador++;
-                                block();
+                                block(actual);
                                 break;
-                            case 9:
+                            case 9: //int o boolean
+                                
                                 boolean bandera = true;
                                 while(bandera) {
                                     if(tokens.get(contador).getType().getType()==9) { //type
+                                        Objeto parametro = new Objeto();
+                                        parametro.setToken(tokens.get(contador));
                                         contador++;
                                         if((tokens.get(contador).getType().getType()==29)){ //id
+                                            parametro.setToken(tokens.get(contador));
                                             contador++;
                                         } else {
                                             System.out.println("ESPERADO: ID");
@@ -266,11 +292,16 @@ public void asignarTokens() {
                                         }
     
                                         if(tokens.get(contador).getType().getType()==5) { //coma
+                                            parametro.setType(buscarTipo("ParamDec"));
+                                            actual.setObjeto(parametro); //lo pone como hijo
                                             contador++;
                                         } else if (tokens.get(contador).getType().getType()==13) { //paréntesis de cierre
+                                            actual.setType(buscarTipo("MethodDec"));
+                                            parametro.setType(buscarTipo("ParamDec"));
+                                            actual.setObjeto(parametro); //lo pone como hijo
                                             contador++;
                                             bandera = false;
-                                            block();
+                                            block(actual);
                                         } else {
                                             System.out.println("ESPERADO: , o )");
                                             error(tokens.get(contador));
@@ -288,8 +319,9 @@ public void asignarTokens() {
                         
                     } else {error(tokens.get(contador));}
     
-                    
+                    cabeza.setObjeto(actual);    
                 } else {error(tokens.get(contador));}
+                
     
             } else if(tokens.get(contador).getType().getType()==4) { //paréntesis de cierre
                 //no hace nada, simplemente ya no hay métodos por declarar
@@ -301,56 +333,58 @@ public void asignarTokens() {
         
     }
 
-    public void block(){
+    public void block(Objeto padre){
         // System.out.println("BLOCK");
-        if(tokens.get(contador).getType().getType()==3){
+        Objeto actual = new Objeto();
+        if(tokens.get(contador).getType().getType()==3){ //llave de apertura
+            actual.setToken(tokens.get(contador));
             contador++;
             boolean bandera = true;
             while(bandera) {
+                    Objeto elemento = new Objeto();
                     switch(tokens.get(contador).getType().getType()){
                         case 4: // llave de cierre
+                            actual.setToken(tokens.get(contador));
+                            actual.setType(buscarTipo("Block"));
+                            padre.setObjeto(actual);
                             contador++;
                             bandera = false;
                             break;
                 /* --------------declaración de variables -------------------------------- *///
                         case 9: //type --entra a var declaration
-                                //ystem.out.println("VAR DECLARATION");
+                                //System.out.println("VAR DECLARATION");
+                                
                                 if(tokens.get(contador).getType().getType()==9) { //type
+                                    elemento.setToken(tokens.get(contador));
                                     contador++;
-                                    if((tokens.get(contador).getType().getType()==29)){ //id
-                                        contador++;
-                                    } else {
-                                        System.out.println("ESPERADO: ID");
-                                        error(tokens.get(contador));  
-                                    }
+                                    boolean bandera2 = true;
+                                    while (bandera2){
+                                        if((tokens.get(contador).getType().getType()==29)){ //id
+                                            elemento.setToken(tokens.get(contador));
+                                            contador++;
+                                        } else {
+                                            System.out.println("ESPERADO: ID");
+                                            error(tokens.get(contador));  
+                                        }
 
-                                    if(tokens.get(contador).getType().getType()==5) { //coma
-                                        contador++;
-                                        boolean bandera2 = true;
-                                        while (bandera2){
-                                            if(tokens.get(contador).getType().getType()==29){ //id
-                                                contador++;
-                                            } else {System.out.println("ESPERADO: ID"); error(tokens.get(contador));}
-
-                                            if(tokens.get(contador).getType().getType()==5) { //coma
-                                                contador++;
-                                            } else if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                        if(tokens.get(contador).getType().getType()==5) { //coma
+                                            elemento.setType(buscarTipo("Variable"));
+                                            actual.setObjeto(elemento);
+                                            contador++;
+                                        
+                                        } else if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                                elemento.setType(buscarTipo("Variable"));    
+                                                actual.setObjeto(elemento);
                                                 contador++;
                                                 bandera2 = false;
                                             } else {
                                                 System.out.println("ESPERADO: , o ;");
                                                 error(tokens.get(contador));
                                             }
-                                        }
+                                    }    
                                         
 
-                                    }else if(tokens.get(contador).getType().getType()==8) { // punto y coma
-                                        contador++;
-                                    }  else {
-                                        System.out.println("ESPERADO: ;");
-                                        error(tokens.get(contador));
-                                       
-                                    };
+                                    
                                 } else {
                                     System.out.println("ESPERADO: TYPE");
                                     error(tokens.get(contador));
@@ -363,28 +397,28 @@ public void asignarTokens() {
                         // espacio para statement
                         /* --------------statement -------------------------------- *///
                         case 29: //id
-                            statement();
+                            statement(actual);
                             break;
                         case 17: //break
-                            statement();
+                            statement(actual);
                             break;
                         case 18: //continue
-                            statement();
+                            statement(actual);
                             break;
                         case 11: //if
-                            statement();
+                            statement(actual);
                             break;
                         case 20: //callout
-                            statement();
+                            statement(actual);
                             break;
                         case 15: //for
-                            statement();
+                            statement(actual);
                             break;
                         case 16: //return
-                            statement();
+                            statement(actual);
                             break;
                         case 3: //bloque
-                            block();
+                            block(actual);
                             break;
                         /* --------------FIN DE statement -------------------------------- *///    
                         default:
@@ -402,22 +436,26 @@ public void asignarTokens() {
         }
     }
 
-    public void statement(){
+    public void statement(Objeto padre){
         boolean recursivo = true;
         while(recursivo){
+            Objeto actual = new Objeto();
             recursivo = false;
             /// hay que volverlo recursivo
             //System.out.println("STATEMENT");
             switch (tokens.get(contador).getType().getType()) {
                 case 15: //for
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 29){ //id
+                        actual.setToken(tokens.get(contador));
                         contador++;
                     } else {
                         System.out.println("ESPERABA ID");
                         error(tokens.get(contador));
                     }
                     if(tokens.get(contador).getType().getType() == 32){ //=
+                        actual.setToken(tokens.get(contador));
                         contador++;
                     } else {
                         System.out.println("ESPERABA =");
@@ -425,25 +463,32 @@ public void asignarTokens() {
                     }
                     expresion();
                     if(tokens.get(contador).getType().getType() == 5){ //coma
+                        actual.setToken(tokens.get(contador));
                         contador++;
                     } else {
                         System.out.println("ESPERABA: ,");
                         error(tokens.get(contador));
                     }
                     expresion();
-                    block();
-
+                    block(new Objeto());
+                    actual.setType(buscarTipo("ForStatement"));
+                    padre.setObjeto(actual);
 
                     break;
                 case 16: //return expresión;
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
+                        actual.setType(buscarTipo("Statement"));
+                        padre.setObjeto(actual);
                         contador++;
                         break;
                     } 
                     
                     expresion();
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
+                        actual.setType(buscarTipo("Statement"));
+                        padre.setObjeto(actual);
                         contador++;
                     } else {
                         System.out.println("FALTA ;");
@@ -452,8 +497,11 @@ public void asignarTokens() {
                     break;
 
                 case 17: //break;
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
+                        actual.setType(buscarTipo("Statement"));
+                        padre.setObjeto(actual);
                         contador++;
                     } else {
                         System.out.println("FALTA ;");
@@ -461,8 +509,11 @@ public void asignarTokens() {
                     }
                     break;
                 case 18: //continue;
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
+                        actual.setType(buscarTipo("Statement"));
+                        padre.setObjeto(actual);
                         contador++;
                     } else {
                         System.out.println("FALTA;");
@@ -470,16 +521,19 @@ public void asignarTokens() {
                     }
                     break; 
                 case 29: //id
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     //location
                     switch (tokens.get(contador).getType().getType()) {
                         //<location> assign_op expr
                         case 19: //asign_op
+                            actual.setToken(tokens.get(contador));
                             contador++;
                             expresion();
                             if(tokens.get(contador).getType().getType()==8){
                                 contador++;
-                                
+                                actual.setType(buscarTipo("Statement"));
+                                padre.setObjeto(actual);
                                 //nice terminó statement
                             } else {
                                 System.out.println("ESPERADO: ;");
@@ -487,10 +541,13 @@ public void asignarTokens() {
                             }
                             break;
                         case 32: //asign_op =
+                            actual.setToken(tokens.get(contador));
                             contador++;
                             expresion();
                             if(tokens.get(contador).getType().getType()==8){
                                 //nice terminó statement
+                                actual.setType(buscarTipo("Statement"));
+                                padre.setObjeto(actual);
                                 contador++;
                                 
                             } else {
@@ -500,9 +557,11 @@ public void asignarTokens() {
                             break;
                         //<location>
                         case 6:
+                            actual.setToken(tokens.get(contador));
                             contador++;
                             expresion();
                             if(tokens.get(contador).getType().getType()==7){
+                                actual.setToken(tokens.get(contador));
                                 contador++;
                             } else {System.out.println("ESPERADO: ]");error(tokens.get(contador));}
                             if((tokens.get(contador).getType().getType()==19) ||(tokens.get(contador).getType().getType()==32)){
@@ -510,8 +569,11 @@ public void asignarTokens() {
                             } else {System.out.println("ESPERADO: ASIGNATION_OPERATOR"); error(tokens.get(contador));}
                             expresion();
                             if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                actual.setType(buscarTipo("Statement"));
+                                padre.setObjeto(actual);
                                 contador++;
                             } else {
+                                
                                 System.out.println("ESPERADO: ;"); error(tokens.get(contador));}
 
                             break;
@@ -616,10 +678,10 @@ public void asignarTokens() {
                     if(tokens.get(contador).getType().getType()==13) { //parentesis cierre
                         contador++;                               
                     } else {System.out.println("ESPERADO: )");error(tokens.get(contador));}
-                    block();
+                    block(new Objeto());
                     if(tokens.get(contador).getType().getType()==14) { // else
                         contador++;
-                        block();
+                        block(new Objeto());
 
                     } 
                     break;
@@ -858,7 +920,8 @@ public void asignarTokens() {
             } catch (Exception e) {
                 //TODO: handle exception
             }
-            recorrerArbolParseo(cabeza, 0);
+            boolean largo = true;
+            recorrerArbolParseo(cabeza, 0, true);
             
 
         } else {
@@ -875,17 +938,23 @@ public void asignarTokens() {
         nuevo.setValue(objeto.getValue());
         nuevo.setTokens(objeto.getTokens());
         nuevo.setObjetos(objeto.getHijos());
+        //objeto.imprimirToken();
         return nuevo;
     }
 
-    public void recorrerArbolParseo(Objeto objeto, int tab){
+    public void recorrerArbolParseo(Objeto objeto, int tab, boolean largo){
         for (int i = 0; i < tab; i++) {
             System.out.print("\t");
         }
-        objeto.imprimirTokenBonitoLargo();
+        if(largo){
+            objeto.imprimirTokenBonitoLargo();
+        } else {
+            objeto.imprimirTokenBonitoCorto();
+        }
+        
         System.out.println();
         for (Objeto var : objeto.getHijos()) {
-            recorrerArbolParseo(var, tab+1);
+            recorrerArbolParseo(var, tab+1, largo);
         }
 
     }

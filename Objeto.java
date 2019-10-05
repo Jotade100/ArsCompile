@@ -10,7 +10,7 @@ import java.lang.Cloneable;
 
 public class Objeto implements Serializable, Cloneable {
 
-    Tipo type;
+    Tipo type = new Tipo("NULL");
     String nombre;
     List<Token> tokensAsociados = new ArrayList<>();
     List<Objeto> hijos = new ArrayList<>();
@@ -81,11 +81,18 @@ public class Objeto implements Serializable, Cloneable {
 
 
     public void imprimirTokenBonitoCorto(){
-        System.out.print("<Type: "+ type.getNombre() + ", Value: "+ value+">");
+        System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+">");
+    }
+
+    public void imprimirToken(){
+        System.out.print("<Type: "+ type + ", Value: "+ value+", Hijos: "+ hijos+", Tokens Asociados: "+ tokensAsociados+ ">");
     }
 
     public void imprimirTokenBonitoLargo(){
-        System.out.print("<Type: "+ type.getNombre() + ", Value: "+ value+ ", Hijos: "+ hijos+", Tokens Asociados: "+ tokensAsociados+ ">");
+        System.out.print("<Type: "+ type.getNombre() + 
+        ", Value: "+ value+ 
+        ", Hijos: "+ hijos+
+        ", Tokens Asociados: "+ tokensAsociados+ ">");
     }
 
     public String retornarTokenBonitoCorto(){

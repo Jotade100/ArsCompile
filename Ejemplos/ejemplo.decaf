@@ -1,7 +1,7 @@
 class Program {
         int x; int y;
                 void main() {
-                    
+                    int z;
                     x = read();
                     y = read();
                     print(gcd(x,y));

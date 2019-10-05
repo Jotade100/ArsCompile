@@ -12,6 +12,9 @@
 <Type: (, Value: (, Línea: 2, Posición: 25>
 <Type: ), Value: ), Línea: 2, Posición: 26>
 <Type: {, Value: {, Línea: 2, Posición: 28>
+<Type: type, Value: int, Línea: 3, Posición: 19>
+<Type: id, Value: z, Línea: 3, Posición: 23>
+<Type: ;, Value: ;, Línea: 3, Posición: 25>
 <Type: id, Value: x, Línea: 4, Posición: 19>
 <Type: equal_op, Value: =, Línea: 4, Posición: 22>
 <Type: id, Value: read, Línea: 4, Posición: 23>
