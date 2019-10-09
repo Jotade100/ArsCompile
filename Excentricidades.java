@@ -114,6 +114,6 @@ public class Excentricidades {
         System.out.println(ANSI_RED +"                  -osyyyyyyyyyys/.       oyyyy/            .yyyyy`           /yyyyo               "+ ANSI_RESET);
         System.out.println(ANSI_RED +"                    `.://++/:-.          :////-             ..-::`           .::-.`               "+ ANSI_RESET);
         System.out.println();
-        System.out.println ("\t\t\t\t\t   Juan Diego Sique Mart\u00ednez \n\n \t\t\t\t\tUniversidad Francisco Marroqu\u00edn \n\t\t\t\t\t\tCompiladores \n \n");
+        System.out.println ("\t\t\t\t\t    Juan Diego Sique Mart\u00ednez \n\t\t\t\t\t   Geordie Josu\u00e9 Quiroa Bulnes \n\n \t\t\t\t\t Universidad Francisco Marroqu\u00edn \n\t\t\t\t\t\t   Compiladores \n \n");
     }
 }

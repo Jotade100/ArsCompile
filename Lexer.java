@@ -33,8 +33,20 @@ public class Lexer {
 
     public void cargarPrograma(String nombreDelArchivo, boolean debug){
         // Encabezado y proceso
-        System.out.println("Leyendo el archivo "+nombreDelArchivo);
-        System.out.println("Etapa: ScAnNeR");
+        System.out.println("\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+        System.out.print("\t\t\u2551 Leyendo el archivo "+nombreDelArchivo);
+        for (int i = 0; i < (60-nombreDelArchivo.length()); i++) {
+            System.out.print(" ");
+        }
+        System.out.print("\u2551\n");
+        System.out.println("\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+        
+        System.out.println();
+        
+        
+        System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+        System.out.println("\t\t\t\t\t\t\u2551 Etapa: ScAnNeR \u2551");
+        System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
         
 
         
@@ -50,14 +62,16 @@ public class Lexer {
 
         /*---------------------------------------LECTURA DE TOKENS------------------------------------------------ */
         tokens.forEach((action) -> Comparador.getInstancia().categorizar(action)); //Determina el tipo de Token
-        if(debug) {
-            tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
-        }
+        
         //
         EscritorDeArchivo.getInstancia().escribir("resultadosScanner", tokens);
         EscritorDeArchivo.getInstancia().escribirObjeto("resultadosScanner", tokens);
 
-        if(!tokens.isEmpty() && !debug){ barraDeProceso();}
+        if(!tokens.isEmpty()){ barraDeProceso();}
+
+        if(debug) {
+            tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+        }
 
         Comparador.getInstancia().imprimirErrores();
 
@@ -83,7 +97,7 @@ public class Lexer {
             System.out.print("Procesando: " + i + "% " + animationChars[i % 4] + "\r");
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

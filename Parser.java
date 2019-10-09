@@ -2,6 +2,7 @@ package edu.arscompile.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import edu.arscompile.modelos.Token;
 import edu.arscompile.modelos.Tipo;
@@ -85,10 +86,14 @@ public void crearTipos(){
     tipos.add(new Tipo("Expresion"));
     tipos.add(new Tipo("MethodCall"));
     tipos.add(new Tipo("CalloutArg"));
-    tipos.add(new Tipo("If"));
+    tipos.add(new Tipo("IfStatement"));
     tipos.add(new Tipo("ForStatement"));
     tipos.add(new Tipo("AsignOp"));
     tipos.add(new Tipo("BinOp"));
+    tipos.add(new Tipo("BoolLiteral"));
+    tipos.add(new Tipo("IntLiteral"));
+    tipos.add(new Tipo("CharLiteral"));
+    tipos.add(new Tipo("StringLiteral"));
 
 }
 
@@ -102,12 +107,41 @@ public Tipo buscarTipo(String nombre) {
 }
 
 
+public void barraDeProceso(){
+    char[] animationChars = new char[]{'|', '/', '-', '\\'};
+    for (int i = 0; i <= 100; i++) {
+        System.out.print("Procesando: " + i + "% " + animationChars[i % 4] + "\r");
 
-public void asignarTokens() {
-        System.out.println("\nEtapa: PaRsEr");
+        try {
+            Thread.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+public void asignarTokens(boolean debug) {
+        System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+        System.out.println("\t\t\t\t\t\t\u2551 Etapa: PaRsEr \u2551");
+        System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+        
         crearTipos();
         getInstancia().tokens = LectorDeArchivo.getInstancia().leerTokens("resultadosScanner");
         Parser.getInstancia().analizarTokens();
+
+        if(!tokens.isEmpty()){ barraDeProceso();}
+        System.out.println("FIN <AN\u00c1LISIS DE PARSING>");
+        if(debug){
+            boolean largo = false;
+            System.out.println("\u00BFDesea mostrar un \u00e1rbol m\u00e1s complejo y detallado? (Puede distorsionar la vista del grafo) [S/*]");
+            Scanner scan= new Scanner(System.in);
+            String text= scan.nextLine();
+            if(text.equalsIgnoreCase("s")) {
+                largo =true;
+            }
+            recorrerArbolParseo(cabeza, 0, largo);
+        }
     }
 
     public void analizarTokens() {
@@ -152,7 +186,7 @@ public void asignarTokens() {
     }
 
     public void fieldDecl(){
-        System.out.println("INICIO <DECLARACIÓN DE CAMPOS>");
+        System.out.println("INICIO <AN\u00c1LISIS DE PARSEO>");
         // estructura do-while que equivale a un go-to
         
         boolean goTo = true;
@@ -249,7 +283,7 @@ public void asignarTokens() {
                     
             }
         } while(goTo);
-        System.out.println("FIN <DECLARACIÓN DE CAMPOS>");
+        //System.out.println("FIN <DECLARACIÓN DE CAMPOS>");
         
     }
 
@@ -461,7 +495,7 @@ public void asignarTokens() {
                         System.out.println("ESPERABA =");
                         error(tokens.get(contador));
                     }
-                    expresion();
+                    expresion(actual);
                     if(tokens.get(contador).getType().getType() == 5){ //coma
                         actual.setToken(tokens.get(contador));
                         contador++;
@@ -469,8 +503,8 @@ public void asignarTokens() {
                         System.out.println("ESPERABA: ,");
                         error(tokens.get(contador));
                     }
-                    expresion();
-                    block(new Objeto());
+                    expresion(actual);
+                    block(actual);
                     actual.setType(buscarTipo("ForStatement"));
                     padre.setObjeto(actual);
 
@@ -485,7 +519,7 @@ public void asignarTokens() {
                         break;
                     } 
                     
-                    expresion();
+                    expresion(actual);
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
                         actual.setType(buscarTipo("Statement"));
                         padre.setObjeto(actual);
@@ -529,7 +563,7 @@ public void asignarTokens() {
                         case 19: //asign_op
                             actual.setToken(tokens.get(contador));
                             contador++;
-                            expresion();
+                            expresion(actual);
                             if(tokens.get(contador).getType().getType()==8){
                                 contador++;
                                 actual.setType(buscarTipo("Statement"));
@@ -543,7 +577,7 @@ public void asignarTokens() {
                         case 32: //asign_op =
                             actual.setToken(tokens.get(contador));
                             contador++;
-                            expresion();
+                            expresion(actual);
                             if(tokens.get(contador).getType().getType()==8){
                                 //nice terminó statement
                                 actual.setType(buscarTipo("Statement"));
@@ -559,7 +593,7 @@ public void asignarTokens() {
                         case 6:
                             actual.setToken(tokens.get(contador));
                             contador++;
-                            expresion();
+                            expresion(actual);
                             if(tokens.get(contador).getType().getType()==7){
                                 actual.setToken(tokens.get(contador));
                                 contador++;
@@ -567,7 +601,7 @@ public void asignarTokens() {
                             if((tokens.get(contador).getType().getType()==19) ||(tokens.get(contador).getType().getType()==32)){
                                 contador++;
                             } else {System.out.println("ESPERADO: ASIGNATION_OPERATOR"); error(tokens.get(contador));}
-                            expresion();
+                            expresion(actual);
                             if(tokens.get(contador).getType().getType()==8) { //punto y coma
                                 actual.setType(buscarTipo("Statement"));
                                 padre.setObjeto(actual);
@@ -580,29 +614,37 @@ public void asignarTokens() {
                         // method call 
                         // method name ( expresión* )
                         case 12:
+                            actual.setToken(tokens.get(contador));
                             contador++;
                             boolean bandera = true;
                             while(bandera){ // varias expresiones o cierre inmediato
                                 if(tokens.get(contador).getType().getType()==13) { //paréntesis de cierre (carece de expresiones)
+                                    actual.setToken(tokens.get(contador));
                                     contador++;
                                     bandera = false;
                                     if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                        actual.setType(buscarTipo("Statement"));
+                                        padre.setObjeto(actual);
                                         contador++;
                                         bandera = false;
                                     } else {System.out.println("ESPERADO: ;");error(tokens.get(contador));}
                                     break;
                                 }
                                 //System.out.println("qwertyuiop");
-                                expresion();
+                                expresion(actual);
                                 if(tokens.get(contador).getType().getType()==5){ //coma
                                     //System.out.println("COMA"); 
+                                    actual.setToken(tokens.get(contador));
                                     contador++;
                                     //busca más expresiones
 
                                 } else if(tokens.get(contador).getType().getType()==13) { //paréntesis de cierre
+                                    actual.setToken(tokens.get(contador));
                                     contador++;
                                     bandera = false;
                                     if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                        actual.setType(buscarTipo("Statement"));
+                                        padre.setObjeto(actual);
                                         contador++;
                                         bandera = false;
                                         break;
@@ -622,8 +664,10 @@ public void asignarTokens() {
                     break;
                 
                 case 20: // callout
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType()==12){ //paréntesis apertura
+                        actual.setToken(tokens.get(contador));
                         contador++;
                     } else{
                         System.out.println("ESPERADO: (");
@@ -631,6 +675,7 @@ public void asignarTokens() {
                     }
 
                     if(tokens.get(contador).getType().getType()==27){ //string literal
+                        actual.setToken(tokens.get(contador));
                         contador++;
                     } else{
                         System.out.println("ESPERADO: STRING");
@@ -641,13 +686,17 @@ public void asignarTokens() {
                         contador++;
                         boolean bandera = true;
                         while(bandera){
-                            calloutArgs();
+                            calloutArgs(actual);
                             if(tokens.get(contador).getType().getType()==5) { //coma
+                                //actual.setToken(tokens.get(contador));
                                 contador++;
                             } else if(tokens.get(contador).getType().getType()==13) { //paréntesis cierre
+                                actual.setToken(tokens.get(contador));
                                 contador++;
                                 bandera = false;
                                 if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                    actual.setType(buscarTipo("Statement"));
+                                    padre.setObjeto(actual);
                                     contador++;
                                     bandera = false;
                                 } else {System.out.println("ESPERADO: ;"); error(tokens.get(contador));}
@@ -670,20 +719,26 @@ public void asignarTokens() {
                     break;
 
                 case 11: // if ( expr) block y puede no haber else block
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType()==12) { //parentesis apertura
+                        actual.setToken(tokens.get(contador));
                         contador++;         
                     } else {System.out.println("ESPERADO: (");error(tokens.get(contador));}
-                    expresion();
+                    expresion(actual);
                     if(tokens.get(contador).getType().getType()==13) { //parentesis cierre
+                        actual.setToken(tokens.get(contador));
                         contador++;                               
                     } else {System.out.println("ESPERADO: )");error(tokens.get(contador));}
-                    block(new Objeto());
+                    block(actual);
                     if(tokens.get(contador).getType().getType()==14) { // else
+                        actual.setToken(tokens.get(contador));
                         contador++;
-                        block(new Objeto());
+                        block(actual);
 
                     } 
+                    actual.setType(buscarTipo("IfStatement"));
+                    padre.setObjeto(actual);
                     break;
                     
 
@@ -705,34 +760,46 @@ public void asignarTokens() {
     }
 
 
-    public void expresion(){
+    public void expresion(Objeto padre){
+        Objeto actual = new Objeto();
         //System.out.println("EXPRESIÓN" + tokens.get(contador).getValue());
         switch (tokens.get(contador).getType().getType()) {
             case 29: //id corresponderá a location y method_call1
+                actual.setToken(tokens.get(contador));
                 contador++;
                 if(tokens.get(contador).getType().getType() == 6){ // [ caso id[expr]
+                    actual.setToken(tokens.get(contador));
                     contador++;
-                    expresion();
+                    expresion(actual);
                     
                     if(tokens.get(contador).getType().getType() == 6){ //]
-                        
+                        actual.setToken(tokens.get(contador));
+                        actual.setType(buscarTipo("Expresion"));
+                        //padre.setObjeto(actual); //Todavía no, puede ser una expresión anidada
                     } else {
                         System.out.println("ESPERADO: ]");error(tokens.get(contador));
                     }
                 } else if(tokens.get(contador).getType().getType() ==12){ // ( caso id(expr*)
+                    actual.setToken(tokens.get(contador));
                     contador++;
                     //System.out.println("caso id(expr*)");
                     if (tokens.get(contador).getType().getType() == 13) { //cierre de una vez
+                        actual.setToken(tokens.get(contador));
+                        actual.setType(buscarTipo("Expresion"));
+                        //padre.setObjeto(actual); //Todavía no, puede ser una expresión anidada
                         contador++;
                         break;
                     }
                     boolean bandera = true;
                     while(bandera) {
-                        expresion();
+                        expresion(actual);
                         if (tokens.get(contador).getType().getType() == 5) { // coma
                             //System.out.println("COMA " + bandera);
                             contador++;
                         }  else if(tokens.get(contador).getType().getType() == 13){ //cierre )
+                            actual.setToken(tokens.get(contador));
+                            actual.setType(buscarTipo("Expresion"));
+                            //padre.setObjeto(actual); //Todavía no, puede ser una anidación
                             contador++;
                             bandera = false;
                             break;
@@ -745,21 +812,31 @@ public void asignarTokens() {
                     
                     
                 }
+                actual.setType(buscarTipo("Expresion"));
                 //System.out.println("VARIABLE COMÚN" + tokens.get(contador).getValue());
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
 
                 break;
             case 20: //callout corresponde a method_call2
+                actual.setToken(tokens.get(contador));
                 contador++;
                 if(tokens.get(contador).getType().getType() ==12) { // paréntesis (
+                    actual.setToken(tokens.get(contador));
                     contador++;  
                 } else {
                     System.out.println("ESPERADO: (");error(tokens.get(contador));
                 }
                 if(tokens.get(contador).getType().getType() ==27) { // string literal
+                    actual.setToken(tokens.get(contador));
                     contador++;  
                 } else {
                     System.out.println("ESPERADO: STRING_LITERAL");error(tokens.get(contador));
@@ -768,10 +845,12 @@ public void asignarTokens() {
                     contador++; 
                     boolean bandera= true;
                     while(bandera){
-                        calloutArgs();
+                        calloutArgs(actual);
                         if(tokens.get(contador).getType().getType() ==5) { //coma 
                             contador++;
                         } else if (tokens.get(contador).getType().getType() ==13) {
+                            actual.setToken(tokens.get(contador));
+                            actual.setType(buscarTipo("Expresion"));
                             bandera = false;
                             contador++;
                             break;
@@ -779,66 +858,119 @@ public void asignarTokens() {
                     }
                     
                 } else if(tokens.get(contador).getType().getType() ==13){ //parentesis de cierre
+                    actual.setToken(tokens.get(contador));
+                    actual.setType(buscarTipo("Expresion"));
                     contador++;
 
                 } else {System.out.println("ESPERADO: )");error(tokens.get(contador));}
                 
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
 
                 break;
         /*------------------------------- LITERAL ---------------------------------- */
             case 25: //boolean
+                actual.setType(buscarTipo("BoolLiteral"));
+                actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
                 }
                 break;
             case 26: //char
+                actual.setType(buscarTipo("CharLiteral"));
+                actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
                 }
                 break;
             case 28: //int literal
+                actual.setType(buscarTipo("IntLiteral"));
+                actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             case 30: //minus
+                actual.setType(buscarTipo("Expresion"));
+                actual.setToken(tokens.get(contador));
                 contador++;
-                expresion();
+                expresion(actual);
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             case 31: // ! (exp)
+                actual.setType(buscarTipo("Expresion"));
+                actual.setToken(tokens.get(contador));
                 contador++;
-                expresion();
+                expresion(actual);
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             case 12: //paréntesis apertura (
+                actual.setType(buscarTipo("Expresion"));
+                actual.setToken(tokens.get(contador));
                 contador++;
-                expresion();
+                expresion(actual);
                 if(tokens.get(contador).getType().getType() ==13) { //cierre
+                    actual.setToken(tokens.get(contador));
                     contador++;
                 } else {
                     System.out.println("ESPERADO: )");
                     error(tokens.get(contador));
                 }
                 if(esBinOp()) {
-                    binOp();
-                    expresion();
+                    Objeto actualDosPuntoCero = new Objeto();
+                    actualDosPuntoCero.setType(buscarTipo("Expresion"));
+                    actualDosPuntoCero.setObjeto(actual);
+                    binOp(actualDosPuntoCero);
+                    expresion(actualDosPuntoCero);
+                    padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             default:
@@ -868,24 +1000,38 @@ public void asignarTokens() {
         }
     }
 
-    public void binOp(){
+    public void binOp(Objeto padre){
+        Objeto actual = new Objeto();
+        actual.setType(buscarTipo("BinOp"));
         switch (tokens.get(contador).getType().getType()) {
             case 21:// aritmético
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             case 22:// rel_op
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             case 23:// eq_op
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             case 24:// cond_op
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             case 30:// minus_op
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             case 31:// =
+                actual.setToken(tokens.get(contador));
+                padre.setObjeto(actual);
                 contador++;
                 break;
             default:
@@ -895,13 +1041,14 @@ public void asignarTokens() {
         }
     }
 
-    public void calloutArgs(){
-        System.out.println("calloutArgs");
+    public void calloutArgs(Objeto obj){
+        //System.out.println("calloutArgs");
         if(tokens.get(contador).getType().getType()==27) {
+            obj.setToken(tokens.get(contador));
             contador++;
             return;
         } else {
-            expresion();
+            expresion(obj);
         }
 
         
@@ -911,17 +1058,15 @@ public void asignarTokens() {
     public void llaveCPrograma(){
         if(tokens.get(contador).getType().getType()==4){
             cabeza.setToken(tokens.get(contador));
-            System.out.println("FIN DEL PROGRAMA");
             contador++;
             try {
                 Token extra = tokens.get(contador);
-                System.out.println("YA TERMIN\u00d3 EL PROGRAMA");
+                System.out.println("YA TERMIN\u00d3 EL PROGRAMA, REVISE QUE NO HAYAN ELEMENTOS DESPU\u00c9S DE TERMINAR EL ARCHIVO");
                 error(tokens.get(contador));
             } catch (Exception e) {
                 //TODO: handle exception
             }
-            boolean largo = true;
-            recorrerArbolParseo(cabeza, 0, true);
+            
             
 
         } else {

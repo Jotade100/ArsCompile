@@ -75,10 +75,10 @@ public class Menu {
         if(stage[1].equals("scan")) {
             Lexer.getInstancia().cargarPrograma(stage[2], false);
         } else if (stage[1].equals("parse")){
-            Parser.getInstancia().asignarTokens();            
+            Parser.getInstancia().asignarTokens(false);            
         } else if(stage[1].equals("all")){
             Lexer.getInstancia().cargarPrograma(stage[2], false);
-            Parser.getInstancia().asignarTokens();
+            Parser.getInstancia().asignarTokens(false);
         } else {
             System.out.println("COMANDO INCORRECTO");
         }
@@ -93,10 +93,10 @@ public class Menu {
         if(stage[1].equals("scan")) {
             Lexer.getInstancia().cargarPrograma(stage[2], true);
         } else if (stage[1].equals("parse")){
-            Parser.getInstancia().asignarTokens();            
+            Parser.getInstancia().asignarTokens(true);            
         } else if(stage[1].equals("all")){
             Lexer.getInstancia().cargarPrograma(stage[2], true);
-            Parser.getInstancia().asignarTokens();
+            Parser.getInstancia().asignarTokens(true);
         } else {
             System.out.println("COMANDO INCORRECTO");
         }
