@@ -10,7 +10,7 @@ public class Simbolo implements Serializable {
     Tipo tipo;
     String type;
     String nombre;
-    Object value;
+    Object value = "null";
     int scope;
     Objeto objeto;
 
@@ -80,6 +80,30 @@ public class Simbolo implements Serializable {
 
     public void imprimirSimboloBonito(){
         System.out.print("<Type: "+ type + ", Nombre: "+ nombre + ", Scope: "+ scope+ ", Valor: "+ value+">");
+    }
+
+    public void imprimirSimbolo(){
+        System.out.print("\u2551 "+ type + longitud2(type)+"\u2551 "+ nombre + longitud3(nombre) +"\u2551 "+ scope+ "\t\u2551 "+ value + longitud3(value.toString())+"\u2551");
+    }
+
+    public String longitud2(String cadena) {
+        if(cadena.length() > 6) {
+            return "\t";
+        } else {
+            return "\t\t";
+        }
+    }
+    
+    public String longitud3(String cadena) {
+        if (cadena.length() > 24) {
+            return "\t";
+        }else if(cadena.length() > 12) {
+            return "\t\t";
+        } else if(cadena.length() > 6) {
+            return "\t\t\t";
+        }  else {
+            return "\t\t\t\t";
+        }
     }
 
 
