@@ -10,6 +10,7 @@ import edu.arscompile.modelos.Objeto;
 import edu.arscompile.modelos.CeldaParser;
 import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
+import edu.arscompile.semantic.Semantico;
 
 public class Parser {
 
@@ -142,6 +143,14 @@ public void asignarTokens(boolean debug) {
             }
             recorrerArbolParseo(cabeza, 0, largo);
         }
+        System.out.println();
+        System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+        System.out.println("\t\t\t\t\t\t\u2551 Etapa: SeMaNtIc \u2551");
+        System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+        
+        Semantico semantico = new Semantico(cabeza);
+        semantico.crearTablaSimbolos(debug);
+        semantico.unicidad();
     }
 
     public void analizarTokens() {
@@ -888,6 +897,8 @@ public void asignarTokens(boolean debug) {
                     binOp(actualDosPuntoCero);
                     expresion(actualDosPuntoCero);
                     padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             case 26: //char
@@ -901,6 +912,8 @@ public void asignarTokens(boolean debug) {
                     binOp(actualDosPuntoCero);
                     expresion(actualDosPuntoCero);
                     padre.setObjeto(actualDosPuntoCero);
+                } else {
+                    padre.setObjeto(actual);
                 }
                 break;
             case 28: //int literal

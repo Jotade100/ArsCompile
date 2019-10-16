@@ -11,7 +11,7 @@ class Program {
 			int i, j, k;
 			boolean o, p,q;
 			int m;
-			if(){}
+			if(){}}
 		
 	}
 	int ex(int qwe, int r) {
