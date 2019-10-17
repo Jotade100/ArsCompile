@@ -104,5 +104,19 @@ public class Semantico {
         }
     }
 
+    public void chequeoReturn(Objeto cabeza){
+        if(cabeza.getType().getNombre().equalsIgnoreCase("MethodDec")) {
+            for (Objeto var : cabeza.getHijos()) {
+                chequeoReturn(var);
+            }
+
+        }
+
+    }
+
+    public void buscarReturn(Objeto metodo){
+        
+    }
+
 
 }
