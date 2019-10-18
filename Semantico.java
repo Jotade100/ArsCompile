@@ -113,6 +113,31 @@ public class Semantico {
         }
     }
 
+    public boolean metodoMain(){
+        for (Simbolo var : tablaSimbolos) {
+            if(var.getNombre().equals("main") && var.getTipo().getNombre().contains("MethodDec") && var.getType().equalsIgnoreCase("void")){
+                
+                for(Objeto i: var.getObjeto().getHijos()){
+                    if(i.getType().getNombre().contains("ParamDec")) {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+            
+        }
+        return false;
+    }
+
+    public void chequeoMetodoMain(){
+        if(metodoMain()) {
+
+        } else{
+            System.out.println("Hay problemas con el m\u00e9todo 'main'. Revise su c\u00f3digo usando de referencia los siguientes consejos. \n\t1) Vea que el m\u00e9todo 'main' est\u00e9 presente. \n\t2) Revise que sea tipo 'void'. \n\t3) Verifique que no tenga par\u00e1metros de entrada.");
+        }
+    }
+
     // public void chequeoReturn(Objeto cabeza){
     //     for (Objeto var : cabeza.getHijos()) {
     //         if(var.getType().getNombre().equalsIgnoreCase("MethodDec")) {

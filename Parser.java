@@ -155,6 +155,7 @@ public void asignarTokens(boolean debug) {
         Semantico semantico = new Semantico(cabeza);
         semantico.crearTablaSimbolos(debug);
         semantico.unicidad();
+        semantico.chequeoMetodoMain();
     }
 
     public void analizarTokens() {
@@ -616,7 +617,7 @@ public void asignarTokens(boolean debug) {
                                 contador++;
                             } else {System.out.println("ESPERADO: ASIGNATION_OPERATOR"); error(tokens.get(contador));}
                             expresion(actual);
-                            System.out.println(actual.getHijos().size());
+                            //System.out.println(actual.getHijos().size());
                             if(tokens.get(contador).getType().getType()==8) { //punto y coma
                                 actual.setType(buscarTipo("LocationStatement"));
                                 padre.setObjeto(actual);

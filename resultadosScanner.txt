@@ -25,7 +25,9 @@
 <Type: void, Value: void, Línea: 10, Posición: 3>
 <Type: id, Value: main, Línea: 10, Posición: 8>
 <Type: (, Value: (, Línea: 10, Posición: 13>
-<Type: ), Value: ), Línea: 10, Posición: 14>
+<Type: type, Value: int, Línea: 10, Posición: 14>
+<Type: id, Value: a, Línea: 10, Posición: 17>
+<Type: ), Value: ), Línea: 10, Posición: 19>
 <Type: {, Value: {, Línea: 11, Posición: 4>
 <Type: type, Value: int, Línea: 13, Posición: 7>
 <Type: id, Value: array2, Línea: 13, Posición: 11>
