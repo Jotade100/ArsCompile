@@ -12,6 +12,7 @@ public class Simbolo implements Serializable {
     String nombre;
     Object value = "null";
     int scope;
+    String alcance;
     Objeto objeto;
 
 
@@ -38,6 +39,21 @@ public class Simbolo implements Serializable {
             value = true;
         }
         this.scope = scope;
+        this.objeto = objeto;
+
+    }
+
+    public Simbolo(Tipo tipo, String type, String nombre, int scope, String alcance, Objeto objeto) {
+        this.tipo = tipo;
+        this.type = type;
+        this.nombre = nombre;
+        if(type.equals("int")){
+            value = 0;
+        } else if(type.equals("boolean")){
+            value = true;
+        }
+        this.scope = scope;
+        this.alcance = alcance;
         this.objeto = objeto;
 
     }
@@ -74,6 +90,10 @@ public class Simbolo implements Serializable {
         return scope;
     }
 
+    public String getAlcance(){
+        return alcance;
+    }
+
     public Objeto getObjeto(){
         return objeto;
     }
@@ -83,7 +103,7 @@ public class Simbolo implements Serializable {
     }
 
     public void imprimirSimbolo(){
-        System.out.print("\u2551 "+ type + longitud2(type)+"\u2551 "+ nombre + longitud3(nombre) +"\u2551 "+ scope+ "\t\u2551 "+ value + longitud3(value.toString())+"\u2551");
+        System.out.print("\u2551 "+ type + longitud2(type)+"\u2551 "+ tipo.getNombre() + longitud3(tipo.getNombre())+"\u2551 "+ nombre + longitud3(nombre) +"\u2551 "+ alcance+  longitud3(alcance) +"\u2551 "+ value + longitud3(value.toString())+"\u2551");
     }
 
     public String longitud2(String cadena) {
@@ -95,11 +115,11 @@ public class Simbolo implements Serializable {
     }
     
     public String longitud3(String cadena) {
-        if (cadena.length() > 24) {
+        if (cadena.length() >= 24) {
             return "\t";
-        }else if(cadena.length() > 12) {
+        }else if(cadena.length() >= 12) {
             return "\t\t";
-        } else if(cadena.length() > 6) {
+        } else if(cadena.length() >= 6) {
             return "\t\t\t";
         }  else {
             return "\t\t\t\t";

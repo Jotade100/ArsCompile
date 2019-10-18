@@ -5,14 +5,22 @@ class Program
     {
         int array;
         return (val+1); //wertyuioplmnbvc
+        int array2;
     }
 
     void main()
     {//dfghjklññlkjhgf
+        //int array2;
+        int array2;  
         int ern3t;
         int array;
-        ern3t = array2;
-        boolean thisfortrue;
-        array[0xa] += IF();
+        ern3t = array2; 
+        //int i;
+        for i = 0, i < 25 
+                {
+            int array2;
+        }
+        //boolean thisfortrue;
+        array[i] += IF();
     }
 }
