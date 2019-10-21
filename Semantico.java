@@ -53,7 +53,7 @@ public class Semantico {
                 System.out.println("Ingresar un valor entero en el array con nombre '"+cabeza.getTokens().get(1).getType().getNombre().toString() +"'");
                 //System.out.println(cabeza.getTokens().get(3).getValue());
             } else if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
-                System.out.println("Ingresar un valor mayor a cero en la declaración del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
+                System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
             }
         } else if(cabeza.getType().getNombre().contains("Location")) {
             //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());
@@ -227,11 +227,11 @@ public class Semantico {
                         
                     }
                 } else {
-                    System.out.println("El número de parámetros no coincide para el método '"+objeto.getTokens().get(0).getValue()+ "' en la línea " + (objeto.getTokens().get(0).getLeft()+1));
+                    System.out.println("El n\u00famero de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
                 }
 
             } catch(Exception e) {
-                System.out.println("El método '" + objeto.getTokens().get(0).getValue() + "' usado en la línea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe.");
+                System.out.println("El m\u00e9todo '" + objeto.getTokens().get(0).getValue() + "' usado en la l\u00ednea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe.");
             }
             
         }
@@ -254,7 +254,7 @@ public class Semantico {
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El método '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return'.");
+                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return'.");
                 }
                     
             }
