@@ -432,7 +432,7 @@ public class Semantico {
             if(cabeza.getClase().equalsIgnoreCase(cabeza.getHijos().get(1).getClase())) {
                 //Sin problemas
             } else {
-                System.out.println("El tipo de la expresión 'referenciadora' de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignación consiguiente.");
+                System.out.println("El tipo de la expresión 'referenciadora' de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignación consiguiente. Se esperaba un '" + cabeza.getClase()+ "'.");
             }
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //Sin problemas
