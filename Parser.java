@@ -87,7 +87,7 @@ public void crearTipos(){
     tipos.add(new Tipo("Statement"));
     tipos.add(new Tipo("ReturnStatement"));
     tipos.add(new Tipo("LocationStatement"));
-    tipos.add(new Tipo("LocationArrayStatement"));// para determinar si es o no array
+    tipos.add(new Tipo("ArrayLocationStatement"));// para determinar si es o no array
     tipos.add(new Tipo("Statement"));
     tipos.add(new Tipo("LocationExpresion"));
     tipos.add(new Tipo("MethodCallExpresion"));
@@ -96,8 +96,12 @@ public void crearTipos(){
     tipos.add(new Tipo("CalloutArg"));
     tipos.add(new Tipo("IfStatement"));
     tipos.add(new Tipo("ForStatement"));
-    tipos.add(new Tipo("AsignOp"));
+    tipos.add(new Tipo("AssignOp"));
     tipos.add(new Tipo("BinOp"));
+    tipos.add(new Tipo("RelOp"));
+    tipos.add(new Tipo("ArithOp"));
+    tipos.add(new Tipo("EqOp"));
+    tipos.add(new Tipo("CondOp"));
     tipos.add(new Tipo("BoolLiteral"));
     tipos.add(new Tipo("IntLiteral"));
     tipos.add(new Tipo("CharLiteral"));
@@ -161,6 +165,12 @@ public void asignarTokens(boolean debug) {
         semantico.chequeoMetodoMain();
         semantico.chequeoNumeroArgumentosMetodo(cabeza);
         semantico.chequeoReturn(cabeza);
+        semantico.dandoClaseAExpresiones(cabeza);
+        semantico.chequeandoExpresionesIf(cabeza);
+        semantico.chequeandoExpresionesFor(cabeza);
+        semantico.chequeandoLocalizacionesArrayYStatement(cabeza);
+
+        recorrerArbolParseo(cabeza, 0, false);
 
     }
 
@@ -239,6 +249,7 @@ public void asignarTokens(boolean debug) {
                             switch(tokens.get(contador).getType().getType()){
                                 case 8: //punto y coma
                                     //nuevo.setToken(tokens.get(contador)); //no considero necesario agregar el ;
+                                    nuevo.setClase(nuevo.getTokens().get(0).getValue().toString());
                                     nuevo.setType(buscarTipo("FieldDec"));
                                     cabeza.setObjeto(nuevo);
                                     contador++;
@@ -246,6 +257,7 @@ public void asignarTokens(boolean debug) {
                                     goTo2 = false; // se ha acabado
                                     break;
                                 case 5: // coma
+                                    nuevo.setClase(nuevo.getTokens().get(0).getValue().toString());
                                     nuevo.setType(buscarTipo("FieldDec"));
                                     cabeza.setObjeto(nuevo);
                                     contador++;
@@ -263,11 +275,13 @@ public void asignarTokens(boolean debug) {
                                         contador++;
                                     } else {goTo = false; goTo2 = false; error(tokens.get(contador));}
                                     if(tokens.get(contador).getType().getType()==5){
-                                        nuevo.setType(buscarTipo("FieldDec"));
+                                        nuevo.setClase(nuevo.getTokens().get(0).getValue().toString());
+                                        nuevo.setType(buscarTipo("FieldArrayDec"));
                                         cabeza.setObjeto(nuevo);
                                         contador++; // coma
                                         goTo2 = true;
                                     } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
+                                        nuevo.setClase(nuevo.getTokens().get(0).getValue().toString());
                                         nuevo.setType(buscarTipo("FieldArrayDec"));
                                         cabeza.setObjeto(nuevo);
                                         contador++;
@@ -314,6 +328,7 @@ public void asignarTokens(boolean debug) {
             if((tokens.get(contador).getType().getType()==9) || (tokens.get(contador).getType().getType()==10)){ //integer, boolean o void
                 Objeto actual = new Objeto();
                 actual.setToken(tokens.get(contador));
+                actual.setClase(actual.getTokens().get(0).getValue().toString());
                 contador++;
                 if((tokens.get(contador).getType().getType()==29)){ // id
                     actual.setToken(tokens.get(contador));
@@ -335,6 +350,7 @@ public void asignarTokens(boolean debug) {
                                 while(bandera) {
                                     if(tokens.get(contador).getType().getType()==9) { //type
                                         Objeto parametro = new Objeto();
+                                        parametro.setClase(tokens.get(contador).getValue().toString());
                                         parametro.setToken(tokens.get(contador));
                                         contador++;
                                         if((tokens.get(contador).getType().getType()==29)){ //id
@@ -377,7 +393,7 @@ public void asignarTokens(boolean debug) {
                 } else {error(tokens.get(contador));}
                 
     
-            } else if(tokens.get(contador).getType().getType()==4) { //paréntesis de cierre
+            } else if(tokens.get(contador).getType().getType()==4) { //llave de cierre
                 //no hace nada, simplemente ya no hay métodos por declarar
                 terminarPeticionMetodos = false;
 
@@ -409,6 +425,7 @@ public void asignarTokens(boolean debug) {
                                 //System.out.println("VAR DECLARATION");
                                 
                                 if(tokens.get(contador).getType().getType()==9) { //type
+                                    elemento.setClase(tokens.get(contador).getValue().toString());
                                     elemento.setToken(tokens.get(contador));
                                     contador++;
                                     boolean bandera2 = true;
@@ -503,7 +520,8 @@ public void asignarTokens(boolean debug) {
                     contador++;
                     if(tokens.get(contador).getType().getType() == 29){ //id
                         actual.setToken(tokens.get(contador));
-                        contador++;
+                        expresion(actual);
+                        //contador++;
                     } else {
                         System.out.println("ESPERABA ID");
                         error(tokens.get(contador));
@@ -625,7 +643,7 @@ public void asignarTokens(boolean debug) {
                             expresion(actual);
                             //System.out.println(actual.getHijos().size());
                             if(tokens.get(contador).getType().getType()==8) { //punto y coma
-                                actual.setType(buscarTipo("LocationArrayStatement")); // para determinar que este definido en scope general
+                                actual.setType(buscarTipo("ArrayLocationStatement")); // para determinar que este definido en scope general
                                 padre.setObjeto(actual);
                                 contador++;
                             } else {
@@ -923,7 +941,7 @@ public void asignarTokens(boolean debug) {
                 break;
             case 26: //char
                 actual.setType(buscarTipo("CharLiteral"));
-                actual.setClase("char");
+                actual.setClase("int");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
@@ -955,7 +973,7 @@ public void asignarTokens(boolean debug) {
                 break;
             case 30: //minus
                 actual.setType(buscarTipo("Expresion"));
-                actual.setClase("int");
+                //actual.setClase("int");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 expresion(actual);
@@ -1029,8 +1047,8 @@ public void asignarTokens(boolean debug) {
                 return true;
             case 30:// minus_op
                 return true;
-            case 31:// =
-                return true;
+            case 32:// =
+                return false;
             default:
                 return false;
         }
@@ -1041,35 +1059,41 @@ public void asignarTokens(boolean debug) {
         actual.setType(buscarTipo("BinOp"));
         switch (tokens.get(contador).getType().getType()) {
             case 21:// aritmético
+                actual.setType(buscarTipo("ArithOp"));
                 actual.setToken(tokens.get(contador));
                 padre.setObjeto(actual);
                 contador++;
                 break;
             case 22:// rel_op
+                actual.setType(buscarTipo("RelOp"));
                 actual.setToken(tokens.get(contador));
                 padre.setObjeto(actual);
                 contador++;
                 break;
             case 23:// eq_op
+                actual.setType(buscarTipo("EqOp"));
                 actual.setToken(tokens.get(contador));
                 padre.setObjeto(actual);
                 contador++;
                 break;
             case 24:// cond_op
+                actual.setType(buscarTipo("CondOp"));
                 actual.setToken(tokens.get(contador));
                 padre.setObjeto(actual);
                 contador++;
                 break;
             case 30:// minus_op
+                actual.setType(buscarTipo("ArithOp"));
                 actual.setToken(tokens.get(contador));
                 padre.setObjeto(actual);
                 contador++;
                 break;
-            case 31:// =
-                actual.setToken(tokens.get(contador));
-                padre.setObjeto(actual);
-                contador++;
-                break;
+            // case 31:// =
+            //     actual.setType(buscarTipo("Error"));
+            //     actual.setToken(tokens.get(contador));
+            //     padre.setObjeto(actual);
+            //     contador++;
+            //     break;
             default:
                 System.out.println("NO ES NINGÚN OPERADOR");
                 error(tokens.get(contador));

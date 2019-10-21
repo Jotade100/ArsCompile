@@ -16,6 +16,7 @@ public class Objeto implements Serializable, Cloneable {
     List<Objeto> hijos = new ArrayList<>();
     Object value;
     String clase = "NULL";
+    String scope = "";
 
     public Objeto(){}
 
@@ -54,6 +55,10 @@ public class Objeto implements Serializable, Cloneable {
 
     public void setClase(String clase) {
         this.clase = clase;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
     public void setValue(Object value) {
@@ -100,10 +105,40 @@ public class Objeto implements Serializable, Cloneable {
         return clase;
     }
 
+    public String getScope(){
+        return scope;
+    }
+
 
 
     public void imprimirTokenBonitoCorto(){
-        System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+">");
+        if(!clase.equalsIgnoreCase("NULL")){
+            if(scope.length() != 0){
+                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+", Alcance: "+ scope+">");
+            } else {
+                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+">");
+            }
+        } else if(scope.length() != 0){
+            if(!clase.equalsIgnoreCase("NULL")){
+                if (hijos.size() > 0) {
+                    System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+ ", Alcance: "+ scope+">");
+                } else {
+                    System.out.print("<Type: "+ type.getNombre() + ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+ ", Alcance: "+ scope+">");
+                }
+            } else {
+                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+ ", Alcance: "+ scope+">");
+            }
+            
+        } else {
+            if (hijos.size() > 0) {
+                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+ ">");
+            }
+            else {
+                System.out.print("<Type: "+ type.getNombre() + ", No. Tokens: "+ tokensAsociados.size()+ ">");
+            }
+            
+        }
+        
     }
 
     public void imprimirToken(){

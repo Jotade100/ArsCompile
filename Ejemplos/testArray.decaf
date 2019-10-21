@@ -11,6 +11,7 @@ class Program
             if(true == true){
                 a = 5;
                 array[i] = true;
+                array[i] = !(false);
                 array2[i] = mult(i,i);
                 mult(i,i);
                 break;
