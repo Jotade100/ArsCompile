@@ -117,7 +117,7 @@ public class Simbolo implements Serializable {
     public String longitud3(String cadena) {
         if (cadena.length() >= 24) {
             return "\t";
-        }else if(cadena.length() >= 12) {
+        }else if(cadena.length() >= 13) {
             return "\t\t";
         } else if(cadena.length() >= 6) {
             return "\t\t\t";

@@ -10,6 +10,7 @@ import edu.arscompile.modelos.Objeto;
 import edu.arscompile.modelos.Simbolo;
 import edu.arscompile.modelos.CeldaParser;
 import edu.arscompile.utilidades.EscritorDeArchivo;
+import edu.arscompile.utilidades.Excentricidades;
 import edu.arscompile.utilidades.LectorDeArchivo;
 import edu.arscompile.parser.Parser;
 
@@ -31,9 +32,9 @@ public class Semantico {
     public void tablaSimbolos(Objeto cabeza, int scope, String alcance) {
         if(cabeza.getType().getNombre().equalsIgnoreCase("FieldDec")){
             tablaSimbolos.add(new Simbolo(cabeza.getType(), cabeza.getTokens().get(0).getValue().toString(), cabeza.getTokens().get(1).getValue().toString(), scope, alcance.substring(0, alcance.length()-2), cabeza));
-        }else if(cabeza.getType().getNombre().equalsIgnoreCase("FieldArrayDec")) {
+        } else if(cabeza.getType().getNombre().equalsIgnoreCase("FieldArrayDec")) {
             tablaSimbolos.add(new Simbolo(cabeza.getType(), cabeza.getTokens().get(0).getValue().toString(), cabeza.getTokens().get(1).getValue().toString(), scope, alcance.substring(0, alcance.length()-2), cabeza)); 
-        }else if(cabeza.getType().getNombre().equalsIgnoreCase("MethodDec")) {
+        } else if(cabeza.getType().getNombre().equalsIgnoreCase("MethodDec")) {
             tablaSimbolos.add(new Simbolo(cabeza.getType(), cabeza.getTokens().get(0).getValue().toString(), cabeza.getTokens().get(1).getValue().toString(), scope, alcance.substring(0, alcance.length()-2), cabeza));
         } else if(cabeza.getType().getNombre().equalsIgnoreCase("ParamDec")) {
             tablaSimbolos.add(new Simbolo(cabeza.getType(), cabeza.getTokens().get(0).getValue().toString(), cabeza.getTokens().get(1).getValue().toString(), scope, alcance.substring(0, alcance.length()-2), cabeza));
@@ -52,7 +53,7 @@ public class Semantico {
                 System.out.println("Ingresar un valor entero en el array con nombre '"+cabeza.getTokens().get(1).getType().getNombre().toString() +"'");
                 //System.out.println(cabeza.getTokens().get(3).getValue());
             } else if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
-                System.out.println("Ingresar un valor mayor a cero en la declaracion del array '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
+                System.out.println("Ingresar un valor mayor a cero en la declaración del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
             }
         } else if(cabeza.getType().getNombre().contains("Location")) {
             //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());
@@ -62,8 +63,8 @@ public class Semantico {
             else if (cabeza.getType().getNombre().contains("Array")){
                 if(!scopeGeneral(cabeza.getTokens().get(0).getValue().toString(),alcance.substring(0,alcance.length()-2))){
                     System.out.println("La variable de tipo array con nombre '"+cabeza.getTokens().get(0).getValue().toString()+"' utilizada en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) +", debe estar definida en el scope global (a nivel de clase).");
-                }
-                //System.out.println(cabeza.getHijos().get(0).getTokens().get(0).getType().getNombre());
+                } 
+                //System.out.println(cabeza.getType().getNombre());
             }
         } else if(cabeza.getType().getNombre().contains("Variable")) {
             if(!buscarSiExiste(cabeza.getTokens().get(1).getValue().toString(), alcance.substring(0, alcance.length()-2))){
@@ -217,16 +218,22 @@ public class Semantico {
 
     public void chequeoNumeroArgumentosMetodo(Objeto objeto){
         if(objeto.getType().getNombre().contains("MethodCall")){
-            if(objeto.getHijos().size() == numeroDeParametros(buscarSimboloPorNombre(objeto.getTokens().get(0).getValue().toString()))){
-                Simbolo comparador = buscarSimboloPorNombre2(objeto.getTokens().get(0).getValue().toString());
-                for (int i = 0; i < objeto.getHijos().size(); i++) {
-                    //lo veremos luego
-                    //objeto.getHijos().get(i) == comparador.getObjeto().getHijos().get(i).getTokens().get(0).getValue().toString()
-                    
+            try {
+                if(objeto.getHijos().size() == numeroDeParametros(buscarSimboloPorNombre(objeto.getTokens().get(0).getValue().toString()))){
+                    Simbolo comparador = buscarSimboloPorNombre2(objeto.getTokens().get(0).getValue().toString());
+                    for (int i = 0; i < objeto.getHijos().size(); i++) {
+                        //lo veremos luego
+                        //objeto.getHijos().get(i) == comparador.getObjeto().getHijos().get(i).getTokens().get(0).getValue().toString()
+                        
+                    }
+                } else {
+                    System.out.println("El número de parámetros no coincide para el método '"+objeto.getTokens().get(0).getValue()+ "' en la línea " + (objeto.getTokens().get(0).getLeft()+1));
                 }
-            } else {
-                System.out.println("El número de parámetros no coincide para el método '"+objeto.getTokens().get(0).getValue()+ "' en la línea " + (objeto.getTokens().get(0).getLeft()+1));
+
+            } catch(Exception e) {
+                System.out.println("El método '" + objeto.getTokens().get(0).getValue() + "' usado en la línea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe.");
             }
+            
         }
         for (Objeto var : objeto.getHijos()) {
             chequeoNumeroArgumentosMetodo(var);
@@ -247,7 +254,7 @@ public class Semantico {
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El método " + var.getTokens().get(1).getValue().toString() + " carece de  enunciado 'return'.");
+                    System.out.println("El método '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return'.");
                 }
                     
             }
@@ -274,6 +281,10 @@ public class Semantico {
         }
 
         return variableRetorno;
+    }
+
+    public void dandoClaseAExpresiones(){
+
     }
 
 
