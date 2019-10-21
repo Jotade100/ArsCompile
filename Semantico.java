@@ -169,44 +169,100 @@ public class Semantico {
         }
     }
 
-    // public void chequeoReturn(Objeto cabeza){
-    //     for (Objeto var : cabeza.getHijos()) {
-    //         if(var.getType().getNombre().equalsIgnoreCase("MethodDec")) {
-    //             if(!(var.getTokens().get(0).getValue().equals("void"))) {
-    //                 boolean contieneRetorno = false;
-    //                 for (Objeto item : var.getHijos()) {
-    //                     if(buscarReturn(item)){
-    //                         contieneRetorno = true;
-    //                         break;
-    //                     }
-    //                 }
-    //                 if(!contieneRetorno){
-    //                     System.out.println();
-    //                 }
-    //             }    
-    //         }
-    //     }
+
+    public int numeroDeParametros(Objeto objeto){
+        int retorno = 0;
+        for (Objeto var : objeto.getHijos()) {
+            if(var.getType().getNombre().contains("ParamDec")) {
+                retorno++;
+            }
+            
+        }
+        return retorno;
+
+    }
+
+    public Objeto buscarSimboloPorNombre(String nombre){
+        for (Simbolo var : tablaSimbolos) {
+            if(var.getNombre().equals(nombre) && var.getTipo().getNombre().equals("MethodDec")){
+                return var.getObjeto();
+            }
+        }
+        return (new Simbolo()).getObjeto();
+
+    }
+
+
+    public Simbolo buscarSimboloPorNombre2(String nombre){
+        for (Simbolo var : tablaSimbolos) {
+            if(var.getNombre().equals(nombre) && var.getTipo().getNombre().equals("MethodDec")){
+                return var;
+            }
+        }
+        return (new Simbolo());
+
+    }
+
+    public void chequeoNumeroArgumentosMetodo(Objeto objeto){
+        if(objeto.getType().getNombre().contains("MethodCall")){
+            if(objeto.getHijos().size() == numeroDeParametros(buscarSimboloPorNombre(objeto.getTokens().get(0).getValue().toString()))){
+                Simbolo comparador = buscarSimboloPorNombre2(objeto.getTokens().get(0).getValue().toString());
+                for (int i = 0; i < objeto.getHijos().size(); i++) {
+                    //lo veremos luego
+                    //objeto.getHijos().get(i) == comparador.getObjeto().getHijos().get(i).getTokens().get(0).getValue().toString()
+                    
+                }
+            } else {
+                System.out.println("El número de parámetros no coincide para el método '"+objeto.getTokens().get(0).getValue()+ "' en la línea " + (objeto.getTokens().get(0).getLeft()+1));
+            }
+        }
+        for (Objeto var : objeto.getHijos()) {
+            chequeoNumeroArgumentosMetodo(var);
+            
+        }
+    }
+
+    public void chequeoReturn(Objeto cabeza){
+        for (Objeto var : cabeza.getHijos()) {
+            if(var.getType().getNombre().equalsIgnoreCase("MethodDec")) {
+                
+                boolean contieneRetorno = false;
+                for (Objeto item : var.getHijos()) {
+                    //System.out.println(item.getType().getNombre());
+                    if(buscarReturn(item)){
+                        contieneRetorno = true;
+                        break;
+                    }
+                }
+                if(!contieneRetorno){
+                    System.out.println("El método " + var.getTokens().get(1).getValue().toString() + " carece de  enunciado 'return'.");
+                }
+                    
+            }
+        }
         
 
-    // }
+    }
 
-    // public boolean buscarReturn(Objeto metodo){
-    //     if(metodo.getType().getNombre().contains("Statement")){
-    //         if(metodo.getTokens().get(0).getValue().equals("return")) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     } else {
-    //         for (Objeto item : metodo.getHijos()) {
-    //             if(buscarReturn(item)){
-    //                 return true;
-    //             } else {
-    //                 return buscarReturn(item);
-    //             }
-    //         }
-    //     }
-    // }
+    public boolean buscarReturn(Objeto metodo){
+        boolean variableRetorno = false;
+        
+        for (Objeto item : metodo.getHijos()) {
+            //System.out.println(item.getType().getNombre());
+            if(item.getType().getNombre().contains("Return")){
+                variableRetorno =  true;
+                break;
+            } else {
+                variableRetorno = buscarReturn(item);
+                if(variableRetorno){
+                    break;
+                }
+            }
+            
+        }
+
+        return variableRetorno;
+    }
 
 
 }

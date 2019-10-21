@@ -1,6 +1,6 @@
 class Program
 {
-    boolean array;
+    boolean array[4];
     int a;
     void main()
     {

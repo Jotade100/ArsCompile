@@ -84,6 +84,7 @@ public void crearTipos(){
     tipos.add(new Tipo("Block"));
     tipos.add(new Tipo("Variable"));
     tipos.add(new Tipo("Statement"));
+    tipos.add(new Tipo("ReturnStatement"));
     tipos.add(new Tipo("LocationStatement"));
     tipos.add(new Tipo("LocationArrayStatement"));// para determinar si es o no array
     tipos.add(new Tipo("Statement"));
@@ -157,6 +158,9 @@ public void asignarTokens(boolean debug) {
         semantico.crearTablaSimbolos(debug);
         semantico.unicidad();
         semantico.chequeoMetodoMain();
+        semantico.chequeoNumeroArgumentosMetodo(cabeza);
+        semantico.chequeoReturn(cabeza);
+
     }
 
     public void analizarTokens() {
@@ -528,7 +532,7 @@ public void asignarTokens(boolean debug) {
                     actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
-                        actual.setType(buscarTipo("Statement"));
+                        actual.setType(buscarTipo("ReturnStatement"));
                         padre.setObjeto(actual);
                         contador++;
                         break;
@@ -536,7 +540,7 @@ public void asignarTokens(boolean debug) {
                     
                     expresion(actual);
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
-                        actual.setType(buscarTipo("Statement"));
+                        actual.setType(buscarTipo("ReturnStatement"));
                         padre.setObjeto(actual);
                         contador++;
                     } else {
@@ -821,7 +825,7 @@ public void asignarTokens(boolean debug) {
                             contador++;
                         }  else if(tokens.get(contador).getType().getType() == 13){ //cierre )
                             actual.setToken(tokens.get(contador));
-                            actual.setType(buscarTipo("Expresion"));
+                            actual.setType(buscarTipo("MethodCallExpresion"));
                             //padre.setObjeto(actual); //Todavía no, puede ser una anidación
                             contador++;
                             bandera = false;
@@ -902,6 +906,7 @@ public void asignarTokens(boolean debug) {
         /*------------------------------- LITERAL ---------------------------------- */
             case 25: //boolean
                 actual.setType(buscarTipo("BoolLiteral"));
+                actual.setClase("boolean");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
@@ -917,6 +922,7 @@ public void asignarTokens(boolean debug) {
                 break;
             case 26: //char
                 actual.setType(buscarTipo("CharLiteral"));
+                actual.setClase("char");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
@@ -932,6 +938,7 @@ public void asignarTokens(boolean debug) {
                 break;
             case 28: //int literal
                 actual.setType(buscarTipo("IntLiteral"));
+                actual.setClase("int");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 if(esBinOp()) {
@@ -947,6 +954,7 @@ public void asignarTokens(boolean debug) {
                 break;
             case 30: //minus
                 actual.setType(buscarTipo("Expresion"));
+                actual.setClase("int");
                 actual.setToken(tokens.get(contador));
                 contador++;
                 expresion(actual);

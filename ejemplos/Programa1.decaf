@@ -1,6 +1,6 @@
 class Program
 {
-
+    
     int IF(int val)
     {
         int array;
@@ -9,6 +9,11 @@ class Program
     }
 
     int princ(){
+        int ern3t;
+        return ern3t*5;
+    }
+
+    int hola(int abc){
         int ern3t;
         return ern3t*5;
     }

@@ -15,6 +15,7 @@ public class Objeto implements Serializable, Cloneable {
     List<Token> tokensAsociados = new ArrayList<>();
     List<Objeto> hijos = new ArrayList<>();
     Object value;
+    String clase = "NULL";
 
     public Objeto(){}
 
@@ -24,9 +25,22 @@ public class Objeto implements Serializable, Cloneable {
         this.value = value;
     }
 
+    public Objeto(Tipo type, String nombre, Object value, String clase){
+        this.type = type;
+        this.nombre = nombre;
+        this.value = value;
+        this.clase = clase;
+    }
+
     public Objeto(Tipo type, String nombre){
         this.type = type;
         this.nombre = nombre;
+    }
+
+    public Objeto(Tipo type, String nombre, String clase){
+        this.type = type;
+        this.nombre = nombre;
+        this.clase = clase;
     }
 
     public Objeto(Tipo type){
@@ -36,6 +50,10 @@ public class Objeto implements Serializable, Cloneable {
 
     public void setType(Tipo type) {
         this.type = type;
+    }
+
+    public void setClase(String clase) {
+        this.clase = clase;
     }
 
     public void setValue(Object value) {
@@ -76,6 +94,10 @@ public class Objeto implements Serializable, Cloneable {
 
     public List<Token> getTokens(){
         return tokensAsociados;
+    }
+
+    public String getClase(){
+        return clase;
     }
 
 
