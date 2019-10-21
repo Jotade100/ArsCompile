@@ -40,7 +40,7 @@ public class Semantico {
         }
         if(cabeza.getType().getNombre().contains("MethodCall")) {
             if(!buscarSiExiste(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("Funci\u00F3n en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+ ", con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "', no se encuentra inicializada" );
+                System.out.println("El m\u00E9todo utilizado en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+ ", con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "', no se encuentra inicializado." );
             }
         } else if(cabeza.getType().getNombre().contains("Location")) {
             //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());

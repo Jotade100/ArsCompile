@@ -36,7 +36,7 @@ public class Simbolo implements Serializable {
         if(type.equals("int")){
             value = 0;
         } else if(type.equals("boolean")){
-            value = true;
+            value = false; // es false segun la documentación de decaf
         }
         this.scope = scope;
         this.objeto = objeto;
