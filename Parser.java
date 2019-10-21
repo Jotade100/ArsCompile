@@ -85,6 +85,7 @@ public void crearTipos(){
     tipos.add(new Tipo("Variable"));
     tipos.add(new Tipo("Statement"));
     tipos.add(new Tipo("LocationStatement"));
+    tipos.add(new Tipo("LocationStatementArray"));// para determinar si es o no array
     tipos.add(new Tipo("Statement"));
     tipos.add(new Tipo("LocationExpresion"));
     tipos.add(new Tipo("MethodCallExpresion"));
@@ -619,7 +620,7 @@ public void asignarTokens(boolean debug) {
                             expresion(actual);
                             //System.out.println(actual.getHijos().size());
                             if(tokens.get(contador).getType().getType()==8) { //punto y coma
-                                actual.setType(buscarTipo("LocationStatement"));
+                                actual.setType(buscarTipo("LocationStatementArray")); // para determinar que este definido en scope general
                                 padre.setObjeto(actual);
                                 contador++;
                             } else {
@@ -791,9 +792,10 @@ public void asignarTokens(boolean debug) {
                     contador++;
                     expresion(actual);
                     
-                    if(tokens.get(contador).getType().getType() == 6){ //]
+                    if(tokens.get(contador).getType().getType() == 7){ //] // se corrigio el id del case antes era 6
                         actual.setToken(tokens.get(contador));
                         actual.setType(buscarTipo("LocationExpresion"));
+                        //actual.setType(buscarTipo("LocationExpresionArray"));
                         //padre.setObjeto(actual); //Todavía no, puede ser una expresión anidada
                     } else {
                         System.out.println("ESPERADO: ]");error(tokens.get(contador));

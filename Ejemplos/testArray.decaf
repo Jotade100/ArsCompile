@@ -1,0 +1,20 @@
+class Program
+{
+    boolean array;
+    int a;
+    void main()
+    {
+        for i = 0, i < 25 //línea con error
+            {
+            int array2;   
+            if(true == true){
+                a = 5;
+                array[i] = true;
+                array2[i] = 2*5;
+                break;
+            }
+        }
+        callout("\tThis is my program!\n");
+       
+    }
+}

@@ -40,11 +40,18 @@ public class Semantico {
         }
         if(cabeza.getType().getNombre().contains("MethodCall")) {
             if(!buscarSiExiste(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("Variable no inicializada con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1));
+                System.out.println("Funci\u00F3n en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+ ", con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "', no se encuentra inicializada" );
             }
         } else if(cabeza.getType().getNombre().contains("Location")) {
+            //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());
             if(!buscarSiExiste(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2))){
                 System.out.println("Variable no inicializada con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1));
+            }
+            else if (cabeza.getType().getNombre().contains("Array")){
+                if(!scopeGeneral(cabeza.getTokens().get(0).getValue().toString(),alcance.substring(0,alcance.length()-2))){
+                    System.out.println("La variable de tipo array con nombre '"+cabeza.getTokens().get(0).getValue().toString()+"' utilizada en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) +", debe estar definida en el scope global (a nivel de clase).");
+                } 
+                //System.out.println(cabeza.getType().getNombre());
             }
         } else if(cabeza.getType().getNombre().contains("Variable")) {
             if(!buscarSiExiste(cabeza.getTokens().get(1).getValue().toString(), alcance.substring(0, alcance.length()-2))){
@@ -66,6 +73,30 @@ public class Semantico {
                 
                 for (int i = alcance.length(); i >= 1; i=i-2) {
                     if(var.getAlcance().equals(alcance.substring(0, i))){
+                        //System.out.println(var.getAlcance()+"-"+(alcance.substring(0, i)));
+                        //System.out.println(var.getAlcance().equals("1"));
+                        resultado = true;
+                        return resultado;
+                    }
+                }
+                
+            }
+            
+            
+        }
+        return resultado;
+    }
+
+    public boolean scopeGeneral(String nombre, String alcance) {
+        boolean resultado = false;
+        //System.out.println(nombre+ alcance);
+        for (Simbolo var : tablaSimbolos) {
+            if(var.getNombre().equals(nombre)){
+                
+                for (int i = alcance.length(); i >= 1; i=i-2) {
+                    if(var.getAlcance().equals("1")){
+                        //System.out.println(var.getAlcance()+"-"+(alcance.substring(0, i)));
+                        //System.out.println(var.getAlcance().equals("1"));
                         resultado = true;
                         return resultado;
                     }
@@ -105,7 +136,7 @@ public class Semantico {
             for(int j = i+1; j < tablaSimbolos.size(); j++){
                 if(tablaSimbolos.get(j).getNombre().equals(tablaSimbolos.get(i).getNombre()) && (tablaSimbolos.get(j).getAlcance().equals(tablaSimbolos.get(i).getAlcance())) ) {//buscar que al menor para de usar scopes mayores
                     
-                    System.out.println("Hay dos variables que colisionan con nombre '" + tablaSimbolos.get(j).getNombre() + "' en la l\u00ednea "+ (tablaSimbolos.get(i).getObjeto().getTokens().get(0).getLeft()+1));
+                    System.out.println("Hay dos variables que colisionan con nombre '" + tablaSimbolos.get(j).getNombre() + "' en las l\u00edneas "+ (tablaSimbolos.get(i).getObjeto().getTokens().get(0).getLeft()+1) + " y "+(tablaSimbolos.get(j).getObjeto().getTokens().get(0).getLeft()+1) );
                 
                      
                 }

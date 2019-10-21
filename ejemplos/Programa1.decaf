@@ -8,19 +8,51 @@ class Program
         int array2;
     }
 
+    int princ(){
+        int ern3t;
+        return ern3t*5;
+    }
+
     void main()
     {//dfghjklññlkjhgf
         //int array2;
         int array2;  
         int ern3t;
+        boolean thisfortrue;
         int array;
+        int i;
         ern3t = array2; 
-        //int i;
         for i = 0, i < 25 
+            {
+                int array2;
+                int a;
+                //int i;
+                i+=2;
+                int j;
+                for r = 0, j<50 //no valida r, solo j
                 {
+                    int var1;
+                    j+=i;
+                    int a;
+                    a = j+i;
+                    var1 = 25+j;
+                }
+                thisfortrue=false;
+                //a = IFf(5);
+                //int a;
+            }
+        int j;
+        array[j] += IF(i);
+        for r = 0, j<50 //no valida r, solo j
+        {
+            int var1;
+            j+=i;
+            int a;
+            a = j+i;
+            var1 = 25+j;
             int array2;
+            i+=2;
+            int j;
         }
-        //boolean thisfortrue;
-        array[i] += IF();
     }
 }

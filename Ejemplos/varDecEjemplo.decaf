@@ -1,0 +1,41 @@
+class Program{
+    int b;
+    
+    int multiplicar(int a, int b){
+        return a*b;
+    }
+
+    void main() {
+        int a;
+        boolean done;
+        int array;
+        break;
+        a = 0;
+        for a = 0, a < 10 {
+            a = a + 1;
+            if (a == 5){
+                break;
+            }
+        }
+        if (a % 2 == 0){
+            a = ;
+        }
+        else {
+            done = true;
+            array[s] = 2;
+        }
+        
+        for a = (0), a <= 10 {
+            int str;
+            if (a == 10){
+                str= 51146;
+                done=true;
+            }
+        }
+        return multiplicar();
+        }
+    int multpilicador(int b, int c){
+        int multiplicadooor;
+        multiplicadooor = mult();
+    }
+}
