@@ -183,9 +183,7 @@ public class Semantico {
     //                 if(!contieneRetorno){
     //                     System.out.println();
     //                 }
-    //             }
-                
-    
+    //             }    
     //         }
     //     }
         
@@ -208,7 +206,6 @@ public class Semantico {
     //             }
     //         }
     //     }
-
     // }
 
 
