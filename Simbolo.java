@@ -50,7 +50,7 @@ public class Simbolo implements Serializable {
         if(type.equals("int")){
             value = 0;
         } else if(type.equals("boolean")){
-            value = true;
+            value = false;
         }
         this.scope = scope;
         this.alcance = alcance;

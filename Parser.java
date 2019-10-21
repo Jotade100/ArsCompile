@@ -79,6 +79,7 @@ public class Parser {
 public void crearTipos(){
     tipos.add(new Tipo("Programa"));
     tipos.add(new Tipo("FieldDec"));
+    tipos.add(new Tipo("FieldArrayDec")); // para determinar si es o no array
     tipos.add(new Tipo("MethodDec"));
     tipos.add(new Tipo("ParamDec"));
     tipos.add(new Tipo("Block"));
@@ -267,7 +268,7 @@ public void asignarTokens(boolean debug) {
                                         contador++; // coma
                                         goTo2 = true;
                                     } else if(tokens.get(contador).getType().getType()==8) { // punto y coma
-                                        nuevo.setType(buscarTipo("FieldDec"));
+                                        nuevo.setType(buscarTipo("FieldArrayDec"));
                                         cabeza.setObjeto(nuevo);
                                         contador++;
                                         goTo2 = false;
