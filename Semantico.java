@@ -66,6 +66,8 @@ public class Semantico {
                 //System.out.println(cabeza.getTokens().get(3).getType().getNombre());
                 System.out.println("Ingresar un valor entero en el array con nombre '"+cabeza.getTokens().get(1).getType().getNombre().toString() +"'");
                 //System.out.println(cabeza.getTokens().get(3).getValue());
+            } else if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
+                System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
             }
             if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
                 System.out.println("Ingresar un valor mayor a cero en la declaración del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
