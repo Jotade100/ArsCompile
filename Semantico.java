@@ -70,7 +70,7 @@ public class Semantico {
                 System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
             }
             if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
-                System.out.println("Ingresar un valor mayor a cero en la declaración del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
+                System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
             } 
         } else if(cabeza.getType().getNombre().contains("Location")) {
             //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());
@@ -283,15 +283,15 @@ public class Semantico {
                             //ya pasa algo XD chequea que sean parámetros verdaderos
                             
                         } else {
-                            System.out.println("El parámetro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con su declaración inicial.");
+                            System.out.println("El par\u00e1metro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con su declaraci\u00f3n inicial.");
                         }
                     }
                 } else {
-                    System.out.println("El número de parámetros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
+                    System.out.println("El número de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
                 }
 
             } catch(Exception e) {
-                System.out.println("El m\u00e9todo '" + objeto.getTokens().get(0).getValue() + "' usado en la l\u00ednea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe. Si no existe ¿para qu\u00e9 se molestó en ponerle parámetros?");
+                System.out.println("El m\u00e9todo '" + objeto.getTokens().get(0).getValue() + "' usado en la l\u00ednea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe. Si no existe \u00BFpara qu\u00e9 se molest\u00f3 en ponerle par\u00e1metros?");
             }
             
         }
@@ -314,7 +314,7 @@ public class Semantico {
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresión tras el enunciado no es del mismo tipo que el m\u00e9todo");
+                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresi\u00f3n tras el enunciado no es del mismo tipo que el m\u00e9todo");
                 }
                     
             }
@@ -367,17 +367,17 @@ public class Semantico {
             if(cabeza.getClase().equalsIgnoreCase("NULL")){
                 if(cabeza.getHijos().size()==1) { //Expresiones unarias -expr !expr (expr)
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase("NULL")) { // no está definida la clase del hijo
-                        System.out.println("Hubo un error determinando la clase de la expresión en la línea " + (cabeza.getTokens().get(0).getLeft()+1));
+                        System.out.println("Hubo un error determinando la clase de la expresi\u00f3n en la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1));
                     } else {
                         cabeza.setClase(cabeza.getHijos().get(0).getClase());
                         if(cabeza.getTokens().size() == 1) {
                             if(cabeza.getTokens().get(0).getType().getType() == 31) {
                                 if(!cabeza.getClase().contains("boolean")) {
-                                    System.out.println("La expresión de la línea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'boolean'.");
+                                    System.out.println("La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'boolean'.");
                                 }
                             } else if(cabeza.getTokens().get(0).getType().getType() == 30) {
                                 if(!cabeza.getClase().contains("int")) {
-                                    System.out.println("La expresión de la línea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'int'.");
+                                    System.out.println("La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'int'.");
                                 }
                             }
                         }
@@ -386,14 +386,14 @@ public class Semantico {
                 } else if(cabeza.getHijos().size()==3) { // Expresiones terciarias
                     //chequear que los dos hijos tengan clase
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase("NULL") || cabeza.getHijos().get(2).getClase().equalsIgnoreCase("NULL")) {
-                        System.out.println("Hubo un error determinando la clase de la expresión con hijos " + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
+                        System.out.println("Hubo un error determinando la clase de la expresi\u00f3n con hijos " + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
 
                     }
                     //chequear que ambas clases sean iguales
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase(cabeza.getHijos().get(2).getClase())) {
                         
                     } else {
-                        System.out.println("Los dos valores de la expresión no son iguales "  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
+                        System.out.println("Los dos valores de la expresi\u00f3n no son iguales "  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
                     }
                     //chequear que cumplan con el tipo del operador
                     if(cabeza.getHijos().get(0).getClase().contains("int")){
@@ -401,13 +401,13 @@ public class Semantico {
                             cabeza.setClase(cabeza.getHijos().get(0).getClase());
                         } else {
                             //System.out.println(cabeza.getHijos().get(2).getType().getNombre() +cabeza.getHijos().get(2).getType().getNombre().contains("Arith") +""+ cabeza.getHijos().get(2).getType().getNombre().contains("Rel") +"" + cabeza.getHijos().get(2).getType().getNombre().contains("Eq"));
-                            System.out.println("Operador no válido en la línea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
+                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
                         }
                     } else if(cabeza.getHijos().get(0).getClase().contains("bool")){
                         if(cabeza.getHijos().get(1).getType().getNombre().contains("Con") ||  cabeza.getHijos().get(1).getType().getNombre().contains("Eq")) {
                             cabeza.setClase(cabeza.getHijos().get(0).getClase());
                         } else {
-                            System.out.println("Operador no válido en la línea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
+                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
                         }
                     }
 
@@ -425,7 +425,7 @@ public class Semantico {
             if(cabeza.getHijos().get(0).getClase().contains("bool")) {
                 //todo bien
             } else {
-                System.out.println("La expresión IF de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es binaria o booleana");
+                System.out.println("La expresi\u00f3n IF de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es binaria o booleana");
             }
         }
     }
@@ -438,17 +438,17 @@ public class Semantico {
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La expresión '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es válida.");
+                System.out.println("La expresi\u00f3n '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es v\u00e1lida.");
             }
             if(cabeza.getHijos().get(1).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La asignación de la expresión For de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera. ");
+                System.out.println("La asignaci\u00f3n de la expresi\u00f3n For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera. ");
             }
             if(cabeza.getHijos().get(2).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La expresión evaluadora For de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera.");
+                System.out.println("La expresi\u00f3n evaluadora For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera.");
             }
         }
     }
@@ -461,22 +461,62 @@ public class Semantico {
             if(cabeza.getClase().contains(cabeza.getHijos().get(0).getClase())) {
                 //Sin problemas
             } else {
-                System.out.println("El tipo de la expresión 'referenciadora' de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignación consiguiente.");
+                System.out.println("El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente.");
             }
         } else if((cabeza.getType().getNombre().equalsIgnoreCase("ArrayLocationStatement"))){
             if(cabeza.getClase().equalsIgnoreCase(cabeza.getHijos().get(1).getClase())) {
                 //Sin problemas
             } else {
-                System.out.println("El tipo de la expresión 'referenciadora' de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignación consiguiente. Se esperaba un '" + cabeza.getClase()+ "'.");
+                System.out.println("El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente. Se esperaba un '" + cabeza.getClase()+ "'.");
             }
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //Sin problemas
             } else {
-                System.out.println("El arreglo de la expresión 'referenciadora' de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no posee un índice de tipo 'int'.");
+                System.out.println("El arreglo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no posee un \u00edndice de tipo 'int'.");
             }
         }
 
 
+    }
+
+    public void comprobacionBreakContinueEnFor(Objeto cabeza) {
+        if(cabeza.getType().getNombre().contains("Break") || cabeza.getType().getNombre().contains("Continue")){
+            boolean siRespeta = false;
+            for (int i = cabeza.getScope().length()-2; i >= 1; i=i-2) {
+                // Importante: alcance.substring(0, i) es todos los scopes válidos
+                siRespeta = buscarForSegunScope(this.raiz, cabeza.getScope().substring(0, i));    
+                if(siRespeta) {
+                    break;
+                }    
+                
+            }
+            if(!siRespeta) {
+                System.out.println("El enunciado '" + cabeza.getType().getNombre() + "' de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no est\u00e1 dentro de una sentencia 'For'.");
+            }
+            
+        }
+        for (Objeto var : cabeza.getHijos()) {
+            
+            comprobacionBreakContinueEnFor(var);
+            
+            
+        }
+
+        
+    }
+
+    public boolean buscarForSegunScope(Objeto cabeza, String scope) {
+        for (Objeto item : cabeza.getHijos()) {
+            boolean retorno = buscarForSegunScope(item, scope);
+            if(retorno) {
+                return true;
+            }           
+        }
+        if(cabeza.getType().getNombre().contains("For") && cabeza.getScope().equalsIgnoreCase(scope))  {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

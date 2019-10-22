@@ -9,11 +9,14 @@ class Program
     void main()
     {
         int i;
+        break;
+        continue;
         for b = 0, i < 25 //línea con error
             {
             int array2;   
             if(true == true){
                 a = 5;
+                break;
                 array[i] = true;
                 array[i] = !(false);
                 array2[i] = pruebita(i,i);

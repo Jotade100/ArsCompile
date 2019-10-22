@@ -174,9 +174,10 @@ public void asignarTokens(boolean debug) {
         semantico.chequeoNumeroArgumentosMetodo(cabeza);
         semantico.asignarTipoReturnStatement(cabeza);
         semantico.chequeoReturn(cabeza);
+        semantico.comprobacionBreakContinueEnFor(cabeza);
 
 
-        recorrerArbolParseo(cabeza, 0, false);
+        //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
 
     }
 
@@ -741,6 +742,7 @@ public void asignarTokens(boolean debug) {
                                 contador++;
                                 bandera = false;
                                 if(tokens.get(contador).getType().getType()==8) { //punto y coma
+                                    actual.setClase("int");
                                     actual.setType(buscarTipo("CalloutStatement"));
                                     padre.setObjeto(actual);
                                     contador++;
@@ -902,6 +904,7 @@ public void asignarTokens(boolean debug) {
                             contador++;
                         } else if (tokens.get(contador).getType().getType() ==13) {
                             actual.setToken(tokens.get(contador));
+                            actual.setClase("int");
                             actual.setType(buscarTipo("CalloutExpresion"));
                             bandera = false;
                             contador++;
