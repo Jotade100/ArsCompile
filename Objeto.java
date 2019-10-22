@@ -112,32 +112,21 @@ public class Objeto implements Serializable, Cloneable {
 
 
     public void imprimirTokenBonitoCorto(){
-        if(!clase.equalsIgnoreCase("NULL")){
-            if(scope.length() != 0){
-                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+", Alcance: "+ scope+">");
-            } else {
-                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+">");
-            }
-        } else if(scope.length() != 0){
-            if(!clase.equalsIgnoreCase("NULL")){
-                if (hijos.size() > 0) {
-                    System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+ ", Alcance: "+ scope+">");
-                } else {
-                    System.out.print("<Type: "+ type.getNombre() + ", No. Tokens: "+ tokensAsociados.size()+  ", Class: "+ clase+ ", Alcance: "+ scope+">");
-                }
-            } else {
-                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+ ", Alcance: "+ scope+">");
-            }
-            
-        } else {
-            if (hijos.size() > 0) {
-                System.out.print("<Type: "+ type.getNombre() + ", No. Hijos: "+ hijos.size()+ ", No. Tokens: "+ tokensAsociados.size()+ ">");
-            }
-            else {
-                System.out.print("<Type: "+ type.getNombre() + ", No. Tokens: "+ tokensAsociados.size()+ ">");
-            }
-            
+        String cadena = "<Type: "+ type.getNombre();
+        if (hijos.size() > 0) {
+            cadena += ", No. Hijos: "+ hijos.size();
         }
+        if (tokensAsociados.size() > 0) {
+            cadena += ", No. Tokens: "+ tokensAsociados.size();
+        }
+        if(!clase.equalsIgnoreCase("NULL")){
+            cadena += ", Class: "+ clase;
+        }
+        if(scope.length() != 0){
+            cadena += ", Alcance: "+ scope;
+        }
+        cadena += ">";
+        System.out.print(cadena);
         
     }
 

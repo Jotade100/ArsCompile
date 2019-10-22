@@ -91,11 +91,15 @@ public void crearTipos(){
     tipos.add(new Tipo("Statement"));
     tipos.add(new Tipo("LocationExpresion"));
     tipos.add(new Tipo("MethodCallExpresion"));
+    tipos.add(new Tipo("CalloutExpresion"));
     tipos.add(new Tipo("Expresion"));
     tipos.add(new Tipo("MethodCall"));
     tipos.add(new Tipo("CalloutArg"));
+    tipos.add(new Tipo("CalloutStatement"));
     tipos.add(new Tipo("IfStatement"));
     tipos.add(new Tipo("ForStatement"));
+    tipos.add(new Tipo("BreakStatement"));
+    tipos.add(new Tipo("ContinueStatement"));
     tipos.add(new Tipo("AssignOp"));
     tipos.add(new Tipo("BinOp"));
     tipos.add(new Tipo("RelOp"));
@@ -574,7 +578,7 @@ public void asignarTokens(boolean debug) {
                     actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
-                        actual.setType(buscarTipo("Statement"));
+                        actual.setType(buscarTipo("BreakStatement"));
                         padre.setObjeto(actual);
                         contador++;
                     } else {
@@ -586,7 +590,7 @@ public void asignarTokens(boolean debug) {
                     actual.setToken(tokens.get(contador));
                     contador++;
                     if(tokens.get(contador).getType().getType() == 8){ //punto y coma
-                        actual.setType(buscarTipo("Statement"));
+                        actual.setType(buscarTipo("ContinueStatement"));
                         padre.setObjeto(actual);
                         contador++;
                     } else {
@@ -737,7 +741,7 @@ public void asignarTokens(boolean debug) {
                                 contador++;
                                 bandera = false;
                                 if(tokens.get(contador).getType().getType()==8) { //punto y coma
-                                    actual.setType(buscarTipo("Statement"));
+                                    actual.setType(buscarTipo("CalloutStatement"));
                                     padre.setObjeto(actual);
                                     contador++;
                                     bandera = false;
@@ -898,7 +902,7 @@ public void asignarTokens(boolean debug) {
                             contador++;
                         } else if (tokens.get(contador).getType().getType() ==13) {
                             actual.setToken(tokens.get(contador));
-                            actual.setType(buscarTipo("Expresion"));
+                            actual.setType(buscarTipo("CalloutExpresion"));
                             bandera = false;
                             contador++;
                             break;
@@ -907,7 +911,7 @@ public void asignarTokens(boolean debug) {
                     
                 } else if(tokens.get(contador).getType().getType() ==13){ //parentesis de cierre
                     actual.setToken(tokens.get(contador));
-                    actual.setType(buscarTipo("Expresion"));
+                    actual.setType(buscarTipo("CalloutExpresion"));
                     contador++;
 
                 } else {System.out.println("ESPERADO: )");error(tokens.get(contador));}
