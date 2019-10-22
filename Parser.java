@@ -89,6 +89,7 @@ public void crearTipos(){
     tipos.add(new Tipo("LocationStatement"));
     tipos.add(new Tipo("ArrayLocationStatement"));// para determinar si es o no array
     tipos.add(new Tipo("Statement"));
+    tipos.add(new Tipo("ArrayLocationExpresion"));
     tipos.add(new Tipo("LocationExpresion"));
     tipos.add(new Tipo("MethodCallExpresion"));
     tipos.add(new Tipo("CalloutExpresion"));

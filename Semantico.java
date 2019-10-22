@@ -180,15 +180,13 @@ public class Semantico {
         //System.out.println(nombre+ alcance);
         for (Simbolo var : tablaSimbolos) {
             if(var.getNombre().equals(nombre)){
-                
-                for (int i = alcance.length(); i >= 1; i=i-2) {
-                    if(var.getAlcance().equals("1")){
+                    if(var.getAlcance().equals("1") && var.getTipo().getNombre().contains("Array")){
                         //System.out.println(var.getAlcance()+"-"+(alcance.substring(0, i)));
                         //System.out.println(var.getAlcance().equals("1"));
                         resultado = true;
                         return resultado;
                     }
-                }
+                
                 
             }
             
