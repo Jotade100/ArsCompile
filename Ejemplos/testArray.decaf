@@ -1,6 +1,6 @@
 class Program
 {
-    boolean array[0];
+    boolean array[5];
     int a;
     boolean b;
     int pruebita(int a, int b) {
@@ -9,8 +9,8 @@ class Program
     void main()
     {
         int i;
-        break;
-        continue;
+        //break;
+        //continue;
         for b = 0, i < 25 //línea con error
             {
             int array2;   
@@ -29,3 +29,7 @@ class Program
        
     }
 }
+// arreglar cuando se trata una variable como array, pero no es array
+// validar que el tipo que retorna un metodo sea del mismo tipo que la variable.
+// mejorar advertencia con main cuando dice validar que sea del mismo tipo.
+// la tabla copia los nombres de las variables dos veces cuando se definen en la misma linea.

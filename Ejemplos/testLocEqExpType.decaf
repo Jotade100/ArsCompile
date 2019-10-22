@@ -1,0 +1,52 @@
+class Program {
+    int multiplicaciones[5];
+    int divisiones[5];
+    boolean pasan[0xff];
+    int multiplicar(int a, int b){
+        int resultado;
+        resultado = a*b;
+        return resultado;
+    }
+
+    int dividir(int a, int b){
+        int resultado;
+        resultado = a/b;
+        return resultado;
+    }
+    
+    boolean esError(int a, int b){
+        boolean res;
+        if (a!=b){
+            res = false;
+        } else {
+            res = true;
+        }
+        return res;
+    }
+
+    void main(){
+        int i;
+        int j;
+        int suma;
+        suma = 0;
+        //boolean z;
+        boolean pasa;
+        for i = 1, i<4{
+            for j = 1, j<3{
+                if (!(i <= j)){
+                    int mult;
+                    int div;
+                    mult = multiplicar(i,j);
+                    multiplicaciones[i-1] = mult;
+                    div = dividir(j,i);
+                    divisiones[i-1] = div;
+                    suma += divr+mult;
+                } else {
+                    pasa = esError(i,j);
+                    pasan[i] = pasa;
+                }
+            }
+        }
+        return;
+    }
+}

@@ -29,6 +29,28 @@ public class Semantico {
 
     }
 
+    public void crearTablaSimbolos(boolean debug) {
+        int scope = 0;
+        tablaSimbolos(this.raiz, scope, "1");
+        if(debug){
+            System.out.println("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\u2551\tTipo\t\u2551\t\tClase\t\t\u2551\tNombre del ID\t\t\u2551\t\tAlcance\t\t\u2551\t\t Valor \t\t\u2551");
+            System.out.println("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563");
+            
+            for (Simbolo var : tablaSimbolos) {
+                System.out.print("");
+                var.imprimirSimbolo();
+                System.out.println();
+                
+            }
+            System.out.println("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+            System.out.println();
+
+        }
+
+        
+    }
+
     public void tablaSimbolos(Objeto cabeza, int scope, String alcance) {
         if(cabeza.getType().getNombre().equalsIgnoreCase("Programa")) {
             cabeza.setScope("0");
@@ -175,27 +197,7 @@ public class Semantico {
         return resultado;
     }
 
-    public void crearTablaSimbolos(boolean debug) {
-        int scope = 0;
-        tablaSimbolos(this.raiz, scope, "1");
-        if(debug){
-            System.out.println("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
-            System.out.println("\u2551\tTipo\t\u2551\t\tClase\t\t\u2551\tNombre del ID\t\t\u2551\t\tAlcance\t\t\u2551\t\t Valor \t\t\u2551");
-            System.out.println("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563");
-            
-            for (Simbolo var : tablaSimbolos) {
-                System.out.print("");
-                var.imprimirSimbolo();
-                System.out.println();
-                
-            }
-            System.out.println("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
-            System.out.println();
-
-        }
-
-        
-    }
+    
 
     public void unicidad(){
         for (int i = 0; i < tablaSimbolos.size(); i++) {
@@ -283,11 +285,11 @@ public class Semantico {
                             //ya pasa algo XD chequea que sean parámetros verdaderos
                             
                         } else {
-                            System.out.println("El par\u00e1metro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con su declaraci\u00f3n inicial.");
+                            System.out.println("El par\u00e1metro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con el tipo en la declaraci\u00f3n inicial del m\u00e9todo.");
                         }
                     }
                 } else {
-                    System.out.println("El número de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
+                    System.out.println("El n\u00famero de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
                 }
 
             } catch(Exception e) {
@@ -314,7 +316,7 @@ public class Semantico {
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresi\u00f3n tras el enunciado no es del mismo tipo que el m\u00e9todo");
+                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresi\u00f3n tras el enunciado no es del mismo tipo al definido en el m\u00e9todo.");
                 }
                     
             }
@@ -393,12 +395,17 @@ public class Semantico {
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase(cabeza.getHijos().get(2).getClase())) {
                         
                     } else {
-                        System.out.println("Los dos valores de la expresi\u00f3n no son iguales "  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
+                        System.out.println("Los dos valores de la expresi\u00f3n, en la l\u00ednea "+(cabeza.getHijos().get(0).getTokens().get(0).getLeft()+1)+", no son iguales: ("  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase()+")");
                     }
                     //chequear que cumplan con el tipo del operador
                     if(cabeza.getHijos().get(0).getClase().contains("int")){
                         if(cabeza.getHijos().get(1).getType().getNombre().contains("Arith") || cabeza.getHijos().get(1).getType().getNombre().contains("Rel") || cabeza.getHijos().get(1).getType().getNombre().contains("Eq")) {
-                            cabeza.setClase(cabeza.getHijos().get(0).getClase());
+                            //cabeza.setClase(cabeza.getHijos().get(0).getClase());
+                            if(cabeza.getHijos().get(1).getType().getNombre().contains("Rel") || cabeza.getHijos().get(1).getType().getNombre().contains("Eq")) {
+                                cabeza.setClase("boolean");
+                            } else {
+                                cabeza.setClase(cabeza.getHijos().get(0).getClase());
+                            }
                         } else {
                             //System.out.println(cabeza.getHijos().get(2).getType().getNombre() +cabeza.getHijos().get(2).getType().getNombre().contains("Arith") +""+ cabeza.getHijos().get(2).getType().getNombre().contains("Rel") +"" + cabeza.getHijos().get(2).getType().getNombre().contains("Eq"));
                             System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
@@ -445,7 +452,7 @@ public class Semantico {
             } else {
                 System.out.println("La asignaci\u00f3n de la expresi\u00f3n For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera. ");
             }
-            if(cabeza.getHijos().get(2).getClase().contains("int")) {
+            if(cabeza.getHijos().get(2).getClase().contains("bool")) {
                 //todo bien
             } else {
                 System.out.println("La expresi\u00f3n evaluadora For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera.");
