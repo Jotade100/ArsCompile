@@ -163,12 +163,14 @@ public void asignarTokens(boolean debug) {
         semantico.crearTablaSimbolos(debug);
         semantico.unicidad();
         semantico.chequeoMetodoMain();
-        semantico.chequeoNumeroArgumentosMetodo(cabeza);
-        semantico.chequeoReturn(cabeza);
         semantico.dandoClaseAExpresiones(cabeza);
         semantico.chequeandoExpresionesIf(cabeza);
         semantico.chequeandoExpresionesFor(cabeza);
         semantico.chequeandoLocalizacionesArrayYStatement(cabeza);
+        semantico.chequeoNumeroArgumentosMetodo(cabeza);
+        semantico.asignarTipoReturnStatement(cabeza);
+        semantico.chequeoReturn(cabeza);
+
 
         recorrerArbolParseo(cabeza, 0, false);
 

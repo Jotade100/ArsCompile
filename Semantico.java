@@ -274,10 +274,17 @@ public class Semantico {
             try {
                 if(objeto.getHijos().size() == numeroDeParametros(buscarSimboloPorNombre(objeto.getTokens().get(0).getValue().toString()))){
                     Simbolo comparador = buscarSimboloPorNombre2(objeto.getTokens().get(0).getValue().toString());
+                    objeto.setClase(comparador.getType());
                     for (int i = 0; i < objeto.getHijos().size(); i++) {
                         //lo veremos luego
                         //objeto.getHijos().get(i) == comparador.getObjeto().getHijos().get(i).getTokens().get(0).getValue().toString()
-                        
+                        if(objeto.getHijos().get(i).getClase().contains(comparador.getObjeto().getHijos().get(i).getClase())) {
+                            //no pasa nada
+                            //ya pasa algo XD chequea que sean parámetros verdaderos
+                            
+                        } else {
+                            System.out.println("El parámetro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con su declaración inicial.");
+                        }
                     }
                 } else {
                     System.out.println("El número de parámetros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
@@ -301,13 +308,13 @@ public class Semantico {
                 boolean contieneRetorno = false;
                 for (Objeto item : var.getHijos()) {
                     //System.out.println(item.getType().getNombre());
-                    if(buscarReturn(item)){
+                    if(buscarReturn(item, var.getClase())){
                         contieneRetorno = true;
                         break;
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return'.");
+                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresión tras el enunciado no es del mismo tipo que el m\u00e9todo");
                 }
                     
             }
@@ -316,16 +323,32 @@ public class Semantico {
 
     }
 
-    public boolean buscarReturn(Objeto metodo){
+    public void asignarTipoReturnStatement(Objeto cabeza) {
+        for (Objeto var : cabeza.getHijos()) {
+            asignarTipoReturnStatement(var);
+        }
+        if(cabeza.getType().getNombre().contains("Return")){
+            if(cabeza.getHijos().size() == 0) {
+                cabeza.setClase("void");
+            } else {
+                cabeza.setClase(cabeza.getHijos().get(0).getClase());
+            }
+        }
+    }
+
+    public boolean buscarReturn(Objeto metodo, String clase){
         boolean variableRetorno = false;
         
         for (Objeto item : metodo.getHijos()) {
             //System.out.println(item.getType().getNombre());
             if(item.getType().getNombre().contains("Return")){
-                variableRetorno =  true;
-                break;
+                if (item.getClase().equals(clase)) {
+                    variableRetorno =  true;
+                    break;
+                }
+                
             } else {
-                variableRetorno = buscarReturn(item);
+                variableRetorno = buscarReturn(item, clase);
                 if(variableRetorno){
                     break;
                 }
@@ -347,6 +370,18 @@ public class Semantico {
                         System.out.println("Hubo un error determinando la clase de la expresión en la línea " + (cabeza.getTokens().get(0).getLeft()+1));
                     } else {
                         cabeza.setClase(cabeza.getHijos().get(0).getClase());
+                        if(cabeza.getTokens().size() == 1) {
+                            if(cabeza.getTokens().get(0).getType().getType() == 31) {
+                                if(!cabeza.getClase().contains("boolean")) {
+                                    System.out.println("La expresión de la línea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'boolean'.");
+                                }
+                            } else if(cabeza.getTokens().get(0).getType().getType() == 30) {
+                                if(!cabeza.getClase().contains("int")) {
+                                    System.out.println("La expresión de la línea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'int'.");
+                                }
+                            }
+                        }
+                        
                     }
                 } else if(cabeza.getHijos().size()==3) { // Expresiones terciarias
                     //chequear que los dos hijos tengan clase
@@ -403,7 +438,7 @@ public class Semantico {
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La expresión '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es binaria o booleana");
+                System.out.println("La expresión '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la línea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es válida.");
             }
             if(cabeza.getHijos().get(1).getClase().contains("int")) {
                 //todo bien

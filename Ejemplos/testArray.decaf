@@ -2,17 +2,22 @@ class Program
 {
     boolean array[0];
     int a;
+    boolean b;
+    int pruebita(int a, int b) {
+        return;
+    }
     void main()
     {
         int i;
-        for i = 0, i < 25 //línea con error
+        for b = 0, i < 25 //línea con error
             {
             int array2;   
             if(true == true){
                 a = 5;
                 array[i] = true;
                 array[i] = !(false);
-                array2[i] = mult(i,i);
+                array2[i] = pruebita(i,i);
+                array2[i] += main();
                 mult(i,i);
                 break;
             }
