@@ -1,7 +1,7 @@
 class Program {
-    int multiplicaciones[5];
+    int multiplicaciones[1];
     int divisiones[5];
-    
+    int zz;
     int multiplicar(int a, int b){
         int resultado;
         resultado = a*b;
@@ -11,6 +11,7 @@ class Program {
     int dividir(int a, int b){
         int resultado;
         resultado = a/b;
+        //z= resultado;
         return resultado;
     }
 
@@ -19,24 +20,16 @@ class Program {
         int j;
         boolean s;
         int r;
+        //break;
+        int test;
         for i = 1, i<4{
             for j = 0, j<5{
-                if ((i>j) && (i<=j) ){//if (i>j && i<=j){
-                    break;
-                } else{
-                    int mult;
-                    int div;
-                    int z;
-                    z = 10;
-                    //r[i]= 5;
-                    mult = multiplicar(i,j);
-                    multiplicaciones[z-i] = mult;
-                    div = dividir(j,i);
-                    divisiones[i-1] = div;
+                test =5;
+                //multiplicaciones[i] = test;
+                j[i] = j;
+                if (test ==i){//((i>j) && (i<=j) )
+                    s = false;
                 }
-            }
-            if(i!=j){
-                continue;
             }
         }
         return;

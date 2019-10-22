@@ -177,7 +177,7 @@ public void asignarTokens(boolean debug) {
         semantico.comprobacionBreakContinueEnFor(cabeza);
 
 
-        recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
+        //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
 
     }
 
@@ -825,6 +825,7 @@ public void asignarTokens(boolean debug) {
                     
                     if(tokens.get(contador).getType().getType() == 7){ //] // se corrigio el id del case antes era 6
                         actual.setToken(tokens.get(contador));
+                        contador++;
                         actual.setType(buscarTipo("LocationExpresion"));
                         //actual.setType(buscarTipo("LocationExpresionArray"));
                         //padre.setObjeto(actual); //Todavía no, puede ser una expresión anidada
