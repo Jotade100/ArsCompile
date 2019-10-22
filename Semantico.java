@@ -408,7 +408,8 @@ public class Semantico {
                             }
                         } else {
                             //System.out.println(cabeza.getHijos().get(2).getType().getNombre() +cabeza.getHijos().get(2).getType().getNombre().contains("Arith") +""+ cabeza.getHijos().get(2).getType().getNombre().contains("Rel") +"" + cabeza.getHijos().get(2).getType().getNombre().contains("Eq"));
-                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
+                            
+                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(1).getTokens().get(0).getLeft()+1));
                         }
                     } else if(cabeza.getHijos().get(0).getClase().contains("bool")){
                         if(cabeza.getHijos().get(1).getType().getNombre().contains("Con") ||  cabeza.getHijos().get(1).getType().getNombre().contains("Eq")) {
