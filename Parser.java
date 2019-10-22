@@ -177,7 +177,7 @@ public void asignarTokens(boolean debug) {
         semantico.comprobacionBreakContinueEnFor(cabeza);
 
 
-        //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
+        recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
 
     }
 

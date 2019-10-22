@@ -331,7 +331,7 @@ public class Lexer {
                         if(cadena.charAt(i+1) == '&') {  
                             agregarALaLista(cadena.substring(i, i+2), linea, i);
                             inicio = i+2;
-                            i= i+2;
+                            i= i+1;
                         } else {
                             agregarALaLista(cadena.substring(i, i+1), linea, i);
                             inicio = i+1;

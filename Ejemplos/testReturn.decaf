@@ -21,14 +21,14 @@ class Program {
         int r;
         for i = 1, i<4{
             for j = 0, j<5{
-                if (i<j){//if (i>j && i<=j){
+                if ((i>j) && (i<=j) ){//if (i>j && i<=j){
                     break;
                 } else{
                     int mult;
                     int div;
                     int z;
                     z = 10;
-                    r[i]= 5;
+                    //r[i]= 5;
                     mult = multiplicar(i,j);
                     multiplicaciones[z-i] = mult;
                     div = dividir(j,i);
