@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 
+import edu.arscompile.modelos.IrtItem;
 import edu.arscompile.modelos.Token;
 
 
@@ -54,6 +55,26 @@ public class EscritorDeArchivo {
             tokens.forEach((action) ->  printWriter.print(action.retornarTokenBonitoLargo() + "\n"));
             printWriter.println();
             printWriter.println("THE END");
+            printWriter.close();
+        } catch (IOException e) {
+            System.out.println("Hubo un error escribiendo en el archivo texto");
+        }
+
+        
+        
+        
+    }
+
+    public void escribirASM(String nombreDeArchivo, List<IrtItem> tokens) {
+        try{
+            FileWriter fileWriter = new FileWriter(nombreDeArchivo+".asm");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            for (IrtItem var : tokens) {
+                printWriter.print(var.getValor() + "\n");
+            }
+
+            
+            printWriter.println();
             printWriter.close();
         } catch (IOException e) {
             System.out.println("Hubo un error escribiendo en el archivo texto");

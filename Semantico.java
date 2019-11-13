@@ -29,6 +29,10 @@ public class Semantico {
 
     }
 
+    public List<Simbolo> getTablaSimbolos(){
+        return tablaSimbolos;
+    }
+
     public void crearTablaSimbolos(boolean debug) {
         int scope = 0;
         tablaSimbolos(this.raiz, scope, "1");

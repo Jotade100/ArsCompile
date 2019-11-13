@@ -186,7 +186,7 @@ public class Comparador {
             case "<=":
                 token.setType(tokens.get(22));
                 break;
-            case "=<":
+            case ">=":
                 token.setType(tokens.get(22));
                 break;
             case "==":

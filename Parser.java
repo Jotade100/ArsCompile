@@ -8,10 +8,12 @@ import java.util.Scanner;
 import edu.arscompile.modelos.Token;
 import edu.arscompile.modelos.Tipo;
 import edu.arscompile.modelos.Objeto;
+import edu.arscompile.modelos.Simbolo;
 import edu.arscompile.modelos.CeldaParser;
 import edu.arscompile.utilidades.EscritorDeArchivo;
 import edu.arscompile.utilidades.LectorDeArchivo;
 import edu.arscompile.semantic.Semantico;
+import edu.arscompile.irt.Irt;
 
 public class Parser {
 
@@ -179,6 +181,16 @@ public void asignarTokens(boolean debug) {
 
 
         //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
+        //Irt irt = new Irt();
+        for (Simbolo var : semantico.getTablaSimbolos()) {
+            if(!var.getObjeto().getType().getNombre().contains("Method")){
+                Irt.getInstancia().construirVariables(var.getObjeto());
+            }
+            
+        }
+        Irt.getInstancia().recorrerArbolParseo(cabeza);
+        Irt.getInstancia().imprimirInstrucciones();
+        EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
 
     }
 
@@ -758,7 +770,7 @@ public void asignarTokens(boolean debug) {
                         contador++;
                         if(tokens.get(contador).getType().getType()==8) { //punto y coma
                             contador++;
-                            actual.setType(buscarTipo("Statement"));
+                            actual.setType(buscarTipo("CalloutStatement"));
                             padre.setObjeto(actual);
                                     
                         } else {System.out.println("ESPERADO: ;");error(tokens.get(contador));}
