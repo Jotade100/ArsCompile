@@ -70,6 +70,12 @@ public class Irt {
     }
 
 
+    public void construirStrings(List<Token> lista) {
+        for (Token token : lista) {
+            raiz.add(new IrtItem("String", token.toString().replace('@', '.') +": .asciiz " + token.getValue().toString()));
+        }
+    }
+
     public void construirVariables(Objeto objeto){
         String cadena;
         switch (objeto.getType().getNombre()) {
@@ -569,6 +575,14 @@ public class Irt {
                     cadena = "j FinFor" + banderaFor; // flata crear de manera dinámica la etiqueta del for
                     nodo.setValor(cadena);
                     raiz.add(nodo);
+                }
+                break;
+            case "CalloutStatement":
+                {
+                    
+                    raiz.add(new IrtItem("CallOut[Print]", "li	$v0, 4"));
+                    raiz.add(new IrtItem("CallOut[Print]", "la	$a0, "+objeto.getTokens().get(2).toString().replace('@', '.')));
+                    raiz.add(new IrtItem("CallOut[Print]", "syscall"));
                 }
                 break;
             case "ReturnStatement":

@@ -32,8 +32,13 @@ public class Parser {
 
     List<Tipo> tipos = new ArrayList<>();
 
+    List<Token> string = new ArrayList<>();
+
     Objeto cabeza = new Objeto();
 
+    public List<Token> getStrings(){
+        return this.string;
+    }
 
     int contador = 0;
 
@@ -189,6 +194,7 @@ public void asignarTokens(boolean debug) {
             
         }
         Irt.getInstancia().setTablaSimbolos(semantico.getTablaSimbolos());
+        Irt.getInstancia().construirStrings(string);
         Irt.getInstancia().recorrerArbolParseo(cabeza);
         Irt.getInstancia().imprimirInstrucciones();
         EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
@@ -737,6 +743,7 @@ public void asignarTokens(boolean debug) {
 
                     if(tokens.get(contador).getType().getType()==27){ //string literal
                         actual.setToken(tokens.get(contador));
+                        string.add(tokens.get(contador));
                         contador++;
                     } else{
                         System.out.println("ESPERADO: STRING");
@@ -906,6 +913,7 @@ public void asignarTokens(boolean debug) {
                 }
                 if(tokens.get(contador).getType().getType() ==27) { // string literal
                     actual.setToken(tokens.get(contador));
+                    string.add(tokens.get(contador));
                     contador++;  
                 } else {
                     System.out.println("ESPERADO: STRING_LITERAL");error(tokens.get(contador));
