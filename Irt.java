@@ -472,7 +472,7 @@ public class Irt {
                     }
                     raiz.add(new IrtItem("MethodCall", "jal "+ objeto.getTokens().get(0).getValue().toString()));  
                     //leer stack del último al primero (importante) OJO
-                    for (int i = objeto.getHijos().size()-1; i == 0; i--) {
+                    for (int i = objeto.getHijos().size()-1; i >= 0; i--) {
                         raiz.add(new IrtItem("MethodCall", "# pop de " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
                         raiz.add(new IrtItem("MethodCall", "lw $s0,($sp)")); //pop $t1
                         raiz.add(new IrtItem("MethodCall", "addiu $sp,$sp,4"));  
@@ -487,9 +487,36 @@ public class Irt {
             case "MethodCallExpresion": //llamada a un método tipo statement
                 {
                     IrtItem nodo = new IrtItem();
-                    nodo.setTipo("MethodCallExpresion");
+                    nodo.setTipo("MethodCall");
                     //en el token 1 está el nombre del método
                     //en los hijos están los parámetros
+                    Objeto retorno = buscarMetodoEnLaTablaDeSimbolos(objeto.getTokens().get(0).getValue().toString());
+                    raiz.add(new IrtItem("MethodCall", "# se guardan los valores antes de llamar al método"));
+                    for (int i = 0; i < objeto.getHijos().size(); i++) {
+                        raiz.add(new IrtItem("MethodCall", "# push de " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "lw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "sub $sp, $sp,4"));  //push 
+                        raiz.add(new IrtItem("MethodCall", "sw $s0, ($sp)")); 
+                        //ahora se mandan los parámetros
+                        raiz.add(new IrtItem("MethodCall", "# mandar parámetro a " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        //se resuelve la expresión del parámetro
+                        raiz.add(new IrtItem("MethodCall", "# resolviendo la expresión del parámetro")); 
+                        casoDeInstruccion(objeto.getHijos().get(i));
+                        // en $s0 se guarda el valor de la primera expresión
+                        raiz.add(new IrtItem("MethodCall", "sw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+
+                    }
+                    raiz.add(new IrtItem("MethodCall", "jal "+ objeto.getTokens().get(0).getValue().toString()));  
+                    //leer stack del último al primero (importante) OJO
+                    for (int i = objeto.getHijos().size()-1; i >= 0; i--) {
+                        raiz.add(new IrtItem("MethodCall", "# pop de " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "lw $s0,($sp)")); //pop $t1
+                        raiz.add(new IrtItem("MethodCall", "addiu $sp,$sp,4"));  
+                        raiz.add(new IrtItem("MethodCall", "sw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        
+                    }
+                    raiz.add(new IrtItem("MethodCall", "move $s0, $v0"));  //en $v0 y $s0 se guardan los resultados de las expresiones y métodos
+                    
 
 
                 

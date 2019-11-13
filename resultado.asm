@@ -60,8 +60,8 @@ main:
 	addiu $sp,$sp,4
 	slt $s0, $t1, $t0
 	# Expresion
-	bne $s0, $zero, FinForedu.arscompile.modelos.Token.7637f22
-InicioForedu.arscompile.modelos.Token.7637f22:
+	bne $s0, $zero, FinForedu.arscompile.modelos.Token.41a4555e
+InicioForedu.arscompile.modelos.Token.41a4555e:
 	# inicio de bloque
 	lw $t0, array2
 	# IfStatement
@@ -81,7 +81,7 @@ InicioForedu.arscompile.modelos.Token.7637f22:
 	mult $s0, $s3
 	mflo $s0
 	# Expresion
-	beq $s0, $zero, Elseedu.arscompile.modelos.Token.4926097b
+	beq $s0, $zero, Elseedu.arscompile.modelos.Token.3830f1c0
 	# inicio de bloque
 	# (expr)
 	li $s0, 5
@@ -123,12 +123,22 @@ InicioForedu.arscompile.modelos.Token.7637f22:
 	li $s0, 2
 	sw $s0,b
 	jal pruebita
+	# pop de b
+	lw $s0,($sp)
+	addiu $sp,$sp,4
+	sw $s0,b
+	# pop de a
+	lw $s0,($sp)
+	addiu $sp,$sp,4
+	sw $s0,a
 	move $s0, $v0
-	j FinForedu.arscompile.modelos.Token.7637f22
-	j FinIfedu.arscompile.modelos.Token.4926097b
-Elseedu.arscompile.modelos.Token.4926097b:
+	la $t0, a
+	sw $s0, a
+	j FinForedu.arscompile.modelos.Token.41a4555e
+	j FinIfedu.arscompile.modelos.Token.3830f1c0
+Elseedu.arscompile.modelos.Token.3830f1c0:
 	# inicio de bloque
-FinIfedu.arscompile.modelos.Token.4926097b:
+FinIfedu.arscompile.modelos.Token.3830f1c0:
 	# expr binop expr
 	lw $s0, i
 	sub $sp,$sp,4
@@ -139,8 +149,8 @@ FinIfedu.arscompile.modelos.Token.4926097b:
 	addiu $sp,$sp,4
 	slt $s0, $t1, $t0
 	# Expresion
-	beq $s0, $zero, InicioForedu.arscompile.modelos.Token.7637f22
-FinForedu.arscompile.modelos.Token.7637f22:
+	beq $s0, $zero, InicioForedu.arscompile.modelos.Token.41a4555e
+FinForedu.arscompile.modelos.Token.41a4555e:
 	# pop de $ra
 	lw $ra,($sp)
 	addiu $sp,$sp,4

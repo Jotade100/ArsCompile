@@ -26,7 +26,7 @@ class Program
                 //array2[i] = pruebita(i,i);
                 //array2[i] += main();
                 //mult(i,i);
-                pruebita(1, 2);
+                a = pruebita(1, 2);
                 break;
             } else {}
         }
