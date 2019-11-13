@@ -202,9 +202,36 @@ public class Irt {
                     nodo.setValor(cadena);
                     raiz.add(nodo);
                     // System.out.println();
+
+                    /// Guardando las variables de un scope diferente
+                    // raiz.add(new IrtItem("Block", "# guardando las variables en stack "));
+                    // for (int i = 0; i < objeto.getHijos().size(); i++) {
+                    //     if(objeto.getHijos().get(i).getType().getNombre().contains("Variable")){
+                    //         // push de la variable nueva
+                    //         raiz.add(new IrtItem("Block", "# guardando la variable " + objeto.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                    //         raiz.add(new IrtItem("Block", "lw $t0, " + objeto.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                    //         raiz.add(new IrtItem("Block", "sub $sp,$sp,4"));  //push $t1
+                    //         raiz.add(new IrtItem("Block", "sw $t0,($sp)"));
+                    //     }
+                    // }
+                    // raiz.add(new IrtItem("Block", "# terminé de guardar las variables en stack "));
                     for (Objeto var : objeto.getHijos()) {
+                        if(var.getType().getNombre().contains("Return")) {
+
+                        }
                         recorrerArbolParseo(var);
                     }
+                    // raiz.add(new IrtItem("Block", "# leyendo las variables en stack "));
+                    // for (int i = objeto.getHijos().size() -1; i >= 0; i--) {
+                    //     if(objeto.getHijos().get(i).getType().getNombre().contains("Variable")){
+                    //         // push de la variable nueva
+                    //         raiz.add(new IrtItem("Block", "# leyendo la variable " + objeto.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                    //         raiz.add(new IrtItem("Block", "lw $t0,($sp)")); //pop $t1
+                    //         raiz.add(new IrtItem("Block", "addiu $sp,$sp,4"));
+                    //         raiz.add(new IrtItem("Block", "sw $t0, "+ objeto.getHijos().get(i).getTokens().get(1).getValue().toString() ));  
+                    //     }
+                    // }
+                    // raiz.add(new IrtItem("Block", "# terminé de leer las variables en stack "));
                 }
                 break;
             case "Variable":

@@ -1,0 +1,18 @@
+class Program {
+    int a;
+
+    void si(int a){
+        if((a%2) !=0){
+            callout("Sí es");
+        } else {
+            callout("No es");
+        }
+        return;
+    }
+    void main (){
+        a=3;
+        si(a);
+        return;
+    }
+
+}
