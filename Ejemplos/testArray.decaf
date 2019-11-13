@@ -4,6 +4,8 @@ class Program
     int a;
     int b;
     int pruebita(int a, int b) {
+        array[1] = 3;
+        a = 3;
         return 3;
     }
     void main()
@@ -18,12 +20,13 @@ class Program
             if(j == false){
                 i = (5);
                 //break;
-                array[i] = 2;
+                array[1] = 2;
                 j = true;
                 //array[i] = !(false);
                 //array2[i] = pruebita(i,i);
                 //array2[i] += main();
                 //mult(i,i);
+                pruebita(1, 2);
                 break;
             } else {}
         }

@@ -70,6 +70,10 @@ public class EscritorDeArchivo {
             FileWriter fileWriter = new FileWriter(nombreDeArchivo+".asm");
             PrintWriter printWriter = new PrintWriter(fileWriter);
             for (IrtItem var : tokens) {
+                //printWriter.print("# "+ var.getTipo() + "\n");
+                if(!((var.getTipo().contains("Programa")) || (var.getValor().contains(":")))) {
+                    printWriter.print("\t");
+                }
                 printWriter.print(var.getValor() + "\n");
             }
 

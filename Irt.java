@@ -12,6 +12,7 @@ import edu.arscompile.modelos.IrtItem;
 import edu.arscompile.modelos.Token;
 import edu.arscompile.modelos.Objeto;
 import edu.arscompile.modelos.IrtItem;
+import edu.arscompile.modelos.Simbolo;
 
 public class Irt {
     // Constructor
@@ -20,11 +21,31 @@ public class Irt {
 
     List<IrtItem> raiz = new ArrayList<>();
 
+    List<Simbolo> tablaSimbolos = new ArrayList<>(); //tabla de símbolos [Será de utilidad para los métodos]
+
     String banderaFor = "";
+
+    public Objeto buscarMetodoEnLaTablaDeSimbolos(String nombre) {
+        Objeto retorno = new Objeto();
+        for (Simbolo var : tablaSimbolos) {
+            if(var.getNombre().equalsIgnoreCase(nombre)){
+                if(var.getTipo().getNombre().contains("Method")) {
+                    return var.getObjeto();
+                }
+            }
+            
+        }
+        return retorno;
+    }
 
     public Irt(){
         raiz.add(new IrtItem("Programa",".data") );
     }
+
+    public void setTablaSimbolos(List<Simbolo> tablaSimbolos) {
+        this.tablaSimbolos = tablaSimbolos;
+    }
+
 
     private static Irt instancia = new Irt();
 
@@ -145,6 +166,9 @@ public class Irt {
                     nodo.setTipo("MethodDec");
                     nodo.setValor(objeto.getTokens().get(1).getValue().toString()+":");
                     raiz.add(nodo);
+                    raiz.add(new IrtItem("MethodDec", "# guardar la $ra para que no se pierda")); 
+                    raiz.add(new IrtItem("MethodDec", "sub $sp, $sp,4"));  //push  $ra
+                    raiz.add(new IrtItem("MethodDec", "sw $ra, ($sp)")); 
                     // System.out.println();
                     for (Objeto var : objeto.getHijos()) {
                         recorrerArbolParseo(var);
@@ -168,7 +192,7 @@ public class Irt {
                 {
                     IrtItem nodo = new IrtItem();
                     nodo.setTipo("Block");
-                    cadena = "#inicio de bloque";
+                    cadena = "# inicio de bloque";
                     nodo.setValor(cadena);
                     raiz.add(nodo);
                     // System.out.println();
@@ -424,6 +448,53 @@ public class Irt {
                     raiz.add(nodo);
                 }
                 break;
+            case "MethodCall": //llamada a un método tipo statement
+                {
+                    IrtItem nodo = new IrtItem();
+                    nodo.setTipo("MethodCall");
+                    //en el token 1 está el nombre del método
+                    //en los hijos están los parámetros
+                    Objeto retorno = buscarMetodoEnLaTablaDeSimbolos(objeto.getTokens().get(0).getValue().toString());
+                    raiz.add(new IrtItem("MethodCall", "# se guardan los valores antes de llamar al método"));
+                    for (int i = 0; i < objeto.getHijos().size(); i++) {
+                        raiz.add(new IrtItem("MethodCall", "# push de " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "lw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "sub $sp, $sp,4"));  //push 
+                        raiz.add(new IrtItem("MethodCall", "sw $s0, ($sp)")); 
+                        //ahora se mandan los parámetros
+                        raiz.add(new IrtItem("MethodCall", "# mandar parámetro a " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        //se resuelve la expresión del parámetro
+                        raiz.add(new IrtItem("MethodCall", "# resolviendo la expresión del parámetro")); 
+                        casoDeInstruccion(objeto.getHijos().get(i));
+                        // en $s0 se guarda el valor de la primera expresión
+                        raiz.add(new IrtItem("MethodCall", "sw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+
+                    }
+                    raiz.add(new IrtItem("MethodCall", "jal "+ objeto.getTokens().get(0).getValue().toString()));  
+                    //leer stack del último al primero (importante) OJO
+                    for (int i = objeto.getHijos().size()-1; i == 0; i--) {
+                        raiz.add(new IrtItem("MethodCall", "# pop de " + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        raiz.add(new IrtItem("MethodCall", "lw $s0,($sp)")); //pop $t1
+                        raiz.add(new IrtItem("MethodCall", "addiu $sp,$sp,4"));  
+                        raiz.add(new IrtItem("MethodCall", "sw $s0," + retorno.getHijos().get(i).getTokens().get(1).getValue().toString()));
+                        
+                    }
+                    raiz.add(new IrtItem("MethodCall", "move $s0, $v0"));  //en $v0 y $s0 se guardan los resultados de las expresiones y métodos
+                    
+                
+                }
+                break;
+            case "MethodCallExpresion": //llamada a un método tipo statement
+                {
+                    IrtItem nodo = new IrtItem();
+                    nodo.setTipo("MethodCallExpresion");
+                    //en el token 1 está el nombre del método
+                    //en los hijos están los parámetros
+
+
+                
+                }
+                break;
             case "IntLiteral":
                 {
                     IrtItem nodo = new IrtItem();
@@ -479,6 +550,7 @@ public class Irt {
                         IrtItem nodo = new IrtItem();
                         nodo.setTipo("Return");
                         //análisis  de expresión {resultado en $s0}
+                        casoDeInstruccion(objeto.getHijos().get(0));
                         cadena = "move $v0, $s0"; // $v0 se usará para el return de cualquier método. Adicional $s0 es el resultado de la expresión
                         nodo.setValor(cadena);
                         raiz.add(nodo);
@@ -488,6 +560,9 @@ public class Irt {
                     //pop de $ra
                     //raiz.add(new IrtItem("ArrayLocationStatement", "lw $ra,($sp)")); //pop $ra
                     //raiz.add(new IrtItem("ArrayLocationStatement", "addiu $sp,$sp,4"));  
+                    raiz.add(new IrtItem("Return", "# pop de $ra"));  
+                    raiz.add(new IrtItem("Return", "lw $ra,($sp)")); //pop $t1
+                    raiz.add(new IrtItem("Return", "addiu $sp,$sp,4"));  
                     cadena = "jr $ra";
                     nodo.setValor(cadena);
                     raiz.add(nodo);

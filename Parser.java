@@ -188,6 +188,7 @@ public void asignarTokens(boolean debug) {
             }
             
         }
+        Irt.getInstancia().setTablaSimbolos(semantico.getTablaSimbolos());
         Irt.getInstancia().recorrerArbolParseo(cabeza);
         Irt.getInstancia().imprimirInstrucciones();
         EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
