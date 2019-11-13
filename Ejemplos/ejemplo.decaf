@@ -7,7 +7,7 @@ class Program {
                     print(gcd(x,y));
                 }
                 int main(int a, int b) {
-                    if ( b==0 ){
+                    if ( b== true ){
                         return a;
                         
                     } else {

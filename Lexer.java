@@ -70,7 +70,11 @@ public class Lexer {
         if(!tokens.isEmpty()){ barraDeProceso();}
 
         if(debug) {
-            tokens.forEach((action) -> action.imprimirTokenBonitoLargo());
+            for (Token value : tokens) {
+                System.out.println();
+                value.imprimirTokenBonitoLargo();
+            }
+            
         }
 
         Comparador.getInstancia().imprimirErrores();

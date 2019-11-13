@@ -1,6 +1,7 @@
 package edu.arscompile.modelos;
 
 import edu.arscompile.modelos.Symbol; // agregado para evitar confusión
+import edu.arscompile.utilidades.Excentricidades;
 
 import java.io.Serializable;
 
@@ -63,7 +64,7 @@ public class Token implements Serializable {
     }
 
     public void imprimirTokenBonitoLargo(){
-        System.out.print("<Type: "+ type.getNombre() + ", Value: "+ value+ ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">");
+        System.out.print("<Type: "+ Excentricidades.ANSI_CYAN + type.getNombre() + Excentricidades.ANSI_RESET + ", Value: "+ Excentricidades.ANSI_YELLOW + value + " "+ Excentricidades.ANSI_RESET + ", L\u00ednea: "+ left+", Posici\u00f3n: "+ right+ ">");
     }
 
     public String retornarTokenBonitoCorto(){

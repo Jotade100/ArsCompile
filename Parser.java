@@ -11,6 +11,7 @@ import edu.arscompile.modelos.Objeto;
 import edu.arscompile.modelos.Simbolo;
 import edu.arscompile.modelos.CeldaParser;
 import edu.arscompile.utilidades.EscritorDeArchivo;
+import edu.arscompile.utilidades.Excentricidades;
 import edu.arscompile.utilidades.LectorDeArchivo;
 import edu.arscompile.semantic.Semantico;
 import edu.arscompile.irt.Irt;
@@ -35,6 +36,17 @@ public class Parser {
     List<Token> string = new ArrayList<>();
 
     Objeto cabeza = new Objeto();
+
+    boolean semantic, codigo = false;
+
+    public void setSemantic(boolean semantic) {
+        this.semantic = semantic;
+    }
+
+    public void setCodigo(boolean codigo) {
+        this.codigo = codigo;
+    }
+    
 
     public List<Token> getStrings(){
         return this.string;
@@ -159,45 +171,72 @@ public void asignarTokens(boolean debug) {
         if(debug){
             boolean largo = false;
             System.out.println("\u00BFDesea mostrar un \u00e1rbol m\u00e1s complejo y detallado? (Puede distorsionar la vista del grafo) [S/*]");
+            System.out.print(Excentricidades.YELLOW_BACKGROUND + " " + Excentricidades.BLACK_BOLD+ " " );
             Scanner scan= new Scanner(System.in);
+            System.out.print(Excentricidades.ANSI_RESET );
             String text= scan.nextLine();
+            
             if(text.equalsIgnoreCase("s")) {
                 largo =true;
             }
+            System.out.println();
+            System.out.println();
             recorrerArbolParseo(cabeza, 0, largo);
         }
-        System.out.println();
-        System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
-        System.out.println("\t\t\t\t\t\t\u2551 Etapa: SeMaNtIc \u2551");
-        System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
-        
-        Semantico semantico = new Semantico(cabeza);
-        semantico.crearTablaSimbolos(debug);
-        semantico.unicidad();
-        semantico.chequeoMetodoMain();
-        semantico.dandoClaseAExpresiones(cabeza);
-        semantico.chequeandoExpresionesIf(cabeza);
-        semantico.chequeandoExpresionesFor(cabeza);
-        semantico.chequeandoLocalizacionesArrayYStatement(cabeza);
-        semantico.chequeoNumeroArgumentosMetodo(cabeza);
-        semantico.asignarTipoReturnStatement(cabeza);
-        semantico.chequeoReturn(cabeza);
-        semantico.comprobacionBreakContinueEnFor(cabeza);
 
-
-        //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
-        //Irt irt = new Irt();
-        for (Simbolo var : semantico.getTablaSimbolos()) {
-            if(!var.getObjeto().getType().getNombre().contains("Method")){
-                Irt.getInstancia().construirVariables(var.getObjeto());
-            }
+        if(semantic) {
+            System.out.println();
+            System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\t\t\t\t\t\t\u2551 Etapa: SeMaNtIc \u2551");
+            System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
             
+            Semantico semantico = new Semantico(cabeza);
+            semantico.crearTablaSimbolos(debug);
+            //System.out.print(Excentricidades.RED_BACKGROUND);
+            semantico.unicidad();
+            semantico.chequeoMetodoMain();
+            semantico.dandoClaseAExpresiones(cabeza);
+            semantico.chequeandoExpresionesIf(cabeza);
+            semantico.chequeandoExpresionesFor(cabeza);
+            semantico.chequeandoLocalizacionesArrayYStatement(cabeza);
+            semantico.chequeoNumeroArgumentosMetodo(cabeza);
+            semantico.asignarTipoReturnStatement(cabeza);
+            semantico.chequeoReturn(cabeza);
+            semantico.comprobacionBreakContinueEnFor(cabeza);
+            System.out.print(Excentricidades.RESET);
+            if(codigo){
+                System.out.println();
+                System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+                System.out.println("\t\t\t\t\t\t\u2551 Etapa: IrT\t  \u2551");
+                System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+                //recorrerArbolParseo(cabeza, 0, false); //sirve para debug posterior
+                //Irt irt = new Irt();
+    
+                /// IRT
+                try {
+                    for (Simbolo var : semantico.getTablaSimbolos()) {
+                        if(!var.getObjeto().getType().getNombre().contains("Method")){
+                            Irt.getInstancia().construirVariables(var.getObjeto());
+                        }
+                        
+                    }
+                    Irt.getInstancia().setTablaSimbolos(semantico.getTablaSimbolos());
+                    Irt.getInstancia().construirStrings(string);
+                    Irt.getInstancia().recorrerArbolParseo(cabeza);
+                    Irt.getInstancia().imprimirInstrucciones();
+                    EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
+                } catch (Exception e) {
+                    //TODO: handle exception
+                    System.out.println(Excentricidades.BLACK + Excentricidades.YELLOW_BACKGROUND + "No se puede generar IRT ni c\u00f3digo hasta arreglar errores." + Excentricidades.RESET);
+                }
+            }
+    
         }
-        Irt.getInstancia().setTablaSimbolos(semantico.getTablaSimbolos());
-        Irt.getInstancia().construirStrings(string);
-        Irt.getInstancia().recorrerArbolParseo(cabeza);
-        Irt.getInstancia().imprimirInstrucciones();
-        EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
+        
+
+
+        
+        
 
     }
 
@@ -210,7 +249,7 @@ public void asignarTokens(boolean debug) {
     }
 
     public void error(Token elemento) {
-        System.out.println("Error en la l\u00ednea " + (elemento.getLeft()+1) + " y caracter " + elemento.getRight() + ", palabra " + elemento.getValue() + " del tipo " + elemento.getType().getNombre() +" no hace sentido, se esperaba un elemento diferente. Corrija este error e int\u00e9ntelo de nuevo");
+        System.out.println(Excentricidades.RED_BACKGROUND + "Error en la l\u00ednea " + (elemento.getLeft()+1) + " y caracter " + elemento.getRight() + ", palabra " + elemento.getValue() + " del tipo " + elemento.getType().getNombre() +" no hace sentido, se esperaba un elemento diferente. " + Excentricidades.ANSI_RESET + "\n" +Excentricidades.RED_BACKGROUND +"Corrija este error e int\u00e9ntelo de nuevo. " + Excentricidades.ANSI_RESET + "\n" );
         System.exit(1);
     }
 
@@ -1060,7 +1099,7 @@ public void asignarTokens(boolean debug) {
                 }
                 break;
             default:
-                System.out.print("NADA");
+                //System.out.print("NADA");
                 break;
         }
         

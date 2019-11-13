@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.arscompile.utilidades.EscritorDeArchivo;
+import edu.arscompile.utilidades.Excentricidades;
 import edu.arscompile.utilidades.LectorDeArchivo;
 import edu.arscompile.scanner.Comparador;
 import edu.arscompile.parser.Parser;
@@ -747,14 +748,17 @@ public class Irt {
 
     public void imprimirInstrucciones(){
         for (IrtItem var : raiz) {
-            if(! (var.getTipo().contains("Program") || var.getTipo().contains("MethodDec")) ){
+            if(! (var.getTipo().contains("Program") || var.getValor().contains(":")) ){
                 System.out.print("\t");
+            } else {
+                System.out.print(Excentricidades.ANSI_CYAN);
             }
             if (var.getValor() != null) {
                 System.out.print(var.getValor());
             } else {
                 System.out.print("#" + var.getTipo());
             }
+            System.out.print(Excentricidades.ANSI_RESET);
             System.out.println();
 
         }

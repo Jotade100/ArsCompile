@@ -78,6 +78,17 @@ public class Menu {
             Parser.getInstancia().asignarTokens(false);            
         } else if(stage[1].equals("all")){
             Lexer.getInstancia().cargarPrograma(stage[2], false);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
+            Parser.getInstancia().asignarTokens(false);
+        } else if(stage[1].equals("semantic")){
+            Lexer.getInstancia().cargarPrograma(stage[2], false);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().asignarTokens(false);
+        } else if(stage[1].equals("irt")){
+            Lexer.getInstancia().cargarPrograma(stage[2], false);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(false);
         } else {
             System.out.println("COMANDO INCORRECTO");
@@ -96,6 +107,18 @@ public class Menu {
             Parser.getInstancia().asignarTokens(true);            
         } else if(stage[1].equals("all")){
             Lexer.getInstancia().cargarPrograma(stage[2], true);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
+            Parser.getInstancia().asignarTokens(true);
+        } else if(stage[1].equals("semantic")){
+            Lexer.getInstancia().cargarPrograma(stage[2], true);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().asignarTokens(true);
+
+        } else if(stage[1].equals("irt")){
+            Lexer.getInstancia().cargarPrograma(stage[2], true);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(true);
         } else {
             System.out.println("COMANDO INCORRECTO");

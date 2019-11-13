@@ -76,50 +76,52 @@ public class Semantico {
         } else if(cabeza.getType().getNombre().equalsIgnoreCase("Variable")) {
             tablaSimbolos.add(new Simbolo(cabeza.getType(), cabeza.getTokens().get(0).getValue().toString(), cabeza.getTokens().get(1).getValue().toString(), scope, alcance.substring(0, alcance.length()-2), cabeza));
         }
+        //System.out.print(Excentricidades.RED_BACKGROUND);
         if(cabeza.getType().getNombre().contains("MethodCall")) {
             if(!buscarSiExiste(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("El m\u00E9todo utilizado en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+ ", con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "', no se encuentra inicializado." );
+                System.out.println(Excentricidades.RED_BACKGROUND +"El m\u00E9todo utilizado en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+ ", con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "', no se encuentra inicializado." + Excentricidades.RESET);
             } else if(cabeza.getClase().equalsIgnoreCase("NULL")) {
                 cabeza.setClase(buscarSiExiste2(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2)).getType());
             }
         } else if(cabeza.getType().getNombre().contains("FieldArrayDec")) {
             if(!buscarSiExiste(cabeza.getTokens().get(1).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("Variable no inicializada con nombre '" + cabeza.getTokens().get(1).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1));
+                System.out.println(Excentricidades.RED_BACKGROUND + "Variable no inicializada con nombre '" + cabeza.getTokens().get(1).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
             } else if(cabeza.getClase().equalsIgnoreCase("NULL")) {
                 cabeza.setClase(buscarSiExiste2(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2)).getType());
             }
             if(!cabeza.getTokens().get(3).getType().getNombre().equals("int_literal")) {
                 //System.out.println(cabeza.getTokens().get(3).getType().getNombre());
-                System.out.println("Ingresar un valor entero en el array con nombre '"+cabeza.getTokens().get(1).getType().getNombre().toString() +"'");
+                System.out.println(Excentricidades.RED_BACKGROUND +"Ingresar un valor entero en el array con nombre '"+cabeza.getTokens().get(1).getType().getNombre().toString() +"'" + Excentricidades.RESET);
                 //System.out.println(cabeza.getTokens().get(3).getValue());
             } else if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
-                System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
+                System.out.println(Excentricidades.RED_BACKGROUND +"Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+"." + Excentricidades.RESET);
             }
             if (Integer.parseInt(cabeza.getTokens().get(3).getValue().toString())<=0){
-                System.out.println("Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+".");
+                System.out.println(Excentricidades.RED_BACKGROUND +"Ingresar un valor mayor a cero en la declaraci\u00f3n del arreglo '"+cabeza.getTokens().get(1).getValue().toString() +"' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1)+"." + Excentricidades.RESET );
             } 
         } else if(cabeza.getType().getNombre().contains("Location")) {
             //System.out.println(cabeza.getType().getNombre()+ " - "+ cabeza.getTokens().toString());
             if(!buscarSiExiste(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("Variable no inicializada con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1));
+                System.out.println(Excentricidades.RED_BACKGROUND +"Variable no inicializada con nombre '" + cabeza.getTokens().get(0).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
 
             } else if(cabeza.getClase().equalsIgnoreCase("NULL")) {
                 cabeza.setClase(buscarSiExiste2(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2)).getType());
             }
             if (cabeza.getType().getNombre().contains("Array")){
                 if(!scopeGeneral(cabeza.getTokens().get(0).getValue().toString(),alcance.substring(0,alcance.length()-2))){
-                    System.out.println("La variable de tipo array con nombre '"+cabeza.getTokens().get(0).getValue().toString()+"' utilizada en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) +", debe estar definida en el scope global (a nivel de clase).");
+                    System.out.println(Excentricidades.RED_BACKGROUND + "La variable de tipo array con nombre '"+cabeza.getTokens().get(0).getValue().toString()+"' utilizada en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) +", debe estar definida en el scope global (a nivel de clase)." + Excentricidades.RESET);
                 } 
                 //System.out.println(cabeza.getType().getNombre());
             }
         } else if(cabeza.getType().getNombre().contains("Variable")) {
             if(!buscarSiExiste(cabeza.getTokens().get(1).getValue().toString(), alcance.substring(0, alcance.length()-2))){
-                System.out.println("Variable no inicializada con nombre '" + cabeza.getTokens().get(1).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1));
+                System.out.println(Excentricidades.RED_BACKGROUND + "Variable no inicializada con nombre '" + cabeza.getTokens().get(1).getValue().toString() + "' en la l\u00ednea "+ (cabeza.getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
             } else if(cabeza.getClase().equalsIgnoreCase("NULL")) {
                 cabeza.setClase(buscarSiExiste2(cabeza.getTokens().get(0).getValue().toString(), alcance.substring(0, alcance.length()-2)).getType());
             }
         }
         scope++;
+        //System.out.print(Excentricidades.RESET);
         for (int i = 0; i < cabeza.getHijos().size(); i++) {
             tablaSimbolos(cabeza.getHijos().get(i), scope, alcance+"."+i);
             
@@ -206,7 +208,7 @@ public class Semantico {
             for(int j = i+1; j < tablaSimbolos.size(); j++){
                 if(tablaSimbolos.get(j).getNombre().equals(tablaSimbolos.get(i).getNombre()) && (tablaSimbolos.get(j).getAlcance().equals(tablaSimbolos.get(i).getAlcance())) ) {//buscar que al menor para de usar scopes mayores
                     
-                    System.out.println("Hay dos variables que colisionan con nombre '" + tablaSimbolos.get(j).getNombre() + "' en las l\u00edneas "+ (tablaSimbolos.get(i).getObjeto().getTokens().get(0).getLeft()+1) + " y "+(tablaSimbolos.get(j).getObjeto().getTokens().get(0).getLeft()+1) );
+                    System.out.println(Excentricidades.RED_BACKGROUND + "Hay dos variables que colisionan con nombre '" + tablaSimbolos.get(j).getNombre() + "' en las l\u00edneas "+ (tablaSimbolos.get(i).getObjeto().getTokens().get(0).getLeft()+1) + " y "+(tablaSimbolos.get(j).getObjeto().getTokens().get(0).getLeft()+1) + Excentricidades.RESET );
                 
                      
                 }
@@ -235,7 +237,7 @@ public class Semantico {
         if(metodoMain()) {
 
         } else{
-            System.out.println("Hay problemas con el m\u00e9todo 'main'. Revise su c\u00f3digo usando de referencia los siguientes consejos. \n\t1) Vea que el m\u00e9todo 'main' est\u00e9 presente. \n\t2) Revise que sea tipo 'void'. \n\t3) Verifique que no tenga par\u00e1metros de entrada.");
+            System.out.println(Excentricidades.RED_BACKGROUND + "Hay problemas con el m\u00e9todo 'main'. Revise su c\u00f3digo usando de referencia los siguientes consejos. \n\t1) Vea que el m\u00e9todo 'main' est\u00e9 presente. \n\t2) Revise que sea tipo 'void'. \n\t3) Verifique que no tenga par\u00e1metros de entrada." + Excentricidades.RESET);
         }
     }
 
@@ -287,15 +289,15 @@ public class Semantico {
                             //ya pasa algo XD chequea que sean parámetros verdaderos
                             
                         } else {
-                            System.out.println("El par\u00e1metro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con el tipo en la declaraci\u00f3n inicial del m\u00e9todo.");
+                            System.out.println(Excentricidades.RED_BACKGROUND + "El par\u00e1metro de '" + objeto.getTokens().get(0).getValue().toString() + "' no coincide con el tipo en la declaraci\u00f3n inicial del m\u00e9todo." + Excentricidades.RESET);
                         }
                     }
                 } else {
-                    System.out.println("El n\u00famero de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1));
+                    System.out.println(Excentricidades.RED_BACKGROUND + "El n\u00famero de par\u00e1metros no coincide para el m\u00e9todo '"+objeto.getTokens().get(0).getValue()+ "' en la l\u00ednea " + (objeto.getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
                 }
 
             } catch(Exception e) {
-                System.out.println("El m\u00e9todo '" + objeto.getTokens().get(0).getValue() + "' usado en la l\u00ednea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe. Si no existe \u00BFpara qu\u00e9 se molest\u00f3 en ponerle par\u00e1metros?");
+                System.out.println(Excentricidades.RED_BACKGROUND + "El m\u00e9todo '" + objeto.getTokens().get(0).getValue() + "' usado en la l\u00ednea "+ (objeto.getTokens().get(0).getLeft()+1) + " no existe. Si no existe \u00BFpara qu\u00e9 se molest\u00f3 en ponerle par\u00e1metros?" + Excentricidades.RESET);
             }
             
         }
@@ -318,7 +320,7 @@ public class Semantico {
                     }
                 }
                 if(!contieneRetorno){
-                    System.out.println("El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresi\u00f3n tras el enunciado no es del mismo tipo al definido en el m\u00e9todo.");
+                    System.out.println(Excentricidades.RED_BACKGROUND + "El m\u00e9todo '" + var.getTokens().get(1).getValue().toString() + "' carece de  enunciado 'return' o la expresi\u00f3n tras el enunciado no es del mismo tipo al definido en el m\u00e9todo." + Excentricidades.RESET);
                 }
                     
             }
@@ -371,17 +373,17 @@ public class Semantico {
             if(cabeza.getClase().equalsIgnoreCase("NULL")){
                 if(cabeza.getHijos().size()==1) { //Expresiones unarias -expr !expr (expr)
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase("NULL")) { // no está definida la clase del hijo
-                        System.out.println("Hubo un error determinando la clase de la expresi\u00f3n en la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1));
+                        System.out.println(Excentricidades.RED_BACKGROUND + "Hubo un error determinando la clase de la expresi\u00f3n en la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
                     } else {
                         cabeza.setClase(cabeza.getHijos().get(0).getClase());
                         if(cabeza.getTokens().size() == 1) {
                             if(cabeza.getTokens().get(0).getType().getType() == 31) {
                                 if(!cabeza.getClase().contains("boolean")) {
-                                    System.out.println("La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'boolean'.");
+                                    System.out.println(Excentricidades.RED_BACKGROUND + "La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'boolean'." + Excentricidades.RESET);
                                 }
                             } else if(cabeza.getTokens().get(0).getType().getType() == 30) {
                                 if(!cabeza.getClase().contains("int")) {
-                                    System.out.println("La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'int'.");
+                                    System.out.println(Excentricidades.RED_BACKGROUND + "La expresi\u00f3n de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no es de tipo 'int'." + Excentricidades.RESET);
                                 }
                             }
                         }
@@ -390,14 +392,14 @@ public class Semantico {
                 } else if(cabeza.getHijos().size()==3) { // Expresiones terciarias
                     //chequear que los dos hijos tengan clase
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase("NULL") || cabeza.getHijos().get(2).getClase().equalsIgnoreCase("NULL")) {
-                        System.out.println("Hubo un error determinando la clase de la expresi\u00f3n con hijos " + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase());
+                        System.out.println(Excentricidades.RED_BACKGROUND + "Hubo un error determinando la clase de la expresi\u00f3n con hijos " + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase() + Excentricidades.RESET);
 
                     }
                     //chequear que ambas clases sean iguales
                     if(cabeza.getHijos().get(0).getClase().equalsIgnoreCase(cabeza.getHijos().get(2).getClase())) {
                         
                     } else {
-                        System.out.println("Los dos valores de la expresi\u00f3n, en la l\u00ednea "+(cabeza.getHijos().get(0).getTokens().get(0).getLeft()+1)+", no son iguales: ("  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase()+")");
+                        System.out.println(Excentricidades.RED_BACKGROUND + "Los dos valores de la expresi\u00f3n, en la l\u00ednea "+(cabeza.getHijos().get(0).getTokens().get(0).getLeft()+1)+", no son iguales: ("  + cabeza.getHijos().get(0).getClase() + " y " + cabeza.getHijos().get(2).getClase()+")" + Excentricidades.RESET);
                     }
                     //chequear que cumplan con el tipo del operador
                     if(cabeza.getHijos().get(0).getClase().contains("int")){
@@ -411,13 +413,13 @@ public class Semantico {
                         } else {
                             //System.out.println(cabeza.getHijos().get(2).getType().getNombre() +cabeza.getHijos().get(2).getType().getNombre().contains("Arith") +""+ cabeza.getHijos().get(2).getType().getNombre().contains("Rel") +"" + cabeza.getHijos().get(2).getType().getNombre().contains("Eq"));
                             
-                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(1).getTokens().get(0).getLeft()+1));
+                            System.out.println(Excentricidades.RED_BACKGROUND + "Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(1).getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
                         }
                     } else if(cabeza.getHijos().get(0).getClase().contains("bool")){
                         if(cabeza.getHijos().get(1).getType().getNombre().contains("Con") ||  cabeza.getHijos().get(1).getType().getNombre().contains("Eq")) {
                             cabeza.setClase(cabeza.getHijos().get(0).getClase());
                         } else {
-                            System.out.println("Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1));
+                            System.out.println(Excentricidades.RED_BACKGROUND + "Operador no v\u00e1lido en la l\u00ednea "+ (cabeza.getHijos().get(2).getTokens().get(0).getLeft()+1) + Excentricidades.RESET);
                         }
                     }
 
@@ -435,7 +437,7 @@ public class Semantico {
             if(cabeza.getHijos().get(0).getClase().contains("bool")) {
                 //todo bien
             } else {
-                System.out.println("La expresi\u00f3n IF de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es binaria o booleana");
+                System.out.println(Excentricidades.RED_BACKGROUND + "La expresi\u00f3n IF de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es binaria o booleana" + Excentricidades.RESET);
             }
         }
     }
@@ -448,17 +450,17 @@ public class Semantico {
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La expresi\u00f3n '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es v\u00e1lida.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "La expresi\u00f3n '" + cabeza.getHijos().get(0).getTokens().get(0).getValue().toString()+"' del For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es v\u00e1lida." + Excentricidades.RESET);
             }
             if(cabeza.getHijos().get(1).getClase().contains("int")) {
                 //todo bien
             } else {
-                System.out.println("La asignaci\u00f3n de la expresi\u00f3n For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera. ");
+                System.out.println(Excentricidades.RED_BACKGROUND + "La asignaci\u00f3n de la expresi\u00f3n For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera. " + Excentricidades.RESET);
             }
             if(cabeza.getHijos().get(2).getClase().contains("bool")) {
                 //todo bien
             } else {
-                System.out.println("La expresi\u00f3n evaluadora For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "La expresi\u00f3n evaluadora For de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no es entera." + Excentricidades.RESET);
             }
         }
     }
@@ -471,18 +473,18 @@ public class Semantico {
             if(cabeza.getClase().contains(cabeza.getHijos().get(0).getClase())) {
                 //Sin problemas
             } else {
-                System.out.println("El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente." + Excentricidades.RESET);
             }
         } else if((cabeza.getType().getNombre().equalsIgnoreCase("ArrayLocationStatement"))){
             if(cabeza.getClase().equalsIgnoreCase(cabeza.getHijos().get(1).getClase())) {
                 //Sin problemas
             } else {
-                System.out.println("El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente. Se esperaba un '" + cabeza.getClase()+ "'.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "El tipo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no coincide con su asignaci\u00f3n consiguiente. Se esperaba un '" + cabeza.getClase()+ "'." + Excentricidades.RESET);
             }
             if(cabeza.getHijos().get(0).getClase().contains("int")) {
                 //Sin problemas
             } else {
-                System.out.println("El arreglo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no posee un \u00edndice de tipo 'int'.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "El arreglo de la expresi\u00f3n 'referenciadora' de la l\u00ednea "  + (cabeza.getTokens().get(0).getLeft()+1) + " no posee un \u00edndice de tipo 'int'." + Excentricidades.RESET);
             }
         }
 
@@ -501,7 +503,7 @@ public class Semantico {
                 
             }
             if(!siRespeta) {
-                System.out.println("El enunciado '" + cabeza.getType().getNombre() + "' de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no est\u00e1 dentro de una sentencia 'For'.");
+                System.out.println(Excentricidades.RED_BACKGROUND + "El enunciado '" + cabeza.getType().getNombre() + "' de la l\u00ednea " + (cabeza.getTokens().get(0).getLeft()+1) + " no est\u00e1 dentro de una sentencia 'For'." + Excentricidades.RESET);
             }
             
         }
