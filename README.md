@@ -29,7 +29,11 @@ java edu.arscompile.ArsCompile [option] <filename path>
 * Documentación sobre las clases y elementos de código que lo componen.
 
 ### Librerías externas
-* No se utilizaron librería externas.
+* No se utilizaron librerías externas.
+
+### Syntax highlighter para archivos `.decaf`
+Se desarrolló y publicó una extensión en Visual Studio Marketplace para resaltar la gramática de archivos de decaf. Disponible en el Marketplace de Extensiones de Visual Studio Code como:
+- `decaf syntax highlighter - Compi`
 
 ### Scanner
 Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
