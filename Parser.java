@@ -223,7 +223,10 @@ public void asignarTokens(boolean debug) {
                     Irt.getInstancia().setTablaSimbolos(semantico.getTablaSimbolos());
                     Irt.getInstancia().construirStrings(string);
                     Irt.getInstancia().recorrerArbolParseo(cabeza);
-                    Irt.getInstancia().imprimirInstrucciones();
+                    if(debug){
+                        Irt.getInstancia().imprimirInstrucciones();
+                    }
+                    
                     EscritorDeArchivo.getInstancia().escribirASM("resultado", Irt.getInstancia().getRaiz());
                 } catch (Exception e) {
                     //TODO: handle exception

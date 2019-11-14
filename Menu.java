@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import edu.arscompile.scanner.Lexer;
+import edu.arscompile.utilidades.Excentricidades;
 import edu.arscompile.modelos.Token; // para evitar confusiones
 import edu.arscompile.parser.Parser;
 
@@ -81,6 +82,13 @@ public class Menu {
             Parser.getInstancia().setSemantic(true);
             Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(false);
+            System.out.println();
+            System.out.println();
+            System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\t\t\t\t\t\t\u2551 Etapa: CoDeGeN  \u2551");
+            System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+            System.out.println();
+            System.out.println(Excentricidades.BLACK+ Excentricidades.GREEN_BACKGROUND + "resultados.asm" + Excentricidades.RESET);
         } else if(stage[1].equals("semantic")){
             Lexer.getInstancia().cargarPrograma(stage[2], false);
             Parser.getInstancia().setSemantic(true);
@@ -90,6 +98,18 @@ public class Menu {
             Parser.getInstancia().setSemantic(true);
             Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(false);
+        } else if(stage[1].equals("codegen")){
+            Lexer.getInstancia().cargarPrograma(stage[2], false);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
+            Parser.getInstancia().asignarTokens(false);
+            System.out.println();
+            System.out.println();
+            System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\t\t\t\t\t\t\u2551 Etapa: CoDeGeN  \u2551");
+            System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+            System.out.println();
+            System.out.println(Excentricidades.BLACK+ Excentricidades.GREEN_BACKGROUND + "resultados.asm" + Excentricidades.RESET);
         } else {
             System.out.println("COMANDO INCORRECTO");
         }
@@ -110,6 +130,13 @@ public class Menu {
             Parser.getInstancia().setSemantic(true);
             Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(true);
+            System.out.println();
+            System.out.println();
+            System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\t\t\t\t\t\t\u2551 Etapa: CoDeGeN  \u2551");
+            System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+            System.out.println();
+            System.out.println(Excentricidades.BLACK+ Excentricidades.GREEN_BACKGROUND + "resultados.asm" + Excentricidades.RESET);
         } else if(stage[1].equals("semantic")){
             Lexer.getInstancia().cargarPrograma(stage[2], true);
             Parser.getInstancia().setSemantic(true);
@@ -120,6 +147,19 @@ public class Menu {
             Parser.getInstancia().setSemantic(true);
             Parser.getInstancia().setCodigo(true);
             Parser.getInstancia().asignarTokens(true);
+        } else if(stage[1].equals("codegen")){
+            Lexer.getInstancia().cargarPrograma(stage[2], true);
+            Parser.getInstancia().setSemantic(true);
+            Parser.getInstancia().setCodigo(true);
+            Parser.getInstancia().asignarTokens(true);
+            System.out.println();
+            System.out.println();
+            System.out.println("\t\t\t\t\t\t\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557");
+            System.out.println("\t\t\t\t\t\t\u2551 Etapa: CoDeGeN  \u2551");
+            System.out.println("\t\t\t\t\t\t\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D");
+            System.out.println();
+            System.out.println();
+            System.out.println(Excentricidades.BLACK+ Excentricidades.GREEN_BACKGROUND + "resultados.asm" + Excentricidades.RESET);
         } else {
             System.out.println("COMANDO INCORRECTO");
         }
