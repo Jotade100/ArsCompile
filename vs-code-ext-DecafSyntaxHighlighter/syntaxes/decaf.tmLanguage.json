@@ -1,0 +1,205 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"scopeName": "source.decaf",
+	"name": "Decaf",
+	"patterns": [
+		{
+			"include": "#DecafCode"
+		}
+	],
+	"repository": {
+		"DecafCode":{
+			"patterns":[
+				{"include":"#program"},
+				{"include":"#statement"},
+				{"include":"#type"},
+				{"include":"#comentarios"},
+				{"include":"#void"},
+				{"include":"#methodCall"},
+				{"include":"#location"},
+				{"include":"#punctuation"},
+				{"include": "#binOp"},
+				{"include": "#boolLiteral"},
+				{"include": "#intLiteral"},
+				{"include": "#stringLiteral"}
+		]
+
+		},
+		"program": {
+			"patterns": [{
+					"name": "entity.name.tag.decaf",
+					"match": "\\b(class)\\b"
+				},
+				{"include":"#ProgramDec"}	
+			]
+		},
+		"ProgramDec": {
+			"patterns": [{
+				"name": "entity.name.type.decaf",
+				"match": "\\b(Program)\\b"
+			}]
+		},
+		"type": {
+			"patterns": [{
+				"name": "support.type.decaf",
+				"match": "\\b(int|boolean)\\b"
+			}]
+		},
+		"statement": {
+			"patterns": [{
+				"name": "keyword.control.statement.decaf",
+				"comment": "Statements de decaf",
+				"match": "\\b(if|while|else|for|return|break|continue)\\b"
+			}]
+		},
+		"void": {
+			"patterns": [{
+				"name": "support.function.void.decaf",
+				"comment": "Declaración de método void en decaf",
+				"match": "\\b(void)\\b"
+			}]
+		},
+		"methodCall": {
+			"patterns": [{
+				"name": "support.function.callout.decaf",
+				"comment": "Método callout de decaf",
+				"match": "\\b(callout)\\b"
+			}]
+		},
+		"location": {
+			"patterns": [
+				{"include":"#locationOpen"},
+				{"include":"#locationClose"}
+			]
+		},
+		"locationOpen": {
+			"patterns": [{
+				"name": "support.function.openBracket.decaf",
+				"comment": "Corchete de apertura de decaf",
+				"match": "\\b(\\[)\\b"
+			}]
+		},
+		"locationClose": {
+			"patterns": [{
+				"name": "support.function.closeBracket.decaf",
+				"comment": "Corchete de cierre de decaf",
+				"match": "\\b(\\])"
+			}]
+		},
+		"punctuation": {
+			"patterns": [
+				{"include":"#coma"},
+				{"include":"#puntoComa"}
+			]
+		},
+		"coma": {
+			"patterns": [{
+				"name": "variable.parameter.separator.decaf",
+				"comment": "Simbolo Coma",
+				"match": "(,)"
+			}]
+		},
+		"puntoComa": {
+			"patterns": [{
+				"name": "variable.language.eol.decaf",
+				"comment": "Simbolo punto y coma",
+				"match": "(;)"
+			}]
+		},
+		"binOp": {
+			"patterns": [
+				{"include":"#arithOp"},
+				{"include":"#relOp"},
+				{"include":"#eqOp"},
+				{"include":"#condOp"}
+			]
+		},
+		"arithOp": {
+			"patterns": [{
+				"name": "constant.character.escape.arithOp.decaf",
+				"comment": "Simbolos aritméticos básicos",
+				"match": "(\\+|\\-|\\*|\\/|\\%)"
+			}]
+		},
+		"relOp": {
+			"patterns": [{
+				"name": "constant.character.escape.relOp.decaf",
+				"comment": "Simbolos aritméticos básicos",
+				"match": "(\\<|\\>)"
+			}]
+		},
+		"eqOp": {
+			"patterns": [{
+				"name": "constant.character.escape.equalOp.decaf",
+				"comment": "Simbolos binarios básicos",
+				"match": "(=|!)"
+			}]
+		},
+		"condOp": {
+			"patterns": [{
+				"name": "constant.character.escape.conditionalOp.decaf",
+				"comment": "Simbolos condicionales básicos",
+				"match": "(&&|\\|\\|)"
+			}]
+		},
+		"boolLiteral": {
+			"patterns": [{
+				"name": "entity.name.tag.boolLiteral.decaf",
+				"comment": "Literales boolean",
+				"match": "\\b(true|false)\\b"
+			}]
+		},
+		"intLiteral": {
+			"patterns": [
+				{"include":"#digit"},
+				{"include":"#hex"}
+			]
+		},
+		"digit": {
+			"name": "constant.numeric.dec.decaf",
+			"match": "(?x)\n  (?<![\\w\\.])(?:\n      [1-9](?: _?[0-9] )*\n      |\n      0+\n      |\n      [0-9](?: _?[0-9] )* ([jJ])\n      |\n      0 ([0-9]+)(?![eE\\.])\n  )\\b\n",
+			"captures": {
+				"1": {
+					"name": "storage.type.number.decaf"
+				},
+				"2": {
+					"name": "invalid.illegal.dec.decaf"
+				},
+				"3": {
+					"name": "invalid.illegal.dec.decaf"
+				}
+			}
+		},
+		"hex": {
+			"name": "constant.numeric.hex.decaf",
+			"match": "(?x)\n  (?<![\\w\\.])\n    (0[xX]) (_?[0-9a-fA-F])+\n  \\b\n",
+			"captures": {
+				"1": {
+					"name": "constant.numeric.hex.decaf"
+				}
+			}
+		},
+		"comentarios": {
+			"name": "comment.decaf",
+			"begin": "\\/\\/",
+			"end": "\\n",
+			"patterns": [
+				{
+					"name": "constant.character.escape.decaf",
+					"match": "\\\\."
+				}
+			]
+		},
+		"stringLiteral": {
+			"name": "string.quoted.double.decaf",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.decaf",
+					"match": "\\\\."
+				}
+			]
+		}
+	}
+}

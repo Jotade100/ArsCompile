@@ -1,0 +1,35 @@
+{
+    "name": "decaf-compi-syntax-highlighter",
+    "displayName": "decaf syntax highlighter - Compi",
+    "description": "Syntax highlighter para el lenguaje de decaf.",
+    "publisher": "gquiroa",
+    "version": "2.3.0",
+    "engines": {
+        "vscode": "^1.27.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "decaf",
+                "aliases": [
+                    "Decaf",
+                    "decaf"
+                ],
+                "extensions": [
+                    ".decaf"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "decaf",
+                "scopeName": "source.decaf",
+                "path": "./syntaxes/decaf.tmLanguage.json"
+            }
+        ]
+    }
+}

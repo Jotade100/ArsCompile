@@ -20,39 +20,50 @@ javac -d . *.java
 ### Implementación
 Para correr el archivo usar 
 ```
-java edu.arscompile.ArsCompile [option] <filename>
+java edu.arscompile.ArsCompile [option] <filename path>
 ```
 
 ## Contenido
 ### Documentación
 * Documentación breve del proyecto, disponible en un archivo .pdf
-* Documentación sobre las clases y elemntos de código que lo componen.
+* Documentación sobre las clases y elementos de código que lo componen.
 
 ### Librerías externas
-* Automaton (Evaluador de expresiones regulares)
+* No se utilizaron librería externas.
 
 ### Scanner
 Scanner de análisis básico de Decaf. Entrega los tokens en el archivo *resultadosScanner.txt*. 
 
 
 ### Parser
-Parser de análisis gramático de Decaf. Despliega la lista de errores. 
+Parser de análisis gramático de Decaf; despliega la lista de errores, y crea el Abstract Syntax Tree (AST). 
+
+### Chequeo Semántico
+Evalua los tokens entregados por el parser, para validar la coherencia lógica de los mismos, siguiendo las 18 reglas semánticas de Decaf.
+
+### IRT
+Crea el árbol de representación intermedia, para generar código posteriormente.
+
+### Code Generation
+Generación funcional de código, traducido a la arquitectura de MIPS.
 
 ## Observaciones
 ### Avance del proyecto
 - [x] Scanner
 - [x] Parser
-- [ ] AST
-- [ ] Semántica
-- [ ] IRT
+- [x] AST
+- [x] Semántica
+- [x] IRT
 - [ ] Optimizador
-- [ ] Generación de código
+- [x] Generación de código
 
 ### Comentarios
-* No posee tolerancia a comentarios
+* Los comentarios en lenguaje Decaf son de una sola línea, e inician con `// comentario`.
 
-# Autor
+# Autores
 
 **Juan Diego Sique Martínez** :musical_keyboard: *Universidad Francisco Marroquín* :notes: [Correo](juandiegosique@ufm.edu)
+
+**Geordie Quiroa** :coffee: *Universidad Francisco Marroquín* :coffee: [Correo](gquiroa@ufm.edu)
 
 
